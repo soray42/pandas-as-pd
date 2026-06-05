@@ -39,7 +39,8 @@ Numbers are in `results/full_analysis.json`, `results/dose_regression.json`, and
 ## Reproduce
 
 ```bash
-git clone <ANONYMIZED-REPO-URL> && cd alias-inertia
+# Anonymous review copy: download and unzip https://anonymous.4open.science/r/pandas-as-pd , then:
+cd pandas-as-pd
 make env        # install pinned deps (install torch for your platform from pytorch.org first)
 make smoke      # ~2-4 min on CPU: verify the whole pipeline on 1 pair + 1 small model
 make analyze    # ~1 min: regenerate the figures, statistics, and verdict from released results/
@@ -95,10 +96,9 @@ behavioral; no mechanistic analysis is included.
 
 ## Anonymized release
 
-For review, release a de-identified copy (for example via an anonymous mirror such as
-anonymous.4open.science) and use the `<ANONYMIZED-REPO-URL>` placeholder above. The repository
-contains no author names, emails, institutions, or tracking links. A de-anonymized public mirror is
-for the camera-ready version only.
+The anonymous review copy is at https://anonymous.4open.science/r/pandas-as-pd, which hides the
+repository owner. The committed files contain no author names, emails, institutions, or tracking
+links. A de-anonymized public repository is for the camera-ready version only.
 
 ## License
 

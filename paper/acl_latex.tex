@@ -31,7 +31,7 @@ In Python code a handful of import aliases are near-universal: \texttt{np} denot
 
 Three lines of work frame this question without answering it. Semantic override studies models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit reasoning rather than code \citep{thota2026semantic}. Robustness to variable renaming treats identifier names as arbitrary, where invariance is the goal precisely because the prior over names is close to flat \citep{henkel2022semantic}; a canonical alias is the opposite case, a name with a near-delta prior. Long-context evaluation probes retrieval of placed facts and its decay with position \citep{liu2024lost,modarressi2025nolima}, not conflict between context and a parametric prior. The broader tension between context and memory is surveyed under knowledge conflict \citep{xu2024knowledge}; we give a controlled, code-specific, behavioral instance of it with a clean baseline.
 
-Our contributions:
+Our contributions:\footnote{Code, programmatically generated stimuli, scored outputs, and figures: \url{https://anonymous.4open.science/r/pandas-as-pd} (MIT license). Model weights come from their original sources under their own licenses.}
 \begin{itemize}
 \itemsep0.1em
 \item A controlled minimal-pair probe with a no-prior control, a non-canonical alias bound to the same library, that separates prior reassertion from generic degradation of binding tracking with distance.
