@@ -1,0 +1,26 @@
+# alias-inertia: pinned runtime dependencies (exact versions used to produce the released results).
+# A full environment freeze is written to requirements-lock.txt by scripts/run.py.
+#
+# Core scientific stack
+numpy==2.2.6
+pandas==3.0.1
+pyarrow==22.0.0
+scipy==1.16.3
+statsmodels==0.14.6
+matplotlib==3.10.8
+PyYAML==6.0.3
+
+# HuggingFace backend (fp16 GPU scorer; also the reference path checked by the test-suite)
+transformers==5.5.0
+tokenizers==0.22.2
+safetensors==0.7.0
+huggingface-hub==1.9.0
+# torch is hardware/CUDA specific. The released results used the build below; install the torch
+# build appropriate to your platform from https://pytorch.org .
+# torch==2.12.0.dev20260405+cu128
+
+# llama.cpp backend (4-bit GGUF on CPU for long-context and larger-model bins; reads the Ollama blob)
+llama-cpp-python==0.3.25
+
+# Test runner
+pytest==9.0.2

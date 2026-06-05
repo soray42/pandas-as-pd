@@ -1,0 +1,42 @@
+# Fast end-to-end smoke: ONE pair (numpy<->pandas), ONE small model on CPU, ~a few minutes.
+# Verifies the whole pipeline (generate -> score -> analyze) and prints the sanity checks
+# (swapped prior-pull > 0, generation/broken-call arms) without the multi-hour full run.
+# Downloads Qwen2.5-0.5B (~1 GB) on first run. Set device: cuda below for GPU.
+seed: 12345
+scoring_version: "1.1"
+
+pairs_all: ["numpy__pandas"]
+pairs_cpu_subset: ["numpy__pandas"]
+
+conditions: ["conventional", "swapped", "no_prior"]
+non_canonical_alias: "zz"
+depths_tokens: [0, 512]
+templates: ["t1"]
+repetitions: 2
+depth_tolerance_tokens: 48
+
+models:
+  - { label: "qwen2.5-0.5b", backend: hf, hf: { model: "Qwen/Qwen2.5-0.5B", device: cpu, dtype: float32 }, max_depth: 4096, family: qwen2.5, size_b: 0.5, variant: base, pairs: all }
+
+generation:
+  enabled: true
+  max_new_tokens: 32
+  depths: [0]
+  templates: ["t1"]
+  reps: 1
+
+cache:
+  enabled: true
+  dir: "results/cache_smoke"
+
+output:
+  results: "results/smoke.parquet"
+  generations: "results/smoke_generations.jsonl"
+  stimuli_meta: "results/smoke_stimuli_meta.jsonl"
+  manifest: "results/smoke_manifest.json"
+
+analysis:
+  bootstrap_n: 1000
+  ci: 0.95
+  bootstrap_seed: 20260604
+  figure_dir: "results/smoke_figs"

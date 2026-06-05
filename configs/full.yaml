@@ -1,0 +1,83 @@
+# alias-inertia FULL RUN (archival workshop paper).
+# Dose axis (swap pairs across prior-strength tiers) x conditions x distance x model suite,
+# plus the behavioral generation arm + consequence/validity arm.
+#
+# Framing pivot (apply everywhere): the pilot showed the prior-reassertion effect is REAL & STRONG
+# but IMMEDIATE & DISTANCE-ROBUST within 0-2048 tokens, NOT "growing with distance". Treat the
+# long-distance question as OPEN (characterize, do not assert growth).
+#
+# HARDWARE NOTE: this box is an RTX 5070 (8GB) whose torch build has NO flash/mem-efficient SDPA
+# kernel (Blackwell sm_120) -> HF attention is O(L^2) memory and OOMs/crawls past ~2-4k tokens.
+# So GPU-HF models are capped at depth 2048 (breadth: dose/size/base-vs-instruct), and the
+# long-distance characterisation (8k/32k) runs on llama.cpp (CPU), which uses O(L) attention.
+
+seed: 12345
+scoring_version: "1.1"
+
+pairs_all:
+  - "numpy__pandas"             # np  - very_common
+  - "pandas__numpy"             # pd  - very_common
+  - "torch__sklearn"            # torch - common
+  - "matplotlib.pyplot__pandas" # plt - common
+  - "sklearn__xgboost"          # sk  - rare
+  - "xgboost__sklearn"          # xgb - rare
+pairs_cpu_subset:               # one pair per tier for the (slower) CPU models
+  - "numpy__pandas"             # very_common
+  - "torch__sklearn"            # common
+  - "xgboost__sklearn"          # rare
+
+conditions: ["conventional", "swapped", "no_prior"]
+non_canonical_alias: "zz"
+# 32768 dropped: on this CPU (logits over all positions for the lm-head) a single 32k stimulus
+# is ~10-16 min, which balloons the run past a feasible overnight. 8192 (4x the pilot's 2048)
+# is the longest systematic bin; a single-model 32k spot-check (qwen2.5-0.5b: prior_pull stayed
+# flat at +8.6) is reported separately. The long-distance question stays OPEN (characterised to 8k).
+depths_tokens: [0, 512, 2048, 8192]
+templates: ["t1", "t2"]
+repetitions: 3                  # depth 0 auto-collapses to 1 rep (no filler to vary)
+depth_tolerance_tokens: 48
+
+# Deep bins (8k/32k) are O(L^2) to score (~6.7 min/stimulus at 32k even on a 0.5B CPU model),
+# so we THIN them: 1 rep, one template. Enough to characterise the gap-vs-distance shape
+# (flat vs growing) per the pivot; the short bins (<=2048) keep full reps for the statistics.
+deep_bins:
+  threshold: 8192
+  reps: 1
+  templates: ["t1"]
+
+models:
+  # --- GPU (HF fp16): breadth at short distance (dose x size x base/instruct), depth <= 2048 ---
+  - { label: "qwen2.5-0.5b-base",     backend: hf, hf: { model: "Qwen/Qwen2.5-0.5B",          device: cuda, dtype: float16 }, max_depth: 2048, family: qwen2.5,  size_b: 0.5, variant: base,     pairs: all }
+  - { label: "qwen2.5-0.5b-instruct", backend: hf, hf: { model: "Qwen/Qwen2.5-0.5B-Instruct", device: cuda, dtype: float16 }, max_depth: 2048, family: qwen2.5,  size_b: 0.5, variant: instruct, pairs: all }
+  - { label: "qwen2.5-1.5b-base",     backend: hf, hf: { model: "Qwen/Qwen2.5-1.5B",          device: cuda, dtype: float16 }, max_depth: 2048, family: qwen2.5,  size_b: 1.5, variant: base,     pairs: all }
+  - { label: "qwen2.5-1.5b-instruct", backend: hf, hf: { model: "Qwen/Qwen2.5-1.5B-Instruct", device: cuda, dtype: float16 }, max_depth: 2048, family: qwen2.5,  size_b: 1.5, variant: instruct, pairs: all }
+
+  # --- CPU (llama.cpp GGUF via Ollama): distance characterisation to 32k + larger sizes ---
+  - { label: "qwen2.5-0.5b-gguf",     backend: llamacpp, llamacpp: { ollama_model: "qwen2.5:0.5b", n_ctx: 33280, n_threads: 8, n_batch: 512, seed: 12345 }, max_depth: 32768, family: qwen2.5,       size_b: 0.5, variant: instruct, pairs: cpu_subset }
+  - { label: "llama3.2-1b-gguf",      backend: llamacpp, llamacpp: { ollama_model: "llama3.2:1b",  n_ctx: 33280, n_threads: 8, n_batch: 512, seed: 12345 }, max_depth: 32768, family: llama3.2,      size_b: 1.0, variant: instruct, pairs: cpu_subset }
+  - { label: "llama3.2-3b-gguf",      backend: llamacpp, llamacpp: { ollama_model: "llama3.2:3b",  n_ctx: 8704,  n_threads: 8, n_batch: 512, seed: 12345 }, max_depth: 8192,  family: llama3.2,      size_b: 3.0, variant: instruct, pairs: cpu_subset }
+  - { label: "qwen2.5-coder-7b",      backend: llamacpp, llamacpp: { ollama_model: "qwen2.5-coder:7b", n_ctx: 8704, n_threads: 8, n_batch: 512, seed: 12345 }, max_depth: 8192, family: qwen2.5-coder, size_b: 7.0, variant: instruct, pairs: cpu_subset }
+  - { label: "llama3.1-8b",           backend: llamacpp, llamacpp: { ollama_model: "llama3.1:8b",      n_ctx: 8704, n_threads: 8, n_batch: 512, seed: 12345 }, max_depth: 8192, family: llama3.1,      size_b: 8.0, variant: instruct, pairs: cpu_subset }
+
+generation:
+  enabled: true
+  max_new_tokens: 48
+  depths: [0, 2048]
+  templates: ["t1", "t2"]
+  reps: 1
+
+cache:
+  enabled: true
+  dir: "results/cache"
+
+output:
+  results: "results/full.parquet"
+  generations: "results/full_generations.jsonl"
+  stimuli_meta: "results/full_stimuli_meta.jsonl"
+  manifest: "results/full_manifest.json"
+
+analysis:
+  bootstrap_n: 5000
+  ci: 0.95
+  bootstrap_seed: 20260604
+  figure_dir: "figures"

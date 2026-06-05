@@ -1,0 +1,151 @@
+\documentclass[11pt]{article}
+
+% Change "review" to "final" to generate the final (sometimes called camera-ready) version.
+% Change to "preprint" to generate a non-anonymous version with page numbers.
+\usepackage[review]{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\title{import pandas as np: the numpy strikes back}
+
+\author{Anonymous ACL submission}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Canonical import aliases such as \texttt{np} for numpy and \texttt{pd} for pandas are close to deterministic in pretraining corpora. We ask what a code language model does when such an alias is rebound to a different library, for example \texttt{import pandas as np}, and whether it tracks the local binding or reverts to the convention. Using programmatically generated minimal pairs and continuation scoring, we measure a prior-pull score and contrast a swapped binding against a no-prior control (a non-canonical alias bound to the same library), which isolates prior reassertion from generic long-context degradation. Across nine open models from 0.5B to 8B, base and instruct, the model places more probability on the alias's conventional methods than on the bound library's, with a difference-in-differences gap of $+6.81$ nats (95\% CI $[+4.56, +9.11]$) whose per-model intervals all exclude zero. The gap scales with how common the convention is (dose slope $+3.05$ nats per tier step, pair-clustered bootstrap 95\% CI $[+1.13, +5.33]$), stays flat from 0 to 8192 tokens of distance rather than growing, and surfaces in greedy generation, where swapped prompts elicit conventional-library idioms 18\% of the time and 74\% of the accessed attributes would raise \texttt{AttributeError} under the actual binding.
+\end{abstract}
+
+\section{Introduction}
+
+In Python code a handful of import aliases are near-universal: \texttt{np} denotes numpy, \texttt{pd} denotes pandas, \texttt{plt} denotes \texttt{matplotlib.pyplot}. A model trained on public code sees \texttt{np.array} and \texttt{pd.DataFrame} so consistently that the mapping from alias to library behaves like a near-deterministic prior. We study what happens when a program breaks that convention. The statement \texttt{import pandas as np} binds \texttt{np} to pandas, so \texttt{np.DataFrame} is correct and \texttt{np.array} does not exist. A model that reads the local binding should prefer pandas methods at \texttt{np.}; a model that follows its prior should prefer numpy methods. We measure which one happens, and how it depends on the number of tokens between the import and the use.
+
+Three lines of work frame this question without answering it. Semantic override studies models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit reasoning rather than code \citep{thota2026semantic}. Robustness to variable renaming treats identifier names as arbitrary, where invariance is the goal precisely because the prior over names is close to flat \citep{henkel2022semantic}; a canonical alias is the opposite case, a name with a near-delta prior. Long-context evaluation probes retrieval of placed facts and its decay with position \citep{liu2024lost,modarressi2025nolima}, not conflict between context and a parametric prior. The broader tension between context and memory is surveyed under knowledge conflict \citep{xu2024knowledge}; we give a controlled, code-specific, behavioral instance of it with a clean baseline.
+
+Our contributions:
+\begin{itemize}
+\itemsep0.1em
+\item A controlled minimal-pair probe with a no-prior control, a non-canonical alias bound to the same library, that separates prior reassertion from generic degradation of binding tracking with distance.
+\item A difference-in-differences gap that is positive, with a confidence interval excluding zero, for all nine models tested (0.5B to 8B, base and instruct).
+\item A dose effect: the gap scales with how common the alias convention is.
+\item A distance result: the effect is present at the use site immediately and is stable to 8192 tokens, rather than growing with distance.
+\item A behavioral consequence: the prior surfaces in generated code and produces calls that do not resolve under the binding.
+\end{itemize}
+
+\section{Method}
+
+\paragraph{Stimuli.} Each item is a short Python prefix ending at the use site \texttt{alias.}, with neutral filler between the import and the use. For a pair of libraries $(A, B)$ whose canonical alias is $a$ we build three conditions. \emph{Conventional} binds $a$ to $A$ (\texttt{import A as a}), the correct and expected case. \emph{Swapped} binds $a$ to $B$ (\texttt{import B as a}), so the alias's conventional library $A$ is the prior and $B$ is the binding. \emph{No-prior} binds $B$ to a non-canonical alias \texttt{zz} (\texttt{import B as zz}), which carries no convention. No-prior shares the binding $B$ and the filler distance with swapped but removes the competing prior, so the contrast between them isolates prior reassertion from any generic loss of binding tracking over distance. Stimuli are templated, not sampled from a corpus, which keeps the conditions matched and avoids contamination.
+
+\paragraph{Metric.} At the prefix ending \texttt{alias.} we score short discriminative continuation strings for each library, for example \texttt{array(} and \texttt{arange(} for numpy and \texttt{DataFrame(} and \texttt{read\_csv(} for pandas, excluding names shared across libraries. We use continuation scoring, the teacher-forced sum of token log-probabilities of the whole method string, because method names are multi-token and a single-token probability would misrepresent them. The prior-pull is the log-sum-exp over the conventional library's continuations minus the log-sum-exp over the bound library's continuations. Positive prior-pull means the model favors the conventional library. The headline statistic is the difference-in-differences (DiD) gap, prior-pull in swapped minus prior-pull in no-prior.
+
+\paragraph{Design.} Six swap pairs are grouped into three prior-strength tiers: very common (\texttt{np}, \texttt{pd}), common (\texttt{torch}, \texttt{plt}), and rare (\texttt{sk}, \texttt{xgb}). The distance axis inserts filler measured in tokens at depths 0, 512, and 2048, extended to 8192 on the models run on CPU. A generation arm greedy-decodes 48 tokens after \texttt{alias.}, classifies the first accessed attribute as conventional-style, bound-style, or other, and checks by static attribute lookup whether that attribute exists on the real bound library; a missing attribute is a broken call that would raise \texttt{AttributeError}. We score nine configurations over eight open checkpoints from 0.5B to 8B (Table~\ref{tab:models}): Qwen2.5 0.5B and 1.5B (base and instruct), Qwen2.5-Coder 7B, Llama-3.2 1B and 3B, and Llama-3.1 8B \citep{qwen2025qwen25,grattafiori2024llama3}. Models above 1.5B and all 8192-token bins run as 4-bit GGUF on CPU; the rest run in fp16 on GPU, and Qwen2.5-0.5B-instruct is measured in both settings. The run yields 1{,}683 scored prefixes and 468 generations. We report effect sizes with 95\% bootstrap confidence intervals clustered on pair, and a crossed random-effects regression for the dose slope. All claims are behavioral.
+
+\section{Results}
+
+\paragraph{The prior reasserts.} Across all nine models the swapped binding places more probability on the conventional library's methods than on the bound library's, net of the no-prior control. The overall DiD gap is $+6.81$ nats (95\% CI $[+4.56, +9.11]$). Every model's gap is positive with an interval that excludes zero (Table~\ref{tab:models}), from $+5.17$ for Llama-3.2-3B to $+7.56$ for Qwen2.5-1.5B-instruct. Read against a same-library, same-distance control, a gap of this size means the model assigns the conventional library's methods on the order of $e^{6.8}$ times the probability mass of the bound library's. The control does not merely sit at zero: in no-prior the model prefers the bound library by $-2.94$ nats (Appendix Table~\ref{tab:raw}), so the swap flips a net preference for the bound library into a net preference for the conventional one, and the gap subtracts a measured base-rate baseline rather than assuming a neutral one.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llr}
+\toprule
+\textbf{Model} & \textbf{Tune} & \textbf{DiD gap [95\% CI]} \\
+\midrule
+Qwen2.5-0.5B            & base & $+6.70\ [+4.15, +9.05]$ \\
+Qwen2.5-0.5B            & inst & $+6.93\ [+4.33, +9.19]$ \\
+Qwen2.5-0.5B$^\dagger$  & inst & $+5.51\ [+2.41, +9.66]$ \\
+Llama-3.2-1B$^\dagger$  & inst & $+7.08\ [+2.99, +10.0]$ \\
+Qwen2.5-1.5B            & base & $+7.46\ [+4.64, +10.0]$ \\
+Qwen2.5-1.5B            & inst & $+7.56\ [+4.78, +10.3]$ \\
+Llama-3.2-3B$^\dagger$  & inst & $+5.17\ [+2.65, +8.72]$ \\
+Qwen2.5-Coder-7B$^\dagger$ & inst & $+6.33\ [+3.31, +9.63]$ \\
+Llama-3.1-8B$^\dagger$  & inst & $+7.33\ [+3.73, +10.3]$ \\
+\midrule
+Overall                 &      & $+6.81\ [+4.56, +9.11]$ \\
+\bottomrule
+\end{tabular}
+\caption{Difference-in-differences gap (swapped minus no-prior prior-pull, nats) per model, with 95\% pair-clustered bootstrap intervals. Every interval excludes zero. $^\dagger$ 4-bit GGUF run on CPU for the long-context bins; the others fp16 on GPU. Sizes 0.5B to 8B span the rows.}
+\label{tab:models}
+\end{table}
+
+\paragraph{The gap scales with convention strength.} The gap is ordered by tier: $+9.47$ for very common aliases, $+7.60$ for common, and $+3.37$ for rare (Figure~\ref{fig:dose}). Tested on all 1{,}122 swapped and no-prior items with a regression of prior-pull on the swapped indicator interacted with tier, including crossed random intercepts for pair and model, the dose slope is $+3.05$ nats per tier step. We report the pair-clustered bootstrap interval as the primary statistic, $[+1.13, +5.33]$ with 98\% of bootstrap slopes positive; the parametric Wald interval from the same fit is far narrower but rests on only six pair-level clusters and is over-optimistic here.
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{figures/full_dose_curve.png}
+\caption{Dose response. The DiD gap (swapped minus no-prior prior-pull) increases with the prior strength of the alias, from rare (\texttt{sk}, \texttt{xgb}) through common (\texttt{torch}, \texttt{plt}) to very common (\texttt{np}, \texttt{pd}). Bars are 95\% pair-clustered bootstrap intervals; the dashed line marks zero.}
+\label{fig:dose}
+\end{figure}
+
+\paragraph{The effect is immediate, not distance-growing.} Within each model the gap is flat from 0 to 8192 tokens, and no model shows a confidence-interval-separated increase from the shortest to the longest bin (Figure~\ref{fig:depth}). A single 0.5B model run out to 32k tokens kept a swapped prior-pull near $+8.6$, in line with its shorter-distance values. The prior is available at the use site immediately and does not accumulate with distance from the import. This contrasts with long-context studies where the quantity of interest decays with position \citep{liu2024lost,modarressi2025nolima}.
+
+\paragraph{The prior surfaces in generated code.} In greedy generation after \texttt{alias.}, only the swapped condition produces conventional-library idioms (18\%, against 0\% for both conventional and no-prior). The broken-call rate, the fraction of generations whose first accessed attribute does not resolve on the bound library, is 0.74 for swapped, against 0.12 for conventional and 0.46 for no-prior (Figure~\ref{fig:gen}). The realized rate of conventional-style generation is modest even though the log-probability preference is large, so the behavioral footprint is smaller than the single-call preference; the conventional-style calls that do appear fail with \texttt{AttributeError} under the real binding. For a coding agent the practical reading is that a model cannot be relied on to honor a non-standard local binding that contradicts a strong convention.
+
+\paragraph{Robust to scale and tuning.} The gap neither grows nor vanishes across 0.5B to 8B, with point estimates between $+5.2$ and $+7.5$ (Figure~\ref{fig:size}), and base and instruct variants are nearly identical, with a mean instruct-minus-base difference of $-0.08$ nats over the two matched Qwen2.5 pairs. The effect is a property of the pretraining prior that current scale and instruction tuning do not remove.
+
+\section{Related Work}
+
+\paragraph{Semantic override and knowledge conflict.} \citet{thota2026semantic} show models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit tasks. We find the same failure shape, moved from logic semantics to library bindings in code, and measure it as a graded log-probability preference with a matched control rather than as task accuracy. \citet{xu2024knowledge} survey context versus memory conflict; our setup is a narrow and reproducible code instance of that conflict.
+
+\paragraph{Renaming robustness.} Work on adversarial and semantics-preserving renaming asks models to stay invariant to identifier changes \citep{henkel2022semantic}. That goal is sensible when names are arbitrary. Canonical import aliases invert the premise: the name carries a strong prior, and invariance to it is exactly the failure we measure.
+
+\paragraph{Long context.} Long-context benchmarks measure retrieval of placed information and its degradation with position \citep{liu2024lost,modarressi2025nolima}. Our distance axis instead holds a prior conflict fixed and varies the gap to the import; the conflict does not decay over the range we test.
+
+\section*{Limitations}
+
+The dose effect is supported by both a crossed random-effects model and a pair-clustered bootstrap, but it rests on six pair-level clusters, two per tier, so its interval is wide. We use ordinal tiers rather than measured corpus frequency; a continuous frequency dose-response is future work. The distance axis reaches 8192 tokens for all models and 32k for a single spot-check, short of the frontier long-context regime, a bound set by native context limits and available hardware. All models are 8B or smaller and open-weight; we test no frontier models. The swapped import is pathological code, used as a controlled instrument; the same mechanism plausibly underlies realistic failures with deprecated APIs and project-specific aliases, but we do not measure those directly. The metric is a single-call preference at one use site, and realized conventional-style generation is modest, so the size of the risk in multi-step coding is not established here. We make no mechanistic claim about where in the model the binding is represented.
+
+\bibliography{custom}
+
+\appendix
+
+\section{Additional Figures}
+\label{sec:appendix}
+
+Table~\ref{tab:raw} reports the raw per-condition prior-pull behind the DiD gap. Figure~\ref{fig:depth} shows the DiD gap against distance for every model, Figure~\ref{fig:gen} the generation and broken-call arms, and Figure~\ref{fig:size} the gap against model size.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Condition} & \textbf{Raw prior-pull [95\% CI]} \\
+\midrule
+Conventional & $+7.02\ [+4.86, +9.65]$ \\
+Swapped      & $+3.87\ [+0.82, +6.90]$ \\
+No-prior     & $-2.94\ [-4.15, -1.91]$ \\
+\midrule
+DiD gap (swapped $-$ no-prior) & $+6.81\ [+4.56, +9.11]$ \\
+\bottomrule
+\end{tabular}
+\caption{Raw prior-pull by condition (nats), pooled over pairs, models, and depths, with 95\% pair-clustered bootstrap intervals ($n{=}561$ items per condition). Prior-pull is the log-probability preference for the pair's conventional library over the other library at the use site. Conventional prefers the correct library; no-prior prefers the bound library (negative), so the model tracks the binding when no canonical prior competes; swapped flips this to a net preference for the conventional library. The DiD gap subtracts the no-prior baseline, so lexicon and base-rate asymmetries cancel.}
+\label{tab:raw}
+\end{table}
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{figures/full_gap_vs_depth.png}
+\caption{DiD gap versus distance from the import (tokens, symmetric-log axis), one line per model. The gap stays positive and flat from 0 to 8192 tokens; no model shows a confidence-interval-separated increase from the shortest to the longest bin.}
+\label{fig:depth}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{figures/full_generation_arm.png}
+\caption{Generation arm (left): class of the first accessed attribute per condition. Only swapped produces conventional-style idioms. Broken-call rate (right): fraction of generations whose accessed attribute does not resolve on the bound library.}
+\label{fig:gen}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{figures/full_size_trend.png}
+\caption{DiD gap versus model size (log axis), pooled over pairs and depths. The gap is roughly flat from 0.5B to 8B. Bars are 95\% pair-clustered bootstrap intervals.}
+\label{fig:size}
+\end{figure}
+
+\end{document}

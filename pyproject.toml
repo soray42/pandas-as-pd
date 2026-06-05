@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alias-inertia"
+version = "0.1.0"
+description = "A controlled behavioral probe: does a model track a swapped import-alias binding, or does the corpus prior reassert with distance?"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "alias-inertia" }]
+
+# NOTE: the exact runtime versions used to produce the released results are pinned in
+# requirements.txt. The ranges below are only minimal floors for a fresh install.
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyarrow>=12",
+    "scipy>=1.10",
+    "statsmodels>=0.14",
+    "matplotlib>=3.7",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+hf = ["torch>=2.1", "transformers>=4.40"]
+llamacpp = ["llama-cpp-python>=0.3"]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+markers = [
+    "needs_hf: requires a small HuggingFace causal-LM (downloads sshleifer/tiny-gpt2 on first run)",
+    "needs_llamacpp: requires llama-cpp-python and a local GGUF model",
+]
+filterwarnings = ["ignore::DeprecationWarning"]

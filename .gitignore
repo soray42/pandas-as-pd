@@ -1,0 +1,31 @@
+# Python
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# Virtual envs
+.venv/
+venv/
+.env
+
+# Model weights (never commit)
+*.gguf
+*.safetensors
+*.bin
+
+# Transient / regenerable run artifacts.
+# NOTE: the released outputs (results/full.*, results/*.json, figures/*.png) ARE tracked so the
+# analysis and figures can be reproduced cheaply (make analyze) without the slow scoring run.
+results/cache/
+results/cache_smoke/
+results/smoke*
+results/preview_stimuli.jsonl
+results/*.log
+requirements-lock.txt
+
+# Build/export bundles (regenerate from paper/)
+*.zip

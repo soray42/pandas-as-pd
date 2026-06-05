@@ -1,0 +1,496 @@
+{
+  "created_utc": "2026-06-05T08:02:43.576187+00:00",
+  "config_path": "configs\\full.yaml",
+  "config": {
+    "seed": 12345,
+    "scoring_version": "1.1",
+    "pairs_all": [
+      "numpy__pandas",
+      "pandas__numpy",
+      "torch__sklearn",
+      "matplotlib.pyplot__pandas",
+      "sklearn__xgboost",
+      "xgboost__sklearn"
+    ],
+    "pairs_cpu_subset": [
+      "numpy__pandas",
+      "torch__sklearn",
+      "xgboost__sklearn"
+    ],
+    "conditions": [
+      "conventional",
+      "swapped",
+      "no_prior"
+    ],
+    "non_canonical_alias": "zz",
+    "depths_tokens": [
+      0,
+      512,
+      2048,
+      8192
+    ],
+    "templates": [
+      "t1",
+      "t2"
+    ],
+    "repetitions": 3,
+    "depth_tolerance_tokens": 48,
+    "deep_bins": {
+      "threshold": 8192,
+      "reps": 1,
+      "templates": [
+        "t1"
+      ]
+    },
+    "models": [
+      {
+        "label": "qwen2.5-0.5b-base",
+        "backend": "hf",
+        "hf": {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "device": "cuda",
+          "dtype": "float16"
+        },
+        "max_depth": 2048,
+        "family": "qwen2.5",
+        "size_b": 0.5,
+        "variant": "base",
+        "pairs": "all"
+      },
+      {
+        "label": "qwen2.5-0.5b-instruct",
+        "backend": "hf",
+        "hf": {
+          "model": "Qwen/Qwen2.5-0.5B-Instruct",
+          "device": "cuda",
+          "dtype": "float16"
+        },
+        "max_depth": 2048,
+        "family": "qwen2.5",
+        "size_b": 0.5,
+        "variant": "instruct",
+        "pairs": "all"
+      },
+      {
+        "label": "qwen2.5-1.5b-base",
+        "backend": "hf",
+        "hf": {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "device": "cuda",
+          "dtype": "float16"
+        },
+        "max_depth": 2048,
+        "family": "qwen2.5",
+        "size_b": 1.5,
+        "variant": "base",
+        "pairs": "all"
+      },
+      {
+        "label": "qwen2.5-1.5b-instruct",
+        "backend": "hf",
+        "hf": {
+          "model": "Qwen/Qwen2.5-1.5B-Instruct",
+          "device": "cuda",
+          "dtype": "float16"
+        },
+        "max_depth": 2048,
+        "family": "qwen2.5",
+        "size_b": 1.5,
+        "variant": "instruct",
+        "pairs": "all"
+      },
+      {
+        "label": "qwen2.5-0.5b-gguf",
+        "backend": "llamacpp",
+        "llamacpp": {
+          "ollama_model": "qwen2.5:0.5b",
+          "n_ctx": 33280,
+          "n_threads": 8,
+          "n_batch": 512,
+          "seed": 12345
+        },
+        "max_depth": 32768,
+        "family": "qwen2.5",
+        "size_b": 0.5,
+        "variant": "instruct",
+        "pairs": "cpu_subset"
+      },
+      {
+        "label": "llama3.2-1b-gguf",
+        "backend": "llamacpp",
+        "llamacpp": {
+          "ollama_model": "llama3.2:1b",
+          "n_ctx": 33280,
+          "n_threads": 8,
+          "n_batch": 512,
+          "seed": 12345
+        },
+        "max_depth": 32768,
+        "family": "llama3.2",
+        "size_b": 1.0,
+        "variant": "instruct",
+        "pairs": "cpu_subset"
+      },
+      {
+        "label": "llama3.2-3b-gguf",
+        "backend": "llamacpp",
+        "llamacpp": {
+          "ollama_model": "llama3.2:3b",
+          "n_ctx": 8704,
+          "n_threads": 8,
+          "n_batch": 512,
+          "seed": 12345
+        },
+        "max_depth": 8192,
+        "family": "llama3.2",
+        "size_b": 3.0,
+        "variant": "instruct",
+        "pairs": "cpu_subset"
+      },
+      {
+        "label": "qwen2.5-coder-7b",
+        "backend": "llamacpp",
+        "llamacpp": {
+          "ollama_model": "qwen2.5-coder:7b",
+          "n_ctx": 8704,
+          "n_threads": 8,
+          "n_batch": 512,
+          "seed": 12345
+        },
+        "max_depth": 8192,
+        "family": "qwen2.5-coder",
+        "size_b": 7.0,
+        "variant": "instruct",
+        "pairs": "cpu_subset"
+      },
+      {
+        "label": "llama3.1-8b",
+        "backend": "llamacpp",
+        "llamacpp": {
+          "ollama_model": "llama3.1:8b",
+          "n_ctx": 8704,
+          "n_threads": 8,
+          "n_batch": 512,
+          "seed": 12345
+        },
+        "max_depth": 8192,
+        "family": "llama3.1",
+        "size_b": 8.0,
+        "variant": "instruct",
+        "pairs": "cpu_subset"
+      }
+    ],
+    "generation": {
+      "enabled": true,
+      "max_new_tokens": 48,
+      "depths": [
+        0,
+        2048
+      ],
+      "templates": [
+        "t1",
+        "t2"
+      ],
+      "reps": 1
+    },
+    "cache": {
+      "enabled": true,
+      "dir": "results/cache"
+    },
+    "output": {
+      "results": "results/full.parquet",
+      "generations": "results/full_generations.jsonl",
+      "stimuli_meta": "results/full_stimuli_meta.jsonl",
+      "manifest": "results/full_manifest.json"
+    },
+    "analysis": {
+      "bootstrap_n": 5000,
+      "ci": 0.95,
+      "bootstrap_seed": 20260604,
+      "figure_dir": "results"
+    }
+  },
+  "config_hash": "1bbf73aa52eae42e44b19e7d12808b7f",
+  "scoring_version": "1.1",
+  "gen_version": "1.0",
+  "validity_version": "1.0",
+  "determinism": {
+    "seed": 12345,
+    "PYTHONHASHSEED": "<unset>",
+    "torch_deterministic": true
+  },
+  "environment": {
+    "timestamp_utc": "2026-06-05T08:02:43.576742+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "tenacity": "9.1.2",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25",
+      "openai": "2.8.1"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  },
+  "models": {
+    "qwen2.5-0.5b-base": {
+      "backend_id": "hf:Qwen/Qwen2.5-0.5B@060db6499f32faf8b98477b0a26969ef7d8b9987",
+      "fingerprint": {
+        "backend": "hf",
+        "model": "Qwen/Qwen2.5-0.5B",
+        "revision": null,
+        "commit_hash": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+        "device": "cuda",
+        "dtype": "float16",
+        "add_special_tokens": false,
+        "max_context": 32768,
+        "transformers_version": "5.5.0",
+        "torch_version": "2.12.0.dev20260405+cu128",
+        "scoring_method": "teacher_forced_full_forward"
+      },
+      "cache_id": "d4f119b182c29a9650a2c036",
+      "scoring_code_hash": "a9186bc9fb06",
+      "family": "qwen2.5",
+      "size_b": 0.5,
+      "variant": "base",
+      "max_depth": 2048,
+      "pairs": "all"
+    },
+    "qwen2.5-0.5b-instruct": {
+      "backend_id": "hf:Qwen/Qwen2.5-0.5B-Instruct@7ae557604adf67be50417f59c2c2f167def9a775",
+      "fingerprint": {
+        "backend": "hf",
+        "model": "Qwen/Qwen2.5-0.5B-Instruct",
+        "revision": null,
+        "commit_hash": "7ae557604adf67be50417f59c2c2f167def9a775",
+        "device": "cuda",
+        "dtype": "float16",
+        "add_special_tokens": false,
+        "max_context": 32768,
+        "transformers_version": "5.5.0",
+        "torch_version": "2.12.0.dev20260405+cu128",
+        "scoring_method": "teacher_forced_full_forward"
+      },
+      "cache_id": "7238b47a8c4cc55428667b64",
+      "scoring_code_hash": "a9186bc9fb06",
+      "family": "qwen2.5",
+      "size_b": 0.5,
+      "variant": "instruct",
+      "max_depth": 2048,
+      "pairs": "all"
+    },
+    "qwen2.5-1.5b-base": {
+      "backend_id": "hf:Qwen/Qwen2.5-1.5B@8faed761d45a263340a0528343f099c05c9a4323",
+      "fingerprint": {
+        "backend": "hf",
+        "model": "Qwen/Qwen2.5-1.5B",
+        "revision": null,
+        "commit_hash": "8faed761d45a263340a0528343f099c05c9a4323",
+        "device": "cuda",
+        "dtype": "float16",
+        "add_special_tokens": false,
+        "max_context": 131072,
+        "transformers_version": "5.5.0",
+        "torch_version": "2.12.0.dev20260405+cu128",
+        "scoring_method": "teacher_forced_full_forward"
+      },
+      "cache_id": "71746fb4d1e3e34d4b5a0746",
+      "scoring_code_hash": "a9186bc9fb06",
+      "family": "qwen2.5",
+      "size_b": 1.5,
+      "variant": "base",
+      "max_depth": 2048,
+      "pairs": "all"
+    },
+    "qwen2.5-1.5b-instruct": {
+      "backend_id": "hf:Qwen/Qwen2.5-1.5B-Instruct@989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+      "fingerprint": {
+        "backend": "hf",
+        "model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "revision": null,
+        "commit_hash": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        "device": "cuda",
+        "dtype": "float16",
+        "add_special_tokens": false,
+        "max_context": 32768,
+        "transformers_version": "5.5.0",
+        "torch_version": "2.12.0.dev20260405+cu128",
+        "scoring_method": "teacher_forced_full_forward"
+      },
+      "cache_id": "db62878b939bec9e476175d5",
+      "scoring_code_hash": "a9186bc9fb06",
+      "family": "qwen2.5",
+      "size_b": 1.5,
+      "variant": "instruct",
+      "max_depth": 2048,
+      "pairs": "all"
+    },
+    "qwen2.5-0.5b-gguf": {
+      "backend_id": "llamacpp:qwen2.5:0.5b@sha256:c5396e06af29",
+      "fingerprint": {
+        "backend": "llamacpp",
+        "ollama_model": "qwen2.5:0.5b",
+        "gguf_path": "C:\\Users\\user/.ollama/models\\blobs\\sha256-c5396e06af294bd101b30dce59131a76d2b773e76950acc870eda801d3ab0515",
+        "blob_digest": "sha256:c5396e06af294bd101b30dce59131a76d2b773e76950acc870eda801d3ab0515",
+        "n_ctx": 33280,
+        "n_threads": 8,
+        "n_batch": 512,
+        "seed": 12345,
+        "logits_all": true,
+        "llama_cpp_version": "0.3.25",
+        "gguf_general_architecture": "qwen2",
+        "gguf_quantization": "15",
+        "gguf_context_length": "32768",
+        "scoring_method": "teacher_forced_kv_reuse",
+        "add_bos": true
+      },
+      "cache_id": "44eee843f5502f352e00e2dc",
+      "scoring_code_hash": "11d3187e4102",
+      "family": "qwen2.5",
+      "size_b": 0.5,
+      "variant": "instruct",
+      "max_depth": 32768,
+      "pairs": "cpu_subset"
+    },
+    "llama3.2-1b-gguf": {
+      "backend_id": "llamacpp:llama3.2:1b@sha256:74701a8c35f6",
+      "fingerprint": {
+        "backend": "llamacpp",
+        "ollama_model": "llama3.2:1b",
+        "gguf_path": "C:\\Users\\user/.ollama/models\\blobs\\sha256-74701a8c35f6c8d9a4b91f3f3497643001d63e0c7a84e085bed452548fa88d45",
+        "blob_digest": "sha256:74701a8c35f6c8d9a4b91f3f3497643001d63e0c7a84e085bed452548fa88d45",
+        "n_ctx": 33280,
+        "n_threads": 8,
+        "n_batch": 512,
+        "seed": 12345,
+        "logits_all": true,
+        "llama_cpp_version": "0.3.25",
+        "gguf_general_architecture": "llama",
+        "gguf_quantization": "7",
+        "gguf_context_length": "131072",
+        "scoring_method": "teacher_forced_kv_reuse",
+        "add_bos": true
+      },
+      "cache_id": "80e217971854665107ba8c2f",
+      "scoring_code_hash": "11d3187e4102",
+      "family": "llama3.2",
+      "size_b": 1.0,
+      "variant": "instruct",
+      "max_depth": 32768,
+      "pairs": "cpu_subset"
+    },
+    "llama3.2-3b-gguf": {
+      "backend_id": "llamacpp:llama3.2:3b@sha256:dde5aa3fc5ff",
+      "fingerprint": {
+        "backend": "llamacpp",
+        "ollama_model": "llama3.2:3b",
+        "gguf_path": "C:\\Users\\user/.ollama/models\\blobs\\sha256-dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "blob_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "n_ctx": 8704,
+        "n_threads": 8,
+        "n_batch": 512,
+        "seed": 12345,
+        "logits_all": true,
+        "llama_cpp_version": "0.3.25",
+        "gguf_general_architecture": "llama",
+        "gguf_quantization": "15",
+        "gguf_context_length": "131072",
+        "scoring_method": "teacher_forced_kv_reuse",
+        "add_bos": true
+      },
+      "cache_id": "7fbfd33572f5a2d6931dd6e3",
+      "scoring_code_hash": "11d3187e4102",
+      "family": "llama3.2",
+      "size_b": 3.0,
+      "variant": "instruct",
+      "max_depth": 8192,
+      "pairs": "cpu_subset"
+    },
+    "qwen2.5-coder-7b": {
+      "backend_id": "llamacpp:qwen2.5-coder:7b@sha256:60e05f210007",
+      "fingerprint": {
+        "backend": "llamacpp",
+        "ollama_model": "qwen2.5-coder:7b",
+        "gguf_path": "C:\\Users\\user/.ollama/models\\blobs\\sha256-60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+        "blob_digest": "sha256:60e05f2100071479f596b964f89f510f057ce397ea22f2833a0cfe029bfc2463",
+        "n_ctx": 8704,
+        "n_threads": 8,
+        "n_batch": 512,
+        "seed": 12345,
+        "logits_all": true,
+        "llama_cpp_version": "0.3.25",
+        "gguf_general_architecture": "qwen2",
+        "gguf_quantization": "15",
+        "gguf_context_length": "32768",
+        "scoring_method": "teacher_forced_kv_reuse",
+        "add_bos": true
+      },
+      "cache_id": "b2b8a28cb0436f2ada2559a5",
+      "scoring_code_hash": "11d3187e4102",
+      "family": "qwen2.5-coder",
+      "size_b": 7.0,
+      "variant": "instruct",
+      "max_depth": 8192,
+      "pairs": "cpu_subset"
+    },
+    "llama3.1-8b": {
+      "backend_id": "llamacpp:llama3.1:8b@sha256:667b0c1932bc",
+      "fingerprint": {
+        "backend": "llamacpp",
+        "ollama_model": "llama3.1:8b",
+        "gguf_path": "C:\\Users\\user/.ollama/models\\blobs\\sha256-667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29",
+        "blob_digest": "sha256:667b0c1932bc6ffc593ed1d03f895bf2dc8dc6df21db3042284a6f4416b06a29",
+        "n_ctx": 8704,
+        "n_threads": 8,
+        "n_batch": 512,
+        "seed": 12345,
+        "logits_all": true,
+        "llama_cpp_version": "0.3.25",
+        "gguf_general_architecture": "llama",
+        "gguf_quantization": "15",
+        "gguf_context_length": "131072",
+        "scoring_method": "teacher_forced_kv_reuse",
+        "add_bos": true
+      },
+      "cache_id": "33af687da6cf97e7846405ee",
+      "scoring_code_hash": "11d3187e4102",
+      "family": "llama3.1",
+      "size_b": 8.0,
+      "variant": "instruct",
+      "max_depth": 8192,
+      "pairs": "cpu_subset"
+    }
+  },
+  "n_score_rows": 1683,
+  "n_generations": 468,
+  "n_skipped": 0,
+  "skipped": [],
+  "elapsed_seconds": 22127.512911319733,
+  "validity_lib_available": {
+    "numpy": true,
+    "pandas": true,
+    "torch": true,
+    "sklearn": true,
+    "xgboost": true,
+    "matplotlib.pyplot": true
+  }
+}
