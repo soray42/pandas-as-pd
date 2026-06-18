@@ -22,5 +22,10 @@ huggingface-hub==1.9.0
 # llama.cpp backend (4-bit GGUF on CPU for long-context and larger-model bins; reads the Ollama blob)
 llama-cpp-python==0.3.25
 
+# Corpus-frequency measurement (scripts/corpus_freq.py) and the tokenizer proxy used for filler
+# depth + the candidate table. The DeepSeek API client itself uses only the standard library.
+tiktoken==0.12.0
+datasets==4.8.4
+
 # Test runner
 pytest==9.0.2

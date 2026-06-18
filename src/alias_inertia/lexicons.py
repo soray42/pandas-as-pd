@@ -32,11 +32,19 @@ CANONICAL_ALIASES: dict[str, str] = {
     "sklearn": "sk",
     "xgboost": "xgb",
     "matplotlib.pyplot": "plt",
+    # Extended set (used by EXTENDED_PAIRS for the wider dose-response; the six above are the
+    # local headline). All have a recognizable canonical alias and disjoint top-level methods.
+    "seaborn": "sns",
+    "networkx": "nx",
+    "statsmodels.api": "sm",
+    "sqlalchemy": "sa",
+    "sympy": "sym",
+    "plotly.express": "px",
 }
 
-# Ordinal prior-strength tier per canonical alias (the DOSE axis for the full run). This is a
-# coarse, defensible ordering of how near-universal each alias is in Python corpora; rigorous
-# corpus-frequency estimation is deliberately reserved for the main conf (SCOPE §6/§8).
+# Ordinal prior-strength tier per canonical alias: a coarse ordering of how near-universal each
+# alias is. The measured corpus frequency (scripts/corpus_freq.py) is the continuous dose
+# variable used in the analysis; these tiers are kept only as a seed and for plotting.
 ALIAS_PRIOR_TIER: dict[str, str] = {
     "np": "very_common",
     "pd": "very_common",
@@ -44,6 +52,14 @@ ALIAS_PRIOR_TIER: dict[str, str] = {
     "plt": "common",
     "sk": "rare",
     "xgb": "rare",
+    # Coarse seeds for the extended aliases; the continuous measured-frequency dose
+    # (scripts/corpus_freq.py) supersedes these tiers in the analysis.
+    "sns": "common",
+    "nx": "common",
+    "sm": "rare",
+    "sa": "rare",
+    "sym": "rare",
+    "px": "rare",
 }
 # Numeric rank for plotting / ordinal correlation (higher = stronger prior).
 TIER_RANK: dict[str, int] = {"very_common": 3, "common": 2, "rare": 1}
@@ -56,6 +72,12 @@ IMPORT_NAMES: dict[str, str] = {
     "sklearn": "sklearn",
     "xgboost": "xgboost",
     "matplotlib.pyplot": "matplotlib.pyplot",
+    "seaborn": "seaborn",
+    "networkx": "networkx",
+    "statsmodels.api": "statsmodels.api",
+    "sqlalchemy": "sqlalchemy",
+    "sympy": "sympy",
+    "plotly.express": "plotly.express",
 }
 
 # --- Discriminative continuation sets ----------------------------------------------------
@@ -73,9 +95,15 @@ LEXICONS: dict[str, list[str]] = {
     ],
     "xgboost": ["XGBClassifier(", "XGBRegressor(", "DMatrix(", "Booster(", "train(", "cv("],
     "matplotlib.pyplot": ["plot(", "scatter(", "figure(", "xlabel(", "subplots(", "hist("],
+    "seaborn": ["heatmap(", "scatterplot(", "lineplot(", "pairplot(", "kdeplot(", "violinplot("],
+    "networkx": ["DiGraph(", "shortest_path(", "pagerank(", "connected_components(", "betweenness_centrality(", "spring_layout("],
+    "statsmodels.api": ["OLS(", "GLM(", "Logit(", "add_constant(", "WLS("],
+    "sqlalchemy": ["create_engine(", "MetaData(", "select(", "Integer(", "ForeignKey("],
+    "sympy": ["symbols(", "integrate(", "simplify(", "factor(", "diff(", "expand("],
+    "plotly.express": ["choropleth(", "sunburst(", "treemap(", "density_heatmap(", "parallel_coordinates(", "scatter_matrix("],
 }
 
-# Names that are NOT discriminative (shared across numeric/data libs). No lexicon entry may
+# Names that are not discriminative (shared across numeric/data libs). No lexicon entry may
 # collide with these; ``verify_lexicons`` enforces it.
 SHARED_BLOCKLIST: frozenset[str] = frozenset(
     {
@@ -151,6 +179,19 @@ SWAP_PAIRS: list[SwapPair] = [
     SwapPair("xgboost", "sklearn"),         # xgb - rare
 ]
 
+# Wider dose-response set: the six headline pairs plus six more alias conventions spanning the
+# frequency range. Used by the API forced-choice arm (cheap) so the dose-response rests on more
+# than six clusters without re-scoring the full local suite. The treatment alias of each new pair
+# is bound to a common data library (numpy/pandas) in the swapped condition.
+EXTENDED_PAIRS: list[SwapPair] = SWAP_PAIRS + [
+    SwapPair("seaborn", "pandas"),          # sns
+    SwapPair("networkx", "numpy"),          # nx
+    SwapPair("statsmodels.api", "numpy"),   # sm
+    SwapPair("sqlalchemy", "pandas"),       # sa
+    SwapPair("sympy", "numpy"),             # sym
+    SwapPair("plotly.express", "pandas"),   # px
+]
+
 
 def normalize_member(member: str) -> str:
     """Strip the call/attr suffix to get the bare attribute name (for blocklist checks)."""
@@ -194,9 +235,14 @@ def get_pair(name_or_index) -> SwapPair:
     if isinstance(name_or_index, (list, tuple)) and len(name_or_index) == 2:
         return SwapPair(str(name_or_index[0]), str(name_or_index[1]))
     if isinstance(name_or_index, str):
-        for p in SWAP_PAIRS:
+        for p in (*SWAP_PAIRS, *EXTENDED_PAIRS):
             if p.name == name_or_index:
                 return p
+        # Construct from a "prior__other" name if both libraries are known.
+        if "__" in name_or_index:
+            prior, other = name_or_index.split("__", 1)
+            if prior in LEXICONS and other in LEXICONS:
+                return SwapPair(prior, other)
     raise KeyError(f"unknown swap pair: {name_or_index!r}")
 
 

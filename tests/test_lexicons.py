@@ -37,7 +37,7 @@ def test_every_lib_has_alias_and_import_name():
         assert lib in IMPORT_NAMES
 
 
-def test_canonical_aliases_match_scope():
+def test_canonical_aliases():
     assert CANONICAL_ALIASES["numpy"] == "np"
     assert CANONICAL_ALIASES["pandas"] == "pd"
     assert CANONICAL_ALIASES["matplotlib.pyplot"] == "plt"
@@ -46,7 +46,7 @@ def test_canonical_aliases_match_scope():
     assert CANONICAL_ALIASES["torch"] == "torch"
 
 
-def test_pilot_pair_is_numpy_pandas():
+def test_first_pair_is_numpy_pandas():
     assert SWAP_PAIRS[0].prior_lib == "numpy"
     assert SWAP_PAIRS[0].other_lib == "pandas"
     assert SWAP_PAIRS[0].treatment_alias == "np"

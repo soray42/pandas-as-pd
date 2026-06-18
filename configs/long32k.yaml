@@ -1,0 +1,50 @@
+# Long-context spot-check: extend the small CPU model (Qwen2.5-0.5B GGUF, native 32k) to a
+# 32,768-token bin on the numpy/pandas pair, to upgrade the earlier swapped-only 32k spot-check
+# to a full difference-in-differences (swapped vs no-prior) at 32k. O(L) attention on CPU makes
+# 32k feasible (~7 min/stimulus); the full run capped systematic bins at 8192 for total time.
+
+seed: 12345
+scoring_version: "1.1"
+
+pairs_all:
+  - "numpy__pandas"
+pairs_cpu_subset:
+  - "numpy__pandas"
+
+conditions: ["conventional", "swapped", "no_prior"]
+non_canonical_alias: "zz"
+depths_tokens: [32768]
+templates: ["t1"]
+repetitions: 1
+depth_tolerance_tokens: 64
+
+deep_bins:
+  threshold: 32768
+  reps: 1
+  templates: ["t1"]
+
+models:
+  - { label: "qwen2.5-0.5b-gguf", backend: llamacpp, llamacpp: { ollama_model: "qwen2.5:0.5b", n_ctx: 33408, n_threads: 8, n_batch: 512, seed: 12345 }, max_depth: 32768, family: qwen2.5, size_b: 0.5, variant: instruct, pairs: cpu_subset }
+
+generation:
+  enabled: false
+  max_new_tokens: 48
+  depths: [0]
+  templates: ["t1"]
+  reps: 1
+
+cache:
+  enabled: true
+  dir: "results/cache"
+
+output:
+  results: "results/long32k.parquet"
+  generations: "results/long32k_generations.jsonl"
+  stimuli_meta: "results/long32k_stimuli_meta.jsonl"
+  manifest: "results/long32k_manifest.json"
+
+analysis:
+  bootstrap_n: 2000
+  ci: 0.95
+  bootstrap_seed: 20260617
+  figure_dir: "figures"

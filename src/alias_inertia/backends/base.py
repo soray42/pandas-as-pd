@@ -73,7 +73,7 @@ class Backend(Protocol):
     def cache_fingerprint(self) -> dict:
         """The subset of settings that change the numeric score, for the cache key.
 
-        MUST include every parameter that alters a returned log-prob (model identity, dtype,
+        must include every parameter that alters a returned log-prob (model identity, dtype,
         tokenisation flags, llama.cpp n_threads/n_batch/seed/n_ctx, ...). The disk cache keys on
         a hash of this dict, so two configs that would score differently never share an entry.
         """

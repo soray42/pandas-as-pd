@@ -5,7 +5,7 @@ A controlled behavioral probe of code language models. When a canonical import a
 track the local binding or revert to the library the alias conventionally denotes? We measure a
 **prior-pull** score by continuation scoring and contrast a swapped binding against a no-prior
 control, isolating prior reassertion from generic long-context degradation. The accompanying short
-paper is in `paper/`. Design rationale: [`alias-inertia_scope.md`](alias-inertia_scope.md).
+paper is in `paper/`.
 
 ## Headline result
 
@@ -16,7 +16,7 @@ every model's interval excluding zero. The gap scales with how common the conven
 from 0 to 8192 tokens of distance, and surfaces in generated code (74% of swapped completions access
 an attribute that does not exist on the bound library).
 
-![Dose response: the gap grows with the prior strength of the alias](figures/full_dose_curve.png)
+![Dose response: the gap grows with the measured corpus frequency of the alias convention](figures/full_dose_curve.png)
 
 | Model | Params | Tune | DiD gap [95% CI] |
 |---|---|---|---|
@@ -31,10 +31,26 @@ an attribute that does not exist on the bound library).
 | Llama-3.1-8B (Q4 GGUF) | 8B | inst | +7.33 [+3.73, +10.28] |
 | **Overall** | | | **+6.81 [+4.56, +9.11]** |
 
-**Dose slope:** the gap increases by **+3.05 nats per prior-strength tier** (rare -> common ->
-very common); pair-clustered bootstrap 95% CI [+1.13, +5.33], 98% of bootstrap slopes positive.
-Numbers are in `results/full_analysis.json`, `results/dose_regression.json`, and
-`results/raw_prior_pull.json`; provenance in `results/full_manifest.json`.
+**Dose slope (measured corpus frequency):** regressing prior-pull on the swapped indicator
+interacted with the log corpus frequency of each canonical `import LIB as alias` convention
+(measured over 150k Python files, `scripts/corpus_freq.py`), the gap rises by **+0.94 nats per
+natural-log unit of corpus frequency**; pair-clustered bootstrap 95% CI [+0.69, +1.35], 99% of
+bootstrap slopes positive (`results/dose_measured.json`). Numbers are in
+`results/full_analysis.json`, `results/dose_measured.json`, `results/raw_prior_pull.json`, and
+`results/corpus_freq.json`; provenance in `results/full_manifest.json`.
+
+## Frontier model and 128k context
+
+A hosted frontier model, DeepSeek-V4-Pro (one-million-token context), cannot be teacher-forced, so
+we probe it behaviorally: a two-alternative forced choice at the use site, free generation, and a
+verbal "which library is this alias bound to?" question, contrasting swapped against no-prior in
+both the direct and thinking modes, out to 128k tokens. The direct model picks the conventional
+library's non-existent method on **65%** of swapped items against **36%** in no-prior (difference
+**+0.30**, 95% CI [+0.06, +0.61]) yet names the bound library correctly **100%** of the time: it
+recognizes the binding but does not act on it. The pull is flat from 0 to 128k tokens, and the
+model's thinking mode drives the forced-choice rate to **0**. Numbers in
+`results/deepseek_analysis.json`; reproduce with `make deepseek` (needs `DEEPSEEK_API_KEY` in your
+environment, never committed; API responses cache under `.cache/` so re-runs are free).
 
 ## Reproduce
 
@@ -45,6 +61,7 @@ make env        # install pinned deps (install torch for your platform from pyto
 make smoke      # ~2-4 min on CPU: verify the whole pipeline on 1 pair + 1 small model
 make analyze    # ~1 min: regenerate the figures, statistics, and verdict from released results/
 make run        # OPTIONAL, ~6 h: re-score everything from scratch
+make deepseek   # OPTIONAL: frontier-model + 128k probe via DeepSeek API (needs DEEPSEEK_API_KEY)
 ```
 
 `make analyze` reproduces every figure and statistic from the committed `results/`, so reviewers do
@@ -69,14 +86,17 @@ forced by the local GPU lacking a flash/memory-efficient attention kernel; see `
 
 ```
 src/alias_inertia/   package: lexicons, stimuli, scoring, metrics, generation, validity,
-                     determinism, backends/ (base, hf, llamacpp)
-scripts/             run.py, analyze.py, dose_regression.py, raw_prior_pull.py,
-                     gen_stimuli.py, smoke_backend.py
+                     determinism, deepseek_probe (API behavioral arm), backends/ (base, hf, llamacpp)
+scripts/             run.py, analyze.py, dose_regression.py, dose_measured.py, raw_prior_pull.py,
+                     corpus_freq.py, candidate_table.py, gen_stimuli.py, smoke_backend.py,
+                     run_deepseek.py, analyze_deepseek.py, analyze_deepseek_ext.py,
+                     run_naturalistic.py, run_deepseek_naturalistic.py
 configs/             full.yaml (produced the results), smoke.yaml (fast pipeline check)
-results/             scored prefixes (full.parquet), generations, manifest, analysis JSON
+results/             scored prefixes (full.parquet), generations, manifest, analysis JSON;
+                     deepseek_raw*.jsonl + deepseek_analysis.json (API probe)
 figures/             the four paper figures
-tests/               8 test modules (51 tests): scoring math, stimuli, metrics, cache, lexicons,
-                     generation, validity
+tests/               9 test modules: scoring math, stimuli, metrics, cache, lexicons,
+                     generation, validity, deepseek probe
 paper/               the short paper (acl_latex.tex, custom.bib)
 ```
 

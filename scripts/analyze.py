@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-"""FULL-RUN decision/analysis: DiD gap across pairs x depths x models, the dose curve (gap vs
-prior-strength tier), generation + broken-call rates per condition, base-vs-instruct & size
-trends, with clustered bootstrap CIs. Writes figures + an honest verdict.
+"""Full-run analysis: DiD gap across pairs, depths, and models; the dose curve; generation and
+broken-call rates per condition; base-vs-instruct and size trends; with clustered bootstrap CIs.
+Writes the figures and a verdict.
 
   python scripts/analyze.py --config configs/full.yaml
 
-Framing pivot honoured: we CHARACTERISE the distance dependence (does growth appear at long
-range, or is the effect flat?), we do NOT assert distance-growth.
+The distance dependence is characterised (whether the gap grows with distance or stays flat),
+not assumed.
 """
 
 from __future__ import annotations
@@ -161,8 +161,8 @@ def main() -> int:
         report["gap_by_model"][m] = {"gap": gm, "ci_lo": lm, "ci_hi": hm, "size_b": sz, "variant": var}
         print(f"      {m:24} ({sz:>4}B {var:8}): {gm:+.3f} [{lm:+.3f},{hm:+.3f}]")
 
-    # ---- (B) DOSE curve: gap vs prior-strength tier -----------------------------------
-    print("\n(B) DOSE curve -- DiD gap by prior-strength tier (pooled over models, pairs, depths):")
+    # ---- (B) Dose curve: gap vs prior-strength tier -----------------------------------
+    print("\n(B) Dose curve : DiD gap by prior-strength tier (pooled over models, pairs, depths):")
     report["dose"] = {}
     for tier in TIER_ORDER:
         dt = df[df.tier == tier]
@@ -177,14 +177,14 @@ def main() -> int:
         dp = df[df.pair == p]
         pair_gap.append((p, _gap(dp), int(dp["tier_rank"].iloc[0]), dp["tier"].iloc[0]))
     report["pair_gaps"] = [{"pair": p, "gap": g_, "tier_rank": tr, "tier": t} for p, g_, tr, t in pair_gap]
-    # Dose effect tested properly: regression on ALL rows (magnitude + crossed REs), NOT a rank
+    # Dose effect tested properly: regression on all rows (magnitude + crossed REs), not a rank
     # correlation on 6 collapsed points.
     report["dose_regression"] = dose_regression(df, n_boot=int(acfg.get("dose_boot", 2000)),
                                                 seed=int(acfg["bootstrap_seed"]))
     dr = report["dose_regression"]
     cb, mm = dr.get("cluster_bootstrap", {}), dr.get("mixed", {})
     if cb.get("ci"):
-        print(f"    DOSE SLOPE (is_swapped:tier) = {cb['slope']:+.3f} nats/tier-step | "
+        print(f"    Dose slope (is_swapped:tier) = {cb['slope']:+.3f} nats/tier-step | "
               f"pair-clustered bootstrap 95% CI [{cb['ci'][0]:+.3f},{cb['ci'][1]:+.3f}] "
               f"({100*cb['frac_positive']:.0f}% boots>0) | mixed-model Wald "
               f"[{mm.get('wald_ci', [float('nan'), float('nan')])[0]:+.3f},"
@@ -267,7 +267,7 @@ def _verdict(report) -> tuple:
     cb = report.get("dose_regression", {}).get("cluster_bootstrap", {})
     if cb.get("ci"):
         sig = cb["ci"][0] > 0
-        detail.append(f"DOSE: gap dose-slope = {cb['slope']:+.2f} nats/tier-step "
+        detail.append(f"Dose: gap dose-slope = {cb['slope']:+.2f} nats/tier-step "
                       f"[pair-clustered bootstrap {cb['ci'][0]:+.2f},{cb['ci'][1]:+.2f}; "
                       f"{100*cb['frac_positive']:.0f}% boots>0] "
                       + ("-> SIGNIFICANT: gap tracks prior strength (magnitude-aware, all rows)."
@@ -280,20 +280,20 @@ def _verdict(report) -> tuple:
             lo_d, hi_d = per[ds[0]], per[ds[-1]]
             if hi_d["ci_lo"] > lo_d["ci_hi"]:
                 grew.append((m, ds[0], ds[-1]))
-    detail.append("DISTANCE: " + (f"growth (CI-separated) seen in {len(grew)} model(s): "
+    detail.append("Distance: " + (f"growth (CI-separated) seen in {len(grew)} model(s): "
                   + ", ".join(m for m, _, _ in grew) if grew
-                  else "no CI-separated growth from shortest to longest bin in any model -> immediate & distance-robust (pivot upheld)."))
+                  else "no CI-separated growth from shortest to longest bin in any model; the effect is immediate and distance-robust."))
     gen = report.get("generation", {})
     if "swapped" in gen and "no_prior" in gen:
         sp_prior = gen["swapped"]["klass_rates"].get("prior_style", 0.0)
         sw_break = gen["swapped"].get("broken_call_rate", float("nan"))
-        detail.append(f"BEHAVIOR: swapped completions prior-style rate={sp_prior:.2f}, broken-call rate={sw_break:.2f} "
+        detail.append(f"Behavior: swapped completions prior-style rate={sp_prior:.2f}, broken-call rate={sw_break:.2f} "
                       "-> the prior shows up in generated code and (often) would not resolve under the binding.")
     bvi = report.get("base_vs_instruct", [])
     if bvi:
         deltas = [x["gap_instruct"] - x["gap_base"] for x in bvi]
-        detail.append(f"BASE-vs-INSTRUCT: mean gap delta (instruct-base) = {np.mean(deltas):+.2f} over {len(bvi)} matched pairs.")
-    return ("EFFECT HELD (pivot upheld)" if held else "NULL / WEAK"), detail
+        detail.append(f"Base vs instruct: mean gap delta (instruct-base) = {np.mean(deltas):+.2f} over {len(bvi)} matched pairs.")
+    return ("effect held" if held else "null / weak"), detail
 
 
 def _load_jsonl(path):

@@ -1,0 +1,120 @@
+{
+  "models": [
+    "qwen2.5-coder:7b",
+    "qwen2.5:0.5b"
+  ],
+  "n_scenarios": 31,
+  "n_dropped": 14,
+  "per_model": {
+    "qwen2.5-coder:7b": {
+      "swapped": {
+        "prior_pull": 7.305112465379037,
+        "ci": [
+          5.287125641819902,
+          9.372902888645598
+        ],
+        "n": 31,
+        "broken_on_pandas_rate": 0.6774193548387096,
+        "wrote_target_op_rate": 0.1935483870967742
+      },
+      "no_prior": {
+        "prior_pull": -5.465615299233825,
+        "ci": [
+          -6.409096417680637,
+          -4.540640158073364
+        ],
+        "n": 93,
+        "broken_on_pandas_rate": 0.12087912087912088,
+        "wrote_target_op_rate": 0.6881720430107527
+      },
+      "correct": {
+        "prior_pull": -6.398366698531492,
+        "ci": [
+          -7.865747636085954,
+          -4.8709310345533865
+        ],
+        "n": 31,
+        "broken_on_pandas_rate": 0.06451612903225806,
+        "wrote_target_op_rate": 0.7741935483870968
+      },
+      "did_swapped_minus_no_prior": {
+        "value": 12.770727764612861,
+        "ci": [
+          10.604274471952074,
+          14.97315139309102
+        ]
+      }
+    },
+    "qwen2.5:0.5b": {
+      "swapped": {
+        "prior_pull": 9.956859360478541,
+        "ci": [
+          8.581639115006391,
+          11.326859385506317
+        ],
+        "n": 31,
+        "broken_on_pandas_rate": 0.5806451612903226,
+        "wrote_target_op_rate": 0.0
+      },
+      "no_prior": {
+        "prior_pull": -3.650514036819038,
+        "ci": [
+          -4.543638947468574,
+          -2.8052732561266054
+        ],
+        "n": 93,
+        "broken_on_pandas_rate": 0.5384615384615384,
+        "wrote_target_op_rate": 0.3225806451612903
+      },
+      "correct": {
+        "prior_pull": -7.758034802007072,
+        "ci": [
+          -9.193091926644351,
+          -6.393384082728392
+        ],
+        "n": 31,
+        "broken_on_pandas_rate": 0.12903225806451613,
+        "wrote_target_op_rate": 0.5483870967741935
+      },
+      "did_swapped_minus_no_prior": {
+        "value": 13.607373397297579,
+        "ci": [
+          11.976551421991163,
+          15.179253832749982
+        ]
+      }
+    }
+  },
+  "environment": {
+    "timestamp_utc": "2026-06-18T07:29:20.074368+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  },
+  "timestamp_utc": "2026-06-18T07:29:23.951907+00:00"
+}

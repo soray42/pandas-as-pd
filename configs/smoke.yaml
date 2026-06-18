@@ -1,6 +1,6 @@
-# Fast end-to-end smoke: ONE pair (numpy<->pandas), ONE small model on CPU, ~a few minutes.
-# Verifies the whole pipeline (generate -> score -> analyze) and prints the sanity checks
-# (swapped prior-pull > 0, generation/broken-call arms) without the multi-hour full run.
+# Fast end-to-end smoke: one pair (numpy/pandas), one small model on CPU, a few minutes.
+# Verifies the whole pipeline (generate -> score -> analyze) and prints the basic checks
+# (swapped prior-pull > 0, generation/broken-call arms) without the full run.
 # Downloads Qwen2.5-0.5B (~1 GB) on first run. Set device: cuda below for GPU.
 seed: 12345
 scoring_version: "1.1"

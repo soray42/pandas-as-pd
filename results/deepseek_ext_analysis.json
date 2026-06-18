@@ -1,0 +1,181 @@
+{
+  "n_aliases": 12,
+  "per_pair": {
+    "matplotlib.pyplot__pandas": {
+      "alias": "plt",
+      "dose": 7.579423427864958,
+      "p_swapped": 0.25,
+      "p_no_prior": 0.2916666666666667,
+      "p_conventional": 1.0,
+      "did": -0.041666666666666685
+    },
+    "networkx__numpy": {
+      "alias": "nx",
+      "dose": 5.909440711629391,
+      "p_swapped": 0.125,
+      "p_no_prior": 0.16666666666666666,
+      "p_conventional": 1.0,
+      "did": -0.04166666666666666
+    },
+    "numpy__pandas": {
+      "alias": "np",
+      "dose": 9.256794476348066,
+      "p_swapped": 1.0,
+      "p_no_prior": 0.20833333333333334,
+      "p_conventional": 1.0,
+      "did": 0.7916666666666666
+    },
+    "pandas__numpy": {
+      "alias": "pd",
+      "dose": 6.991636762962839,
+      "p_swapped": 0.875,
+      "p_no_prior": 0.041666666666666664,
+      "p_conventional": 1.0,
+      "did": 0.8333333333333334
+    },
+    "plotly.express__pandas": {
+      "alias": "px",
+      "dose": -0.6931471805599453,
+      "p_swapped": 0.0,
+      "p_no_prior": 0.2916666666666667,
+      "p_conventional": 1.0,
+      "did": -0.2916666666666667
+    },
+    "seaborn__pandas": {
+      "alias": "sns",
+      "dose": 4.269697449699962,
+      "p_swapped": 0.125,
+      "p_no_prior": 0.08333333333333333,
+      "p_conventional": 1.0,
+      "did": 0.04166666666666667
+    },
+    "sklearn__xgboost": {
+      "alias": "sk",
+      "dose": 1.252762968495368,
+      "p_swapped": 0.25,
+      "p_no_prior": 0.25,
+      "p_conventional": 1.0,
+      "did": 0.0
+    },
+    "sqlalchemy__pandas": {
+      "alias": "sa",
+      "dose": 6.046189446797229,
+      "p_swapped": 0.0,
+      "p_no_prior": 0.2916666666666667,
+      "p_conventional": 0.5,
+      "did": -0.2916666666666667
+    },
+    "statsmodels.api__numpy": {
+      "alias": "sm",
+      "dose": 4.212127597878484,
+      "p_swapped": 0.625,
+      "p_no_prior": 0.16666666666666666,
+      "p_conventional": 1.0,
+      "did": 0.45833333333333337
+    },
+    "sympy__numpy": {
+      "alias": "sym",
+      "dose": 0.9162907318741551,
+      "p_swapped": 0.0,
+      "p_no_prior": 0.125,
+      "p_conventional": 1.0,
+      "did": -0.125
+    },
+    "torch__sklearn": {
+      "alias": "torch",
+      "dose": 4.824305715904762,
+      "p_swapped": 0.25,
+      "p_no_prior": 0.125,
+      "p_conventional": 1.0,
+      "did": 0.125
+    },
+    "xgboost__sklearn": {
+      "alias": "xgb",
+      "dose": 2.2512917986064953,
+      "p_swapped": 0.25,
+      "p_no_prior": 0.3333333333333333,
+      "p_conventional": 1.0,
+      "did": -0.08333333333333331
+    }
+  },
+  "overall_did_mean": 0.11458333333333336,
+  "overall_did_ci": [
+    -0.07300347222222221,
+    0.3333333333333333
+  ],
+  "dose_response": {
+    "pearson_r": 0.5917269997545256,
+    "slope": 0.07521670403796549,
+    "slope_ci": [
+      0.0004409875028221046,
+      0.12398172999532132
+    ],
+    "frac_positive": 0.976
+  },
+  "salience": {
+    "per_pair": {
+      "matplotlib.pyplot__pandas": {
+        "alias": "plt",
+        "p_swapped_no_cue": 0.25,
+        "p_swapped_with_cue": 0.25
+      },
+      "networkx__numpy": {
+        "alias": "nx",
+        "p_swapped_no_cue": 0.125,
+        "p_swapped_with_cue": 0.0
+      },
+      "numpy__pandas": {
+        "alias": "np",
+        "p_swapped_no_cue": 1.0,
+        "p_swapped_with_cue": 0.75
+      },
+      "pandas__numpy": {
+        "alias": "pd",
+        "p_swapped_no_cue": 0.875,
+        "p_swapped_with_cue": 0.5
+      },
+      "plotly.express__pandas": {
+        "alias": "px",
+        "p_swapped_no_cue": 0.0,
+        "p_swapped_with_cue": 0.0
+      },
+      "seaborn__pandas": {
+        "alias": "sns",
+        "p_swapped_no_cue": 0.125,
+        "p_swapped_with_cue": 0.625
+      },
+      "sklearn__xgboost": {
+        "alias": "sk",
+        "p_swapped_no_cue": 0.25,
+        "p_swapped_with_cue": 0.125
+      },
+      "sqlalchemy__pandas": {
+        "alias": "sa",
+        "p_swapped_no_cue": 0.0,
+        "p_swapped_with_cue": 0.0
+      },
+      "statsmodels.api__numpy": {
+        "alias": "sm",
+        "p_swapped_no_cue": 0.625,
+        "p_swapped_with_cue": 1.0
+      },
+      "sympy__numpy": {
+        "alias": "sym",
+        "p_swapped_no_cue": 0.0,
+        "p_swapped_with_cue": 0.0
+      },
+      "torch__sklearn": {
+        "alias": "torch",
+        "p_swapped_no_cue": 0.25,
+        "p_swapped_with_cue": 0.25
+      },
+      "xgboost__sklearn": {
+        "alias": "xgb",
+        "p_swapped_no_cue": 0.25,
+        "p_swapped_with_cue": 0.0
+      }
+    },
+    "mean_no_cue": 0.3125,
+    "mean_with_cue": 0.2916666666666667
+  }
+}

@@ -3,12 +3,12 @@
 Produces a prompt that ENDS exactly at ``{alias}.`` (nothing after) plus a metadata row.
 The three binding conditions and the alias-safe, token-length-controlled neutral filler are
 constructed here. Distance is measured in **tokens, in context** (the marginal tokens the
-filler adds to the prompt under the model's own tokenizer), per the SCOPE.
+filler adds to the prompt under the model's own tokenizer).
 
 Conditions (for swap pair (prior_lib, other_lib), treatment alias = prior_lib's canonical alias):
   conventional : ``import {prior_lib} as {alias}``   bound == prior  (CEILING / positive control)
   swapped      : ``import {other_lib} as {alias}``   alias bound to the OTHER lib  (TREATMENT)
-  no_prior     : ``import {other_lib} as {rand}``    non-canonical alias, SAME lib as swapped
+  no_prior     : ``import {other_lib} as {rand}``    non-canonical alias, same lib as swapped
                                                      (GENERIC long-context-rot BASELINE)
 """
 
@@ -84,6 +84,23 @@ def _assert_identifier_safe() -> None:
 
 _assert_identifier_safe()
 
+# Pool of non-canonical "nonce" aliases for the no-prior control. None is a canonical alias and
+# none contains a library substring, so none carries a convention. Averaging the control over
+# several nonce aliases (rather than a single "zz") shows it is not an artifact of one token.
+# "zz" stays first so the single-alias default is unchanged.
+NONCE_ALIASES: tuple[str, ...] = ("zz", "qx", "vv")
+
+
+def _assert_nonce_safe() -> None:
+    canon = set(CANONICAL_ALIASES.values())
+    for a in NONCE_ALIASES:
+        assert a not in canon, f"nonce alias {a!r} is actually a canonical alias"
+        for bad in _FORBIDDEN_SUBSTRINGS:
+            assert bad not in a, f"nonce alias {a!r} contains forbidden substring {bad!r}"
+
+
+_assert_nonce_safe()
+
 
 @dataclass(frozen=True)
 class Stimulus:
@@ -115,7 +132,7 @@ def _statement(rng: random.Random) -> str:
 
 
 def _render(header: str, import_line: str, filler: str, alias: str) -> str:
-    """Assemble the prompt, ending EXACTLY at ``{alias}.`` (no trailing whitespace)."""
+    """Assemble the prompt, ending exactly at ``{alias}.`` (no trailing whitespace)."""
     if filler:
         body = f"{import_line}\n{filler}\n{alias}."
     else:
@@ -273,8 +290,8 @@ def build_stimulus(
 def reps_for_depth(depth_tokens: int, repetitions: int) -> int:
     """Number of repetitions for a depth bin.
 
-    At depth 0 there is no filler to vary, so reps would produce IDENTICAL prompts (the pilot's
-    depth-0 degeneracy that gave artificially narrow CIs). We therefore use a single rep at
+    At depth 0 there is no filler to vary, so extra reps would produce identical prompts and
+    artificially narrow CIs. We therefore use a single rep at
     depth 0; depths > 0 get genuine per-rep filler variation.
     """
     return 1 if int(depth_tokens) <= 0 else repetitions
@@ -306,6 +323,7 @@ def generate_grid(
     count_tokens: Callable[[str], int],
     seed: int,
     non_canonical_alias: str = "zz",
+    nonce_aliases=None,
     depth_tolerance_tokens: int = 24,
     deep_threshold=None,
     deep_templates=None,
@@ -315,6 +333,11 @@ def generate_grid(
 
     Depth 0 uses a single rep (no filler to vary); deep bins (>= deep_threshold) are thinned to
     deep_templates/deep_reps to keep the expensive long-context scoring tractable.
+
+    ``nonce_aliases`` (optional): when given, the no-prior condition is emitted once per nonce
+    alias (each with its own filler), so the control averages over several non-canonical aliases
+    rather than the single ``non_canonical_alias``. The other conditions are unaffected. Leaving
+    it ``None`` reproduces the original single-alias grid exactly.
     """
     for condition in conditions:
         for depth in depths_tokens:
@@ -323,14 +346,19 @@ def generate_grid(
             )
             for template_id in tmpls:
                 for rep in range(reps):
-                    yield build_stimulus(
-                        pair=pair,
-                        condition=condition,
-                        depth_tokens=int(depth),
-                        template_id=template_id,
-                        rep=rep,
-                        count_tokens=count_tokens,
-                        seed=seed,
-                        non_canonical_alias=non_canonical_alias,
-                        depth_tolerance_tokens=depth_tolerance_tokens,
-                    )
+                    if condition == "no_prior" and nonce_aliases:
+                        aliases = list(nonce_aliases)
+                    else:
+                        aliases = [non_canonical_alias]
+                    for nc_alias in aliases:
+                        yield build_stimulus(
+                            pair=pair,
+                            condition=condition,
+                            depth_tokens=int(depth),
+                            template_id=template_id,
+                            rep=rep,
+                            count_tokens=count_tokens,
+                            seed=seed,
+                            non_canonical_alias=nc_alias,
+                            depth_tolerance_tokens=depth_tolerance_tokens,
+                        )

@@ -1,0 +1,136 @@
+{
+  "model": "deepseek-v4-pro",
+  "modes": [
+    "nothink",
+    "think"
+  ],
+  "fingerprint": {
+    "probe_version": "1.0",
+    "backend": "deepseek_api",
+    "model": "deepseek-v4-pro",
+    "base_url": "https://api.deepseek.com"
+  },
+  "n_calls_live": 186,
+  "per_mode": {
+    "nothink": {
+      "correct": {
+        "n": 31,
+        "broken_on_pandas": 0.0,
+        "broken_ci": [
+          0.0,
+          0.0
+        ],
+        "wrote_target_op": 0.9354838709677419,
+        "wrote_target_ci": [
+          0.8387096774193549,
+          1.0
+        ],
+        "truncated": 1
+      },
+      "no_prior": {
+        "n": 31,
+        "broken_on_pandas": 0.0,
+        "broken_ci": [
+          0.0,
+          0.0
+        ],
+        "wrote_target_op": 0.9354838709677419,
+        "wrote_target_ci": [
+          0.8387096774193549,
+          1.0
+        ],
+        "truncated": 2
+      },
+      "swapped": {
+        "n": 31,
+        "broken_on_pandas": 0.3548387096774194,
+        "broken_ci": [
+          0.1935483870967742,
+          0.5161290322580645
+        ],
+        "wrote_target_op": 0.5161290322580645,
+        "wrote_target_ci": [
+          0.3225806451612903,
+          0.6774193548387096
+        ],
+        "truncated": 4
+      }
+    },
+    "think": {
+      "correct": {
+        "n": 31,
+        "broken_on_pandas": 0.0,
+        "broken_ci": [
+          0.0,
+          0.0
+        ],
+        "wrote_target_op": 0.9354838709677419,
+        "wrote_target_ci": [
+          0.8387096774193549,
+          1.0
+        ],
+        "truncated": 0
+      },
+      "no_prior": {
+        "n": 31,
+        "broken_on_pandas": 0.0,
+        "broken_ci": [
+          0.0,
+          0.0
+        ],
+        "wrote_target_op": 0.9032258064516129,
+        "wrote_target_ci": [
+          0.8064516129032258,
+          1.0
+        ],
+        "truncated": 0
+      },
+      "swapped": {
+        "n": 31,
+        "broken_on_pandas": 0.0,
+        "broken_ci": [
+          0.0,
+          0.0
+        ],
+        "wrote_target_op": 0.9032258064516129,
+        "wrote_target_ci": [
+          0.7741935483870968,
+          1.0
+        ],
+        "truncated": 0
+      }
+    }
+  },
+  "timestamp_utc": "2026-06-18T07:47:43.405783+00:00",
+  "environment": {
+    "timestamp_utc": "2026-06-18T07:47:43.781278+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "scenarios": [
+    {
+      "intent": "Load the daily store sales export into a table, treating the first row as the header and parsing the 'sale_date' column as dates.",
+      "setup": "sales_export = \"data/retail/daily_store_sales.csv\"\ndate_columns = [\"sale_date\"]",
+      "use_var": "sales",
+      "pandas_op": "read_csv",
+      "domain": "retail",
+      "scenario_id": "077f20c5967c"
+    },
+    {
+      "intent": "Read the 'Q3 Summary' worksheet from the quarterly financial workbook into a table for analysis.",
+      "setup": "workbook_path = \"reports/2025/quarterly_financials.xlsx\"\ntarget_sheet = \"Q3 Summary\"",
+      "use_var": "q3_summary",
+      "pandas_op": "read_excel",
+      "domain": "finance",
+      "scenario_id": "434e74e1f060"
+    },
+    {
+      "intent": "Load the compressed sensor telemetry parquet file recorded by the wind turbine fleet into a table.",
+      "setup": "telemetry_file = \"/mnt/datalake/turbines/telemetry_2025_06.parquet\"\ncolumns_wanted = [\"turbine_id\", \"timestamp\", \"rpm\", \"power_kw\"]",
+      "use_var": "telemetry",
+      "pandas_op": "read_parquet",
+      "domain": "energy",
+      "scenario_id": "170c80a949d3"
+    },
+    {
+      "intent": "Parse the newline-delimited JSON log of API requests, where each line is one request record, into a table.",
+      "setup": "log_file = \"logs/api_requests_2025-06-16.jsonl\"\nline_oriented = True",
+      "use_var": "requests_df",
+      "pandas_op": "read_json",
+      "domain": "web-ops",
+      "scenario_id": "1ba00c2bb1b5"
+    },
+    {
+      "intent": "Build a table directly from an in-memory list of patient visit records collected by the clinic intake form.",
+      "setup": "patient_visits = [\n    {\"patient_id\": 1042, \"age\": 57, \"department\": \"Cardiology\", \"wait_minutes\": 23},\n    {\"patient_id\": 1043, \"age\": 31, \"department\": \"Orthopedics\", \"wait_minutes\": 47},\n    {\"patient_id\": 1044, \"age\": 68, \"department\": \"Cardiology\", \"wait_minutes\": 12},\n]",
+      "use_var": "visits",
+      "pandas_op": "DataFrame",
+      "domain": "healthcare",
+      "scenario_id": "19ff166a5628"
+    },
+    {
+      "intent": "Read the tab-separated genome annotation export where columns are delimited by tabs and there is no header row.",
+      "setup": "annotation_file = \"genomics/gene_annotations.tsv\"\nfield_names = [\"chrom\", \"start\", \"end\", \"gene_name\", \"strand\"]",
+      "use_var": "annotations",
+      "pandas_op": "read_csv",
+      "domain": "genomics",
+      "scenario_id": "7c8d90cd5709"
+    },
+    {
+      "intent": "Build a small lookup table of currency exchange rates from parallel lists of currency codes and their rates against USD.",
+      "setup": "currency_codes = [\"EUR\", \"GBP\", \"JPY\", \"CHF\", \"CAD\"]\nrate_to_usd = [1.08, 1.27, 0.0064, 1.12, 0.74]\ntable_columns = {\"currency\": currency_codes, \"usd_rate\": rate_to_usd}",
+      "use_var": "fx_rates",
+      "pandas_op": "DataFrame",
+      "domain": "finance",
+      "scenario_id": "b974925df2db"
+    },
+    {
+      "intent": "Load the semicolon-delimited European municipal census file where the decimal separator is a comma, into a table.",
+      "setup": "census_file = \"eu_census/population_by_municipality.csv\"\nfield_separator = \";\"\ndecimal_mark = \",\"",
+      "use_var": "census",
+      "pandas_op": "read_csv",
+      "domain": "government",
+      "scenario_id": "c8e3d9ed7195"
+    },
+    {
+      "intent": "Group the sales records by region and compute total and average revenue per region.",
+      "setup": "sales = [{'region': 'North', 'product': 'A', 'revenue': 1200.0, 'units': 30}, {'region': 'South', 'product': 'B', 'revenue': 800.0, 'units': 12}, {'region': 'North', 'product': 'C', 'revenue': 450.0, 'units': 9}, {'region': 'South', 'product': 'A', 'revenue': 1500.0, 'units': 40}, {'region': 'West', 'product': 'B', 'revenue': 300.0, 'units': 5}]",
+      "use_var": "frame",
+      "pandas_op": "DataFrame",
+      "domain": "retail-sales",
+      "scenario_id": "2cf569d720f1"
+    },
+    {
+      "intent": "Load the daily sensor readings from a CSV so they can be grouped by station and summarized.",
+      "setup": "readings_path = '/data/iot/station_readings_2026q1.csv'",
+      "use_var": "readings",
+      "pandas_op": "read_csv",
+      "domain": "iot-sensors",
+      "scenario_id": "a79352f2b45b"
+    },
+    {
+      "intent": "Build a region-by-quarter table of mean quarterly profit from the transaction log.",
+      "setup": "transactions = [{'region': 'EU', 'quarter': 'Q1', 'profit': 120}, {'region': 'EU', 'quarter': 'Q2', 'profit': 90}, {'region': 'US', 'quarter': 'Q1', 'profit': 200}, {'region': 'US', 'quarter': 'Q2', 'profit': 230}, {'region': 'EU', 'quarter': 'Q1', 'profit': 80}, {'region': 'US', 'quarter': 'Q2', 'profit': 210}]\nledger = transactions",
+      "use_var": "quarterly_profit",
+      "pandas_op": "pivot_table",
+      "domain": "finance",
+      "scenario_id": "8866d9cd47f9"
+    },
+    {
+      "intent": "Cross-tabulate the number of support tickets by team and priority level.",
+      "setup": "tickets = [{'team': 'Billing', 'priority': 'High'}, {'team': 'Billing', 'priority': 'Low'}, {'team': 'Tech', 'priority': 'High'}, {'team': 'Tech', 'priority': 'High'}, {'team': 'Tech', 'priority': 'Medium'}, {'team': 'Billing', 'priority': 'High'}]\nticket_team = [t['team'] for t in tickets]\nticket_priority = [t['priority'] for t in tickets]",
+      "use_var": "ticket_matrix",
+      "pandas_op": "crosstab",
+      "domain": "customer-support",
+      "scenario_id": "dd7647e26181"
+    },
+    {
+      "intent": "Read the monthly store-level Excel report so revenue can be aggregated per store manager.",
+      "setup": "report_file = '/reports/2026/may_store_performance.xlsx'",
+      "use_var": "store_report",
+      "pandas_op": "read_excel",
+      "domain": "retail-ops",
+      "scenario_id": "7777734cd13e"
+    },
+    {
+      "intent": "Combine this quarter's and last quarter's order records into one frame before grouping by customer.",
+      "setup": "q1_orders = current_quarter_orders\nq2_orders = previous_quarter_orders",
+      "use_var": "all_orders",
+      "pandas_op": "concat",
+      "domain": "e-commerce",
+      "scenario_id": "8a17a7d44d3a"
+    },
+    {
+      "intent": "Produce a contingency table counting how many survey respondents fall into each combination of education level and voting preference.",
+      "setup": "education = [\"HS\", \"College\", \"College\", \"Graduate\", \"HS\", \"Graduate\", \"College\", \"HS\"]\nvote = [\"A\", \"B\", \"A\", \"B\", \"A\", \"A\", \"B\", \"B\"]",
+      "use_var": "edu_vote_table",
+      "pandas_op": "crosstab",
+      "domain": "survey",
+      "scenario_id": "7b23beb1cb85"
+    },
+    {
+      "intent": "Cross-tabulate patients by treatment arm and outcome, showing row and column totals for the trial report.",
+      "setup": "treatment_arm = [\"placebo\", \"drug\", \"drug\", \"placebo\", \"drug\", \"placebo\", \"drug\", \"placebo\"]\noutcome = [\"no_response\", \"response\", \"response\", \"response\", \"no_response\", \"no_response\", \"response\", \"response\"]",
+      "use_var": "trial_summary",
+      "pandas_op": "crosstab",
+      "domain": "clinical",
+      "scenario_id": "a038f52f0dde"
+    },
+    {
+      "intent": "Parse the raw US-style order timestamps (month/day/year) into proper datetime values for downstream sorting.",
+      "setup": "raw_order_dates = ['03/14/2024', '03/15/2024', '04/02/2024', '04/02/2024', '05/19/2024']\ndate_format = '%m/%d/%Y'",
+      "use_var": "parsed_order_dates",
+      "pandas_op": "to_datetime",
+      "domain": "ecommerce",
+      "scenario_id": "a0e863b99675"
+    },
+    {
+      "intent": "Build a daily index of calendar days for January 2025 to use as a reindexing backbone for a sensor log.",
+      "setup": "month_start = '2025-01-01'\ndays_in_month = 31",
+      "use_var": "january_index",
+      "pandas_op": "date_range",
+      "domain": "iot-sensors",
+      "scenario_id": "967262e0221b"
+    },
+    {
+      "intent": "Convert Unix epoch-second timestamps from server access logs into human-readable datetimes.",
+      "setup": "epoch_seconds = [1704067200, 1704070800, 1704074400, 1704078000]",
+      "use_var": "log_times",
+      "pandas_op": "to_datetime",
+      "domain": "web-analytics",
+      "scenario_id": "263d0d58aed5"
+    },
+    {
+      "intent": "Generate the sequence of business days for a two-week trading window starting on a Monday to align stock fills.",
+      "setup": "trading_start = '2024-09-02'\nnum_business_days = 10",
+      "use_var": "trading_days",
+      "pandas_op": "date_range",
+      "domain": "finance",
+      "scenario_id": "aa7b79d942ea"
+    },
+    {
+      "intent": "Create month-start timestamps for every month of 2023 to serve as labels for a monthly revenue report.",
+      "setup": "report_year_start = '2023-01-01'\nreport_year_end = '2023-12-31'",
+      "use_var": "month_labels",
+      "pandas_op": "date_range",
+      "domain": "saas-reporting",
+      "scenario_id": "26ca61935690"
+    },
+    {
+      "intent": "Parse European day-first delivery dates from a shipping spreadsheet into datetimes, returning NaT for any unparseable entry.",
+      "setup": "delivery_strings = ['25-12-2023', '03-01-2024', 'not available', '17-06-2024']",
+      "use_var": "delivery_dates",
+      "pandas_op": "to_datetime",
+      "domain": "logistics",
+      "scenario_id": "a6f9de51af66"
+    },
+    {
+      "intent": "Build a 15-minute interval timeline covering one operating hour from 09:30 to generate slots for a smart-meter reading schedule.",
+      "setup": "session_start = '2024-06-01 09:30'\nslot_count = 4",
+      "use_var": "meter_slots",
+      "pandas_op": "date_range",
+      "domain": "energy-metering",
+      "scenario_id": "55ad6dc8d2c4"
+    },
+    {
+      "intent": "Build a DataFrame from a list of dicts of raw sensor readings so the duplicate rows can be dropped next.",
+      "setup": "sensor_logs = [\n    {\"station\": \"A1\", \"temp_c\": 21.4, \"recorded_at\": \"08:00\"},\n    {\"station\": \"A1\", \"temp_c\": 21.4, \"recorded_at\": \"08:00\"},\n    {\"station\": \"B2\", \"temp_c\": 19.8, \"recorded_at\": \"08:05\"},\n]",
+      "use_var": "readings",
+      "pandas_op": "DataFrame",
+      "domain": "iot-sensors",
+      "scenario_id": "a501ef364d3e"
+    },
+    {
+      "intent": "Load the customer export CSV that uses a semicolon delimiter into a DataFrame for cleaning.",
+      "setup": "export_path = \"data/raw/customers_2025_q1.csv\"\nsep_char = \";\"",
+      "use_var": "customers",
+      "pandas_op": "read_csv",
+      "domain": "crm",
+      "scenario_id": "e808952f8dcd"
+    },
+    {
+      "intent": "Convert the messy string transaction timestamps into proper datetime values, coercing unparseable entries to missing.",
+      "setup": "raw_timestamps = [\"2024-03-01 14:22\", \"2024/03/02 09:10\", \"not recorded\", \"2024-03-03 18:45\"]",
+      "use_var": "parsed_times",
+      "pandas_op": "to_datetime",
+      "domain": "finance-transactions",
+      "scenario_id": "7dcc120dadf9"
+    },
+    {
+      "intent": "Encode the free-text product category column into integer codes plus a unique label index for compact storage.",
+      "setup": "product_categories = [\"beverages\", \"snacks\", \"beverages\", \"household\", \"snacks\", \"beverages\"]",
+      "use_var": "category_codes",
+      "pandas_op": "factorize",
+      "domain": "retail-inventory",
+      "scenario_id": "ea3afc0aadae"
+    },
+    {
+      "intent": "Bin the patient ages into clinical age brackets with explicit cut points and readable labels.",
+      "setup": "patient_ages = [3, 17, 24, 41, 63, 78, 9, 55]\nbracket_edges = [0, 12, 18, 35, 50, 65, 120]\nbracket_names = [\"child\", \"teen\", \"young_adult\", \"adult\", \"middle_age\", \"senior\"]",
+      "use_var": "age_groups",
+      "pandas_op": "cut",
+      "domain": "healthcare",
+      "scenario_id": "dd7f0d2ba016"
+    },
+    {
+      "intent": "Split household incomes into four equal-frequency quartile buckets for fair distribution analysis.",
+      "setup": "household_incomes = [28000, 45500, 51200, 67000, 89000, 102000, 33000, 75000, 120000, 41000]",
+      "use_var": "income_quartiles",
+      "pandas_op": "qcut",
+      "domain": "socioeconomics",
+      "scenario_id": "b9e57ec5116e"
+    },
+    {
+      "intent": "Read the warehouse inventory snapshot from a Parquet file so the dtypes can be normalized afterward.",
+      "setup": "snapshot_file = \"warehouse/snapshots/2025-06-01_inventory.parquet\"",
+      "use_var": "inventory",
+      "pandas_op": "read_parquet",
+      "domain": "supply-chain",
+      "scenario_id": "2391a3166f7f"
+    },
+    {
+      "intent": "Load the nested API response of survey answers from a JSON file into a flat DataFrame for deduplication.",
+      "setup": "survey_dump = \"exports/survey_responses_latest.json\"",
+      "use_var": "responses",
+      "pandas_op": "read_json",
+      "domain": "market-research",
+      "scenario_id": "6e0e550010b7"
+    }
+  ],
+  "dropped": [
+    {
+      "intent": "Combine order records with the customer master table so each order row also carries the customer's name and city, keeping only orders that have a matching customer.",
+      "setup": "orders = DataFrame([{'order_id': 5001, 'customer_id': 7, 'amount': 249.0}, {'order_id': 5002, 'customer_id': 3, 'amount': 89.5}, {'order_id': 5003, 'customer_id': 7, 'amount': 19.99}])\ncustomers = DataFrame([{'customer_id': 3, 'name': 'Lena Ortiz', 'city': 'Austin'}, {'customer_id': 7, 'name': 'Hiro Tanaka', 'city': 'Seattle'}])",
+      "use_var": "orders_enriched",
+      "pandas_op": "merge",
+      "domain": "e-commerce"
+    },
+    {
+      "intent": "Attach each employee's department name by joining the employee table to the department lookup on the shared department id.",
+      "setup": "employees = DataFrame([{'emp_id': 'E01', 'full_name': 'Priya Nair', 'dept_code': 'FIN'}, {'emp_id': 'E02', 'full_name': 'Marco Reyes', 'dept_code': 'ENG'}, {'emp_id': 'E03', 'full_name': 'Aisha Bello', 'dept_code': 'ENG'}])\ndepartments = DataFrame([{'dept_code': 'FIN', 'dept_name': 'Finance'}, {'dept_code': 'ENG', 'dept_name': 'Engineering'}, {'dept_code': 'HR', 'dept_name': 'Human Resources'}])",
+      "use_var": "staff_with_dept",
+      "pandas_op": "merge",
+      "domain": "hr"
+    },
+    {
+      "intent": "Produce a full outer join of two monthly inventory snapshots keyed on SKU so that products present in only one month are still retained.",
+      "setup": "march_stock = DataFrame([{'sku': 'A100', 'qty_march': 40}, {'sku': 'A200', 'qty_march': 12}, {'sku': 'A300', 'qty_march': 0}])\napril_stock = DataFrame([{'sku': 'A200', 'qty_april': 8}, {'sku': 'A300', 'qty_april': 25}, {'sku': 'A400', 'qty_april': 60}])",
+      "use_var": "stock_compare",
+      "pandas_op": "merge",
+      "domain": "inventory"
+    },
+    {
+      "intent": "Join trades to a security reference table where the key column has different names in each frame (ticker vs symbol) to attach the asset class to every trade.",
+      "setup": "trades = DataFrame([{'trade_id': 901, 'ticker': 'AAPL', 'shares': 100}, {'trade_id': 902, 'ticker': 'TLT', 'shares': 50}, {'trade_id': 903, 'ticker': 'AAPL', 'shares': 25}])\nsecurities = DataFrame([{'symbol': 'AAPL', 'asset_class': 'Equity'}, {'symbol': 'TLT', 'asset_class': 'Bond ETF'}])",
+      "use_var": "trades_classified",
+      "pandas_op": "merge",
+      "domain": "finance"
+    },
+    {
+      "intent": "Left-join patient encounters to lab results on both patient id and visit date so every encounter keeps its row even when no lab was drawn that day.",
+      "setup": "encounters = DataFrame([{'patient_id': 'P7', 'visit_date': '2026-01-05', 'reason': 'checkup'}, {'patient_id': 'P7', 'visit_date': '2026-02-10', 'reason': 'follow-up'}, {'patient_id': 'P9', 'visit_date': '2026-01-05', 'reason': 'fever'}])\nlabs = DataFrame([{'patient_id': 'P7', 'visit_date': '2026-01-05', 'glucose': 95}, {'patient_id': 'P9', 'visit_date': '2026-01-05', 'glucose': 110}])",
+      "use_var": "encounters_with_labs",
+      "pandas_op": "merge",
+      "domain": "healthcare"
+    },
+    {
+      "intent": "Enrich each shipment with its destination warehouse details by joining on the warehouse code while suffixing overlapping region columns from both tables.",
+      "setup": "shipments = DataFrame([{'shipment_id': 'S1', 'wh_code': 'W-EAST', 'region': 'NE'}, {'shipment_id': 'S2', 'wh_code': 'W-WEST', 'region': 'SW'}])\nwarehouses = DataFrame([{'wh_code': 'W-EAST', 'capacity': 5000, 'region': 'Northeast'}, {'wh_code': 'W-WEST', 'capacity': 8000, 'region': 'Southwest'}])",
+      "use_var": "shipments_detailed",
+      "pandas_op": "merge",
+      "domain": "logistics"
+    },
+    {
+      "intent": "Build a cross join of every available time slot with every meeting room to enumerate all candidate booking combinations.",
+      "setup": "time_slots = DataFrame([{'slot': '09:00'}, {'slot': '10:00'}, {'slot': '11:00'}])\nrooms = DataFrame([{'room': 'Aspen'}, {'room': 'Birch'}])",
+      "use_var": "candidate_bookings",
+      "pandas_op": "merge",
+      "domain": "scheduling"
+    },
+    {
+      "intent": "Build a wide summary showing average sale price for each region across every product category, filling missing combinations with zero.",
+      "setup": "sales_records = [\n    {\"region\": \"North\", \"category\": \"Electronics\", \"price\": 320.0},\n    {\"region\": \"North\", \"category\": \"Furniture\", \"price\": 540.0},\n    {\"region\": \"South\", \"category\": \"Electronics\", \"price\": 280.0},\n    {\"region\": \"South\", \"category\": \"Garden\", \"price\": 95.0},\n    {\"region\": \"West\", \"category\": \"Furniture\", \"price\": 610.0},\n]\nsales = DataFrame(sales_records)",
+      "use_var": "region_category_avg",
+      "pandas_op": "pivot_table",
+      "domain": "retail"
+    },
+    {
+      "intent": "Convert a wide quarterly revenue table into long format with one row per company-quarter pair.",
+      "setup": "quarterly = DataFrame([\n    {\"company\": \"Acme\", \"Q1\": 120, \"Q2\": 135, \"Q3\": 150, \"Q4\": 160},\n    {\"company\": \"Globex\", \"Q1\": 90, \"Q2\": 88, \"Q3\": 102, \"Q4\": 110},\n    {\"company\": \"Initech\", \"Q1\": 200, \"Q2\": 210, \"Q3\": 195, \"Q4\": 230},\n])",
+      "use_var": "revenue_long",
+      "pandas_op": "melt",
+      "domain": "finance"
+    },
+    {
+      "intent": "One-hot encode the categorical fuel-type column of a used-car dataset so it can be fed to a model.",
+      "setup": "listings = DataFrame({\n    \"car_id\": [101, 102, 103, 104, 105],\n    \"fuel_type\": [\"gasoline\", \"diesel\", \"electric\", \"gasoline\", \"hybrid\"],\n    \"mileage_k\": [45, 88, 12, 67, 30],\n})",
+      "use_var": "encoded_listings",
+      "pandas_op": "get_dummies",
+      "domain": "automotive"
+    },
+    {
+      "intent": "Create a pivot summarizing total units shipped for each warehouse by month, with warehouses as rows and months as columns.",
+      "setup": "shipments = [\n    {\"warehouse\": \"WH-A\", \"month\": \"Jan\", \"units\": 500},\n    {\"warehouse\": \"WH-A\", \"month\": \"Feb\", \"units\": 620},\n    {\"warehouse\": \"WH-B\", \"month\": \"Jan\", \"units\": 410},\n    {\"warehouse\": \"WH-B\", \"month\": \"Feb\", \"units\": 380},\n    {\"warehouse\": \"WH-A\", \"month\": \"Jan\", \"units\": 150},\n]\nshipment_log = DataFrame(shipments)",
+      "use_var": "units_by_warehouse_month",
+      "pandas_op": "pivot_table",
+      "domain": "logistics"
+    },
+    {
+      "intent": "Reshape a sensor reading table so each measurement type (temperature, humidity, pressure) becomes its own row keyed by timestamp.",
+      "setup": "sensor_wide = DataFrame([\n    {\"timestamp\": \"2026-01-01T08:00\", \"temperature\": 21.4, \"humidity\": 55.0, \"pressure\": 1012.3},\n    {\"timestamp\": \"2026-01-01T09:00\", \"temperature\": 22.1, \"humidity\": 53.5, \"pressure\": 1011.8},\n])",
+      "use_var": "sensor_long",
+      "pandas_op": "melt",
+      "domain": "iot"
+    },
+    {
+      "intent": "Expand the genre column of a movie catalog into separate binary indicator columns, one per genre.",
+      "setup": "catalog = DataFrame({\n    \"title\": [\"Skyfall\", \"Coco\", \"Inception\", \"Up\"],\n    \"primary_genre\": [\"action\", \"animation\", \"scifi\", \"animation\"],\n})\ngenre_series = catalog[\"primary_genre\"]",
+      "use_var": "genre_indicators",
+      "pandas_op": "get_dummies",
+      "domain": "media"
+    },
+    {
+      "intent": "Assemble a single datetime column from separate year, month, and day columns of patient admission records.",
+      "setup": "admissions = {'year': [2022, 2022, 2023, 2023], 'month': [1, 11, 3, 8], 'day': [5, 30, 12, 21]}\nadmission_frame = DataFrame(admissions)",
+      "use_var": "admission_datetimes",
+      "pandas_op": "to_datetime",
+      "domain": "healthcare"
+    }
+  ]
+}

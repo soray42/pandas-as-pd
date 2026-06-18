@@ -162,3 +162,50 @@ def test_rejects_canonical_non_canonical_alias(fake_tokenizer):
             pair=PAIR, condition="no_prior", depth_tokens=0, template_id="t1", rep=0,
             count_tokens=fake_tokenizer, seed=SEED, non_canonical_alias="pd",  # pd IS canonical
         )
+
+
+def test_nonce_aliases_are_non_canonical():
+    from alias_inertia.lexicons import CANONICAL_ALIASES
+    from alias_inertia.stimuli import NONCE_ALIASES
+
+    canon = set(CANONICAL_ALIASES.values())
+    assert len(NONCE_ALIASES) >= 2
+    for a in NONCE_ALIASES:
+        assert a not in canon  # a nonce alias must carry no convention
+
+
+def test_nonce_aliases_expand_only_no_prior(fake_tokenizer):
+    from alias_inertia.stimuli import NONCE_ALIASES
+
+    stimuli = list(
+        generate_grid(
+            pair=PAIR,
+            conditions=["conventional", "swapped", "no_prior"],
+            depths_tokens=[0],
+            templates=["t1"],
+            repetitions=1,
+            count_tokens=fake_tokenizer,
+            seed=SEED,
+            nonce_aliases=NONCE_ALIASES,
+        )
+    )
+    by_cond = {}
+    for s in stimuli:
+        by_cond.setdefault(s.meta["condition"], []).append(s.meta["alias"])
+    # conventional / swapped keep the single treatment alias; no_prior fans out over the nonces
+    assert by_cond["conventional"] == ["np"]
+    assert by_cond["swapped"] == ["np"]
+    assert sorted(by_cond["no_prior"]) == sorted(NONCE_ALIASES)
+    assert len({s.meta["stimulus_id"] for s in stimuli}) == len(stimuli)
+
+
+def test_nonce_aliases_default_is_backward_compatible(fake_tokenizer):
+    common = dict(
+        pair=PAIR, conditions=["conventional", "swapped", "no_prior"],
+        depths_tokens=[0, 128], templates=["t1", "t2"], repetitions=2,
+        count_tokens=fake_tokenizer, seed=SEED,
+    )
+    base = list(generate_grid(**common))
+    single = list(generate_grid(**common, nonce_aliases=["zz"]))
+    # passing the single default alias must reproduce the original grid byte-for-byte
+    assert [s.meta["prompt_sha256"] for s in base] == [s.meta["prompt_sha256"] for s in single]

@@ -122,7 +122,7 @@ class HFBackend(Backend):
         """Forward and return logits for only the last ``keep`` positions ([keep, V]).
 
         Uses ``logits_to_keep`` (transformers v5) / ``num_logits_to_keep`` (v4) so a long-context
-        forward does NOT materialise a [seq_len, vocab] logits tensor (which OOMs at 8k/32k).
+        forward does not materialise a [seq_len, vocab] logits tensor (which OOMs at 8k/32k).
         Falls back to full logits when the model does not support the argument.
         """
         for kw in ("logits_to_keep", "num_logits_to_keep"):

@@ -1,0 +1,793 @@
+{
+  "n_continuations": 70,
+  "all_resolve": false,
+  "tokenizer": "tiktoken/cl100k_base",
+  "per_library": {
+    "numpy": {
+      "alias": "np",
+      "version": "2.2.6",
+      "n": 6,
+      "mean_token_len": 1.0,
+      "all_resolve": true
+    },
+    "pandas": {
+      "alias": "pd",
+      "version": "3.0.1",
+      "n": 6,
+      "mean_token_len": 1.17,
+      "all_resolve": false
+    },
+    "torch": {
+      "alias": "torch",
+      "version": "2.12.0.dev20260405+cu128",
+      "n": 6,
+      "mean_token_len": 1.33,
+      "all_resolve": true
+    },
+    "sklearn": {
+      "alias": "sk",
+      "version": "1.8.0",
+      "n": 6,
+      "mean_token_len": 1.5,
+      "all_resolve": true
+    },
+    "xgboost": {
+      "alias": "xgb",
+      "version": "3.2.0",
+      "n": 6,
+      "mean_token_len": 2.17,
+      "all_resolve": true
+    },
+    "matplotlib.pyplot": {
+      "alias": "plt",
+      "version": "3.10.8",
+      "n": 6,
+      "mean_token_len": 1.0,
+      "all_resolve": true
+    },
+    "seaborn": {
+      "alias": "sns",
+      "version": "0.13.2",
+      "n": 6,
+      "mean_token_len": 2.5,
+      "all_resolve": true
+    },
+    "networkx": {
+      "alias": "nx",
+      "version": "3.6.1",
+      "n": 6,
+      "mean_token_len": 2.83,
+      "all_resolve": true
+    },
+    "statsmodels.api": {
+      "alias": "sm",
+      "version": "0.14.6",
+      "n": 5,
+      "mean_token_len": 2.0,
+      "all_resolve": true
+    },
+    "sqlalchemy": {
+      "alias": "sa",
+      "version": "2.0.45",
+      "n": 5,
+      "mean_token_len": 1.4,
+      "all_resolve": true
+    },
+    "sympy": {
+      "alias": "sym",
+      "version": "1.14.0",
+      "n": 6,
+      "mean_token_len": 1.5,
+      "all_resolve": true
+    },
+    "plotly.express": {
+      "alias": "px",
+      "version": "6.3.1",
+      "n": 6,
+      "mean_token_len": 2.83,
+      "all_resolve": true
+    }
+  },
+  "rows": [
+    {
+      "library": "numpy",
+      "alias": "np",
+      "module": "numpy",
+      "continuation": "array(",
+      "attribute": "array",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.2.6"
+    },
+    {
+      "library": "numpy",
+      "alias": "np",
+      "module": "numpy",
+      "continuation": "arange(",
+      "attribute": "arange",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.2.6"
+    },
+    {
+      "library": "numpy",
+      "alias": "np",
+      "module": "numpy",
+      "continuation": "zeros(",
+      "attribute": "zeros",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.2.6"
+    },
+    {
+      "library": "numpy",
+      "alias": "np",
+      "module": "numpy",
+      "continuation": "linspace(",
+      "attribute": "linspace",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.2.6"
+    },
+    {
+      "library": "numpy",
+      "alias": "np",
+      "module": "numpy",
+      "continuation": "dot(",
+      "attribute": "dot",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.2.6"
+    },
+    {
+      "library": "numpy",
+      "alias": "np",
+      "module": "numpy",
+      "continuation": "ndarray",
+      "attribute": "ndarray",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.2.6"
+    },
+    {
+      "library": "pandas",
+      "alias": "pd",
+      "module": "pandas",
+      "continuation": "DataFrame(",
+      "attribute": "DataFrame",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.0.1"
+    },
+    {
+      "library": "pandas",
+      "alias": "pd",
+      "module": "pandas",
+      "continuation": "read_csv(",
+      "attribute": "read_csv",
+      "resolves": true,
+      "token_len": 2,
+      "version": "3.0.1"
+    },
+    {
+      "library": "pandas",
+      "alias": "pd",
+      "module": "pandas",
+      "continuation": "concat(",
+      "attribute": "concat",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.0.1"
+    },
+    {
+      "library": "pandas",
+      "alias": "pd",
+      "module": "pandas",
+      "continuation": "Series(",
+      "attribute": "Series",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.0.1"
+    },
+    {
+      "library": "pandas",
+      "alias": "pd",
+      "module": "pandas",
+      "continuation": "merge(",
+      "attribute": "merge",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.0.1"
+    },
+    {
+      "library": "pandas",
+      "alias": "pd",
+      "module": "pandas",
+      "continuation": "groupby(",
+      "attribute": "groupby",
+      "resolves": false,
+      "token_len": 1,
+      "version": "3.0.1"
+    },
+    {
+      "library": "torch",
+      "alias": "torch",
+      "module": "torch",
+      "continuation": "tensor(",
+      "attribute": "tensor",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.12.0.dev20260405+cu128"
+    },
+    {
+      "library": "torch",
+      "alias": "torch",
+      "module": "torch",
+      "continuation": "randn(",
+      "attribute": "randn",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.12.0.dev20260405+cu128"
+    },
+    {
+      "library": "torch",
+      "alias": "torch",
+      "module": "torch",
+      "continuation": "from_numpy(",
+      "attribute": "from_numpy",
+      "resolves": true,
+      "token_len": 2,
+      "version": "2.12.0.dev20260405+cu128"
+    },
+    {
+      "library": "torch",
+      "alias": "torch",
+      "module": "torch",
+      "continuation": "nn.",
+      "attribute": "nn",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.12.0.dev20260405+cu128"
+    },
+    {
+      "library": "torch",
+      "alias": "torch",
+      "module": "torch",
+      "continuation": "cuda.",
+      "attribute": "cuda",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.12.0.dev20260405+cu128"
+    },
+    {
+      "library": "torch",
+      "alias": "torch",
+      "module": "torch",
+      "continuation": "autograd.",
+      "attribute": "autograd",
+      "resolves": true,
+      "token_len": 2,
+      "version": "2.12.0.dev20260405+cu128"
+    },
+    {
+      "library": "sklearn",
+      "alias": "sk",
+      "module": "sklearn",
+      "continuation": "linear_model.",
+      "attribute": "linear_model",
+      "resolves": true,
+      "token_len": 2,
+      "version": "1.8.0"
+    },
+    {
+      "library": "sklearn",
+      "alias": "sk",
+      "module": "sklearn",
+      "continuation": "datasets.",
+      "attribute": "datasets",
+      "resolves": true,
+      "token_len": 1,
+      "version": "1.8.0"
+    },
+    {
+      "library": "sklearn",
+      "alias": "sk",
+      "module": "sklearn",
+      "continuation": "preprocessing.",
+      "attribute": "preprocessing",
+      "resolves": true,
+      "token_len": 1,
+      "version": "1.8.0"
+    },
+    {
+      "library": "sklearn",
+      "alias": "sk",
+      "module": "sklearn",
+      "continuation": "model_selection.",
+      "attribute": "model_selection",
+      "resolves": true,
+      "token_len": 2,
+      "version": "1.8.0"
+    },
+    {
+      "library": "sklearn",
+      "alias": "sk",
+      "module": "sklearn",
+      "continuation": "cluster.",
+      "attribute": "cluster",
+      "resolves": true,
+      "token_len": 1,
+      "version": "1.8.0"
+    },
+    {
+      "library": "sklearn",
+      "alias": "sk",
+      "module": "sklearn",
+      "continuation": "ensemble.",
+      "attribute": "ensemble",
+      "resolves": true,
+      "token_len": 2,
+      "version": "1.8.0"
+    },
+    {
+      "library": "xgboost",
+      "alias": "xgb",
+      "module": "xgboost",
+      "continuation": "XGBClassifier(",
+      "attribute": "XGBClassifier",
+      "resolves": true,
+      "token_len": 3,
+      "version": "3.2.0"
+    },
+    {
+      "library": "xgboost",
+      "alias": "xgb",
+      "module": "xgboost",
+      "continuation": "XGBRegressor(",
+      "attribute": "XGBRegressor",
+      "resolves": true,
+      "token_len": 3,
+      "version": "3.2.0"
+    },
+    {
+      "library": "xgboost",
+      "alias": "xgb",
+      "module": "xgboost",
+      "continuation": "DMatrix(",
+      "attribute": "DMatrix",
+      "resolves": true,
+      "token_len": 2,
+      "version": "3.2.0"
+    },
+    {
+      "library": "xgboost",
+      "alias": "xgb",
+      "module": "xgboost",
+      "continuation": "Booster(",
+      "attribute": "Booster",
+      "resolves": true,
+      "token_len": 3,
+      "version": "3.2.0"
+    },
+    {
+      "library": "xgboost",
+      "alias": "xgb",
+      "module": "xgboost",
+      "continuation": "train(",
+      "attribute": "train",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.2.0"
+    },
+    {
+      "library": "xgboost",
+      "alias": "xgb",
+      "module": "xgboost",
+      "continuation": "cv(",
+      "attribute": "cv",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.2.0"
+    },
+    {
+      "library": "matplotlib.pyplot",
+      "alias": "plt",
+      "module": "matplotlib.pyplot",
+      "continuation": "plot(",
+      "attribute": "plot",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.10.8"
+    },
+    {
+      "library": "matplotlib.pyplot",
+      "alias": "plt",
+      "module": "matplotlib.pyplot",
+      "continuation": "scatter(",
+      "attribute": "scatter",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.10.8"
+    },
+    {
+      "library": "matplotlib.pyplot",
+      "alias": "plt",
+      "module": "matplotlib.pyplot",
+      "continuation": "figure(",
+      "attribute": "figure",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.10.8"
+    },
+    {
+      "library": "matplotlib.pyplot",
+      "alias": "plt",
+      "module": "matplotlib.pyplot",
+      "continuation": "xlabel(",
+      "attribute": "xlabel",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.10.8"
+    },
+    {
+      "library": "matplotlib.pyplot",
+      "alias": "plt",
+      "module": "matplotlib.pyplot",
+      "continuation": "subplots(",
+      "attribute": "subplots",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.10.8"
+    },
+    {
+      "library": "matplotlib.pyplot",
+      "alias": "plt",
+      "module": "matplotlib.pyplot",
+      "continuation": "hist(",
+      "attribute": "hist",
+      "resolves": true,
+      "token_len": 1,
+      "version": "3.10.8"
+    },
+    {
+      "library": "seaborn",
+      "alias": "sns",
+      "module": "seaborn",
+      "continuation": "heatmap(",
+      "attribute": "heatmap",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.13.2"
+    },
+    {
+      "library": "seaborn",
+      "alias": "sns",
+      "module": "seaborn",
+      "continuation": "scatterplot(",
+      "attribute": "scatterplot",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.13.2"
+    },
+    {
+      "library": "seaborn",
+      "alias": "sns",
+      "module": "seaborn",
+      "continuation": "lineplot(",
+      "attribute": "lineplot",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.13.2"
+    },
+    {
+      "library": "seaborn",
+      "alias": "sns",
+      "module": "seaborn",
+      "continuation": "pairplot(",
+      "attribute": "pairplot",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.13.2"
+    },
+    {
+      "library": "seaborn",
+      "alias": "sns",
+      "module": "seaborn",
+      "continuation": "kdeplot(",
+      "attribute": "kdeplot",
+      "resolves": true,
+      "token_len": 3,
+      "version": "0.13.2"
+    },
+    {
+      "library": "seaborn",
+      "alias": "sns",
+      "module": "seaborn",
+      "continuation": "violinplot(",
+      "attribute": "violinplot",
+      "resolves": true,
+      "token_len": 4,
+      "version": "0.13.2"
+    },
+    {
+      "library": "networkx",
+      "alias": "nx",
+      "module": "networkx",
+      "continuation": "DiGraph(",
+      "attribute": "DiGraph",
+      "resolves": true,
+      "token_len": 2,
+      "version": "3.6.1"
+    },
+    {
+      "library": "networkx",
+      "alias": "nx",
+      "module": "networkx",
+      "continuation": "shortest_path(",
+      "attribute": "shortest_path",
+      "resolves": true,
+      "token_len": 3,
+      "version": "3.6.1"
+    },
+    {
+      "library": "networkx",
+      "alias": "nx",
+      "module": "networkx",
+      "continuation": "pagerank(",
+      "attribute": "pagerank",
+      "resolves": true,
+      "token_len": 3,
+      "version": "3.6.1"
+    },
+    {
+      "library": "networkx",
+      "alias": "nx",
+      "module": "networkx",
+      "continuation": "connected_components(",
+      "attribute": "connected_components",
+      "resolves": true,
+      "token_len": 2,
+      "version": "3.6.1"
+    },
+    {
+      "library": "networkx",
+      "alias": "nx",
+      "module": "networkx",
+      "continuation": "betweenness_centrality(",
+      "attribute": "betweenness_centrality",
+      "resolves": true,
+      "token_len": 5,
+      "version": "3.6.1"
+    },
+    {
+      "library": "networkx",
+      "alias": "nx",
+      "module": "networkx",
+      "continuation": "spring_layout(",
+      "attribute": "spring_layout",
+      "resolves": true,
+      "token_len": 2,
+      "version": "3.6.1"
+    },
+    {
+      "library": "statsmodels.api",
+      "alias": "sm",
+      "module": "statsmodels.api",
+      "continuation": "OLS(",
+      "attribute": "OLS",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.14.6"
+    },
+    {
+      "library": "statsmodels.api",
+      "alias": "sm",
+      "module": "statsmodels.api",
+      "continuation": "GLM(",
+      "attribute": "GLM",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.14.6"
+    },
+    {
+      "library": "statsmodels.api",
+      "alias": "sm",
+      "module": "statsmodels.api",
+      "continuation": "Logit(",
+      "attribute": "Logit",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.14.6"
+    },
+    {
+      "library": "statsmodels.api",
+      "alias": "sm",
+      "module": "statsmodels.api",
+      "continuation": "add_constant(",
+      "attribute": "add_constant",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.14.6"
+    },
+    {
+      "library": "statsmodels.api",
+      "alias": "sm",
+      "module": "statsmodels.api",
+      "continuation": "WLS(",
+      "attribute": "WLS",
+      "resolves": true,
+      "token_len": 2,
+      "version": "0.14.6"
+    },
+    {
+      "library": "sqlalchemy",
+      "alias": "sa",
+      "module": "sqlalchemy",
+      "continuation": "create_engine(",
+      "attribute": "create_engine",
+      "resolves": true,
+      "token_len": 2,
+      "version": "2.0.45"
+    },
+    {
+      "library": "sqlalchemy",
+      "alias": "sa",
+      "module": "sqlalchemy",
+      "continuation": "MetaData(",
+      "attribute": "MetaData",
+      "resolves": true,
+      "token_len": 2,
+      "version": "2.0.45"
+    },
+    {
+      "library": "sqlalchemy",
+      "alias": "sa",
+      "module": "sqlalchemy",
+      "continuation": "select(",
+      "attribute": "select",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.0.45"
+    },
+    {
+      "library": "sqlalchemy",
+      "alias": "sa",
+      "module": "sqlalchemy",
+      "continuation": "Integer(",
+      "attribute": "Integer",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.0.45"
+    },
+    {
+      "library": "sqlalchemy",
+      "alias": "sa",
+      "module": "sqlalchemy",
+      "continuation": "ForeignKey(",
+      "attribute": "ForeignKey",
+      "resolves": true,
+      "token_len": 1,
+      "version": "2.0.45"
+    },
+    {
+      "library": "sympy",
+      "alias": "sym",
+      "module": "sympy",
+      "continuation": "symbols(",
+      "attribute": "symbols",
+      "resolves": true,
+      "token_len": 2,
+      "version": "1.14.0"
+    },
+    {
+      "library": "sympy",
+      "alias": "sym",
+      "module": "sympy",
+      "continuation": "integrate(",
+      "attribute": "integrate",
+      "resolves": true,
+      "token_len": 2,
+      "version": "1.14.0"
+    },
+    {
+      "library": "sympy",
+      "alias": "sym",
+      "module": "sympy",
+      "continuation": "simplify(",
+      "attribute": "simplify",
+      "resolves": true,
+      "token_len": 2,
+      "version": "1.14.0"
+    },
+    {
+      "library": "sympy",
+      "alias": "sym",
+      "module": "sympy",
+      "continuation": "factor(",
+      "attribute": "factor",
+      "resolves": true,
+      "token_len": 1,
+      "version": "1.14.0"
+    },
+    {
+      "library": "sympy",
+      "alias": "sym",
+      "module": "sympy",
+      "continuation": "diff(",
+      "attribute": "diff",
+      "resolves": true,
+      "token_len": 1,
+      "version": "1.14.0"
+    },
+    {
+      "library": "sympy",
+      "alias": "sym",
+      "module": "sympy",
+      "continuation": "expand(",
+      "attribute": "expand",
+      "resolves": true,
+      "token_len": 1,
+      "version": "1.14.0"
+    },
+    {
+      "library": "plotly.express",
+      "alias": "px",
+      "module": "plotly.express",
+      "continuation": "choropleth(",
+      "attribute": "choropleth",
+      "resolves": true,
+      "token_len": 4,
+      "version": "6.3.1"
+    },
+    {
+      "library": "plotly.express",
+      "alias": "px",
+      "module": "plotly.express",
+      "continuation": "sunburst(",
+      "attribute": "sunburst",
+      "resolves": true,
+      "token_len": 2,
+      "version": "6.3.1"
+    },
+    {
+      "library": "plotly.express",
+      "alias": "px",
+      "module": "plotly.express",
+      "continuation": "treemap(",
+      "attribute": "treemap",
+      "resolves": true,
+      "token_len": 3,
+      "version": "6.3.1"
+    },
+    {
+      "library": "plotly.express",
+      "alias": "px",
+      "module": "plotly.express",
+      "continuation": "density_heatmap(",
+      "attribute": "density_heatmap",
+      "resolves": true,
+      "token_len": 4,
+      "version": "6.3.1"
+    },
+    {
+      "library": "plotly.express",
+      "alias": "px",
+      "module": "plotly.express",
+      "continuation": "parallel_coordinates(",
+      "attribute": "parallel_coordinates",
+      "resolves": true,
+      "token_len": 2,
+      "version": "6.3.1"
+    },
+    {
+      "library": "plotly.express",
+      "alias": "px",
+      "module": "plotly.express",
+      "continuation": "scatter_matrix(",
+      "attribute": "scatter_matrix",
+      "resolves": true,
+      "token_len": 2,
+      "version": "6.3.1"
+    }
+  ]
+}

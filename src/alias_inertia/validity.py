@@ -1,9 +1,9 @@
 """Consequence / validity arm: would the generated call actually resolve under the BOUND library?
 
 For each generation we extract the attribute accessed on the alias and check whether it exists
-on the REAL bound library (e.g. swapped ``np`` is bound to pandas -> does ``pandas.array`` exist?).
+on the actual bound library (e.g. swapped ``np`` is bound to pandas: does ``pandas.arange`` exist?).
 This is done by **static attribute lookup** (``hasattr``) against the actually-installed library -
-NOT by executing any model-generated code. A heavily-guarded subprocess is provided as an opt-in
+not by executing any model-generated code. A heavily-guarded subprocess is provided as an opt-in
 fallback but is unnecessary for attribute existence and is OFF by default.
 
 ``broken`` = the attribute does not exist on the bound library (would raise AttributeError).
@@ -26,6 +26,12 @@ _IMPORT_PATH = {
     "sklearn": "sklearn",
     "xgboost": "xgboost",
     "matplotlib.pyplot": "matplotlib.pyplot",
+    "seaborn": "seaborn",
+    "networkx": "networkx",
+    "statsmodels.api": "statsmodels.api",
+    "sqlalchemy": "sqlalchemy",
+    "sympy": "sympy",
+    "plotly.express": "plotly.express",
 }
 
 _MODULE_CACHE: dict[str, object] = {}

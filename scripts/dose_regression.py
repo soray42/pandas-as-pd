@@ -7,7 +7,7 @@ Model (on swapped + no_prior rows; the DiD gap is their contrast):
 where pmo = logsumexp(L_prior) - logsumexp(L_other), is_swapped in {0,1}, tier_c = tier_rank-2.
 The **is_swapped:tier_c** coefficient is the gap's dose slope (nats of DiD gap per tier step);
 gap(tier) = b_is_swapped + b_inter*tier_c (depth/model main effects cancel in the contrast).
-pair is NOT a fixed effect (it is collinear with tier); it enters as a random intercept and as the
+pair is not a fixed effect (it is collinear with tier); it enters as a random intercept and as the
 bootstrap cluster. Reports: (1) MixedLM crossed-RE Wald CI, (2) pair-clustered bootstrap CI on the
 OLS slope (robustness given only 6 pairs).
 
@@ -50,7 +50,7 @@ def main() -> int:
     d["depth_f"] = d["depth_tokens_target"].astype(str)
 
     print("=" * 78)
-    print(f"DOSE regression (gap ~ tier) on {len(d)} swapped+no_prior rows "
+    print(f"Dose regression (gap ~ tier) on {len(d)} swapped+no_prior rows "
           f"({d['pair'].nunique()} pairs, {d['model'].nunique()} models)")
     print("=" * 78)
 

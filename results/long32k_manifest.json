@@ -1,0 +1,162 @@
+{
+  "created_utc": "2026-06-17T20:49:33.017432+00:00",
+  "config_path": "configs\\long32k.yaml",
+  "config": {
+    "seed": 12345,
+    "scoring_version": "1.1",
+    "pairs_all": [
+      "numpy__pandas"
+    ],
+    "pairs_cpu_subset": [
+      "numpy__pandas"
+    ],
+    "conditions": [
+      "conventional",
+      "swapped",
+      "no_prior"
+    ],
+    "non_canonical_alias": "zz",
+    "depths_tokens": [
+      32768
+    ],
+    "templates": [
+      "t1"
+    ],
+    "repetitions": 1,
+    "depth_tolerance_tokens": 64,
+    "deep_bins": {
+      "threshold": 32768,
+      "reps": 1,
+      "templates": [
+        "t1"
+      ]
+    },
+    "models": [
+      {
+        "label": "qwen2.5-0.5b-gguf",
+        "backend": "llamacpp",
+        "llamacpp": {
+          "ollama_model": "qwen2.5:0.5b",
+          "n_ctx": 33408,
+          "n_threads": 8,
+          "n_batch": 512,
+          "seed": 12345
+        },
+        "max_depth": 32768,
+        "family": "qwen2.5",
+        "size_b": 0.5,
+        "variant": "instruct",
+        "pairs": "cpu_subset"
+      }
+    ],
+    "generation": {
+      "enabled": false,
+      "max_new_tokens": 48,
+      "depths": [
+        0
+      ],
+      "templates": [
+        "t1"
+      ],
+      "reps": 1
+    },
+    "cache": {
+      "enabled": true,
+      "dir": "results/cache"
+    },
+    "output": {
+      "results": "results/long32k.parquet",
+      "generations": "results/long32k_generations.jsonl",
+      "stimuli_meta": "results/long32k_stimuli_meta.jsonl",
+      "manifest": "results/long32k_manifest.json"
+    },
+    "analysis": {
+      "bootstrap_n": 2000,
+      "ci": 0.95,
+      "bootstrap_seed": 20260617,
+      "figure_dir": "figures"
+    }
+  },
+  "config_hash": "b99a2fb9c7c55975ff38e42be51c32ef",
+  "scoring_version": "1.1",
+  "gen_version": "1.0",
+  "validity_version": "1.0",
+  "determinism": {
+    "seed": 12345,
+    "PYTHONHASHSEED": "<unset>",
+    "torch_deterministic": true
+  },
+  "environment": {
+    "timestamp_utc": "2026-06-17T20:49:33.017738+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  },
+  "models": {
+    "qwen2.5-0.5b-gguf": {
+      "backend_id": "llamacpp:qwen2.5:0.5b@sha256:c5396e06af29",
+      "fingerprint": {
+        "backend": "llamacpp",
+        "ollama_model": "qwen2.5:0.5b",
+        "blob_digest": "sha256:c5396e06af294bd101b30dce59131a76d2b773e76950acc870eda801d3ab0515",
+        "n_ctx": 33408,
+        "n_threads": 8,
+        "n_batch": 512,
+        "seed": 12345,
+        "logits_all": true,
+        "llama_cpp_version": "0.3.25",
+        "gguf_general_architecture": "qwen2",
+        "gguf_quantization": "15",
+        "gguf_context_length": "32768",
+        "scoring_method": "teacher_forced_kv_reuse",
+        "add_bos": true,
+        "gguf_basename": "models\\blobs\\sha256-c5396e06af294bd101b30dce59131a76d2b773e76950acc870eda801d3ab0515"
+      },
+      "cache_id": "b16a2f6cb8d2e0ed5b77d076",
+      "scoring_code_hash": "784547c07e1a",
+      "family": "qwen2.5",
+      "size_b": 0.5,
+      "variant": "instruct",
+      "max_depth": 32768,
+      "pairs": "cpu_subset"
+    }
+  },
+  "n_score_rows": 3,
+  "n_generations": 0,
+  "n_skipped": 0,
+  "skipped": [],
+  "elapsed_seconds": 2839.3376433849335,
+  "validity_lib_available": {
+    "numpy": true,
+    "pandas": true,
+    "torch": true,
+    "sklearn": true,
+    "xgboost": true,
+    "matplotlib.pyplot": true
+  }
+}

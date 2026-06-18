@@ -1,0 +1,497 @@
+{
+  "n_records": 560,
+  "n_main": 560,
+  "modes": [
+    "nothink",
+    "think"
+  ],
+  "model": "deepseek-v4-pro",
+  "health": {
+    "nothink": {
+      "n": 344,
+      "fc_unparsed": 0,
+      "gen_no_attr": 9,
+      "len_truncated": 10
+    },
+    "think": {
+      "n": 216,
+      "fc_unparsed": 0,
+      "gen_no_attr": 45,
+      "len_truncated": 45
+    }
+  },
+  "forced_choice": {
+    "nothink": {
+      "chose_prior_lib": {
+        "conventional": {
+          "rate": 0.9166666666666666,
+          "ci_lo": 0.7777777777777778,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 0.6521739130434783,
+          "ci_lo": 0.5,
+          "ci_hi": 0.75,
+          "n": 46
+        },
+        "no_prior": {
+          "rate": 0.35555555555555557,
+          "ci_lo": 0.0967741935483871,
+          "ci_hi": 0.6166666666666667,
+          "n": 45
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.2966183574879227,
+          "ci_lo": 0.05887681159420288,
+          "ci_hi": 0.6111111111111112
+        }
+      },
+      "correct": {
+        "conventional": {
+          "rate": 0.9166666666666666,
+          "ci_lo": 0.7777777777777778,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 0.34782608695652173,
+          "ci_lo": 0.2579621095750128,
+          "ci_hi": 0.5,
+          "n": 46
+        },
+        "no_prior": {
+          "rate": 0.6444444444444445,
+          "ci_lo": 0.38333333333333336,
+          "ci_hi": 0.9032258064516129,
+          "n": 45
+        },
+        "did_swapped_minus_no_prior": {
+          "value": -0.29661835748792276,
+          "ci_lo": -0.611111111111111,
+          "ci_hi": -0.05887681159420288
+        }
+      }
+    },
+    "think": {
+      "chose_prior_lib": {
+        "conventional": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 24
+        },
+        "no_prior": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 24
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0
+        }
+      },
+      "correct": {
+        "conventional": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "no_prior": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0
+        }
+      }
+    }
+  },
+  "generation": {
+    "nothink": {
+      "broken_on_bound": {
+        "conventional": {
+          "rate": 0.045454545454545456,
+          "ci_lo": 0.0,
+          "ci_hi": 0.17647058823529413,
+          "n": 22
+        },
+        "swapped": {
+          "rate": 0.6888888888888889,
+          "ci_lo": 0.4117647058823529,
+          "ci_hi": 0.9772727272727273,
+          "n": 45
+        },
+        "no_prior": {
+          "rate": 0.46153846153846156,
+          "ci_lo": 0.27586206896551724,
+          "ci_hi": 0.6153846153846154,
+          "n": 39
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.22735042735042732,
+          "ci_lo": -0.00694444444444442,
+          "ci_hi": 0.5
+        }
+      },
+      "prior_only": {
+        "conventional": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 22
+        },
+        "swapped": {
+          "rate": 0.6222222222222222,
+          "ci_lo": 0.25,
+          "ci_hi": 0.9090909090909091,
+          "n": 45
+        },
+        "no_prior": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 39
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.6222222222222222,
+          "ci_lo": 0.25,
+          "ci_hi": 0.9069767441860465
+        }
+      }
+    },
+    "think": {
+      "broken_on_bound": {
+        "conventional": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 10
+        },
+        "swapped": {
+          "rate": 0.5,
+          "ci_lo": 0.25,
+          "ci_hi": 0.75,
+          "n": 10
+        },
+        "no_prior": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 7
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.5,
+          "ci_lo": 0.25,
+          "ci_hi": 0.75
+        }
+      },
+      "prior_only": {
+        "conventional": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 10
+        },
+        "swapped": {
+          "rate": 0.5,
+          "ci_lo": 0.25,
+          "ci_hi": 0.75,
+          "n": 10
+        },
+        "no_prior": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 7
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.5,
+          "ci_lo": 0.25,
+          "ci_hi": 0.75
+        }
+      }
+    }
+  },
+  "verbal": {
+    "nothink": {
+      "correct": {
+        "conventional": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 45
+        },
+        "no_prior": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 45
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0
+        }
+      },
+      "named_prior": {
+        "conventional": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 45
+        },
+        "no_prior": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 45
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0
+        }
+      }
+    },
+    "think": {
+      "correct": {
+        "conventional": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "no_prior": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0
+        }
+      },
+      "named_prior": {
+        "conventional": {
+          "rate": 1.0,
+          "ci_lo": 1.0,
+          "ci_hi": 1.0,
+          "n": 24
+        },
+        "swapped": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 24
+        },
+        "no_prior": {
+          "rate": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0,
+          "n": 24
+        },
+        "did_swapped_minus_no_prior": {
+          "value": 0.0,
+          "ci_lo": 0.0,
+          "ci_hi": 0.0
+        }
+      }
+    }
+  },
+  "depth_curve_swapped": {
+    "nothink": {
+      "0": {
+        "fc_chose_prior": 0.5,
+        "fc_ci": [
+          0.16666666666666666,
+          0.8333333333333334
+        ],
+        "fc_n": 6,
+        "gen_broken": 0.6666666666666666,
+        "gen_ci": [
+          0.3333333333333333,
+          1.0
+        ],
+        "gen_n": 6,
+        "median_prompt_tokens_api": 52
+      },
+      "2048": {
+        "fc_chose_prior": 0.75,
+        "fc_ci": [
+          0.5833333333333334,
+          0.9166666666666666
+        ],
+        "fc_n": 12,
+        "gen_broken": 0.7272727272727273,
+        "gen_ci": [
+          0.39909090909090944,
+          1.0
+        ],
+        "gen_n": 11,
+        "median_prompt_tokens_api": 2115
+      },
+      "8192": {
+        "fc_chose_prior": 0.5833333333333334,
+        "fc_ci": [
+          0.3333333333333333,
+          0.8333333333333334
+        ],
+        "fc_n": 12,
+        "gen_broken": 0.75,
+        "gen_ci": [
+          0.5,
+          1.0
+        ],
+        "gen_n": 12,
+        "median_prompt_tokens_api": 8307
+      },
+      "32768": {
+        "fc_chose_prior": 0.75,
+        "fc_ci": [
+          0.5,
+          1.0
+        ],
+        "fc_n": 12,
+        "gen_broken": 0.5833333333333334,
+        "gen_ci": [
+          0.16666666666666666,
+          1.0
+        ],
+        "gen_n": 12,
+        "median_prompt_tokens_api": 33062
+      },
+      "131072": {
+        "fc_chose_prior": 0.5,
+        "fc_ci": [
+          0.0,
+          0.6666666666666666
+        ],
+        "fc_n": 4,
+        "gen_broken": 0.75,
+        "gen_ci": [
+          0.6666666666666666,
+          1.0
+        ],
+        "gen_n": 4,
+        "median_prompt_tokens_api": 132114
+      }
+    },
+    "think": {
+      "0": {
+        "fc_chose_prior": 0.0,
+        "fc_ci": [
+          0.0,
+          0.0
+        ],
+        "fc_n": 6,
+        "gen_broken": 0.3333333333333333,
+        "gen_ci": [
+          0.0,
+          0.6666666666666666
+        ],
+        "gen_n": 6,
+        "median_prompt_tokens_api": 52
+      },
+      "2048": {
+        "fc_chose_prior": 0.0,
+        "fc_ci": [
+          0.0,
+          0.0
+        ],
+        "fc_n": 12,
+        "gen_broken": 1.0,
+        "gen_ci": [
+          1.0,
+          1.0
+        ],
+        "gen_n": 3,
+        "median_prompt_tokens_api": 2116
+      },
+      "8192": {
+        "fc_chose_prior": 0.0,
+        "fc_ci": [
+          0.0,
+          0.0
+        ],
+        "fc_n": 2,
+        "gen_broken": null,
+        "gen_ci": [
+          null,
+          null
+        ],
+        "gen_n": 0,
+        "median_prompt_tokens_api": 8317
+      },
+      "32768": {
+        "fc_chose_prior": 0.0,
+        "fc_ci": [
+          0.0,
+          0.0
+        ],
+        "fc_n": 2,
+        "gen_broken": null,
+        "gen_ci": [
+          null,
+          null
+        ],
+        "gen_n": 0,
+        "median_prompt_tokens_api": 33058
+      },
+      "131072": {
+        "fc_chose_prior": 0.0,
+        "fc_ci": [
+          0.0,
+          0.0
+        ],
+        "fc_n": 2,
+        "gen_broken": 0.0,
+        "gen_ci": [
+          0.0,
+          0.0
+        ],
+        "gen_n": 1,
+        "median_prompt_tokens_api": 132097
+      }
+    }
+  }
+}

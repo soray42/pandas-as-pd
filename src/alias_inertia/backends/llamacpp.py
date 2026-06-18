@@ -1,4 +1,4 @@
-"""llama.cpp teacher-forced scorer (used for the local Llama-3.1-8B pilot).
+"""llama.cpp teacher-forced scorer (used for the GGUF models on CPU).
 
 Reads the GGUF weights that Ollama already downloaded (no re-download) and scores forced
 continuations exactly, with **KV-cache reuse**: the (expensive) prompt is forwarded once,
@@ -114,7 +114,8 @@ class LlamaCppBackend(Backend):
         return {
             "backend": "llamacpp",
             "ollama_model": self.ollama_model,
-            "gguf_path": self.gguf_path,
+            # basename only (the sha256 blob name); the absolute path would leak the home dir
+            "gguf_basename": os.path.basename(self.gguf_path),
             "blob_digest": self.blob_digest,
             "n_ctx": self.n_ctx,
             "n_threads": self.n_threads,
@@ -174,7 +175,7 @@ class LlamaCppBackend(Backend):
         fulls = [self.tokenize(prompt + c) for c in continuations]
         ks = [common_prefix_len(p_ids, f) for f in fulls]
 
-        # base = longest common token prefix of the prompt and EVERY full sequence -> the
+        # base = longest common token prefix of the prompt and every full sequence -> the
         # forward we reuse. Robust to BPE merges of any depth at the prompt boundary.
         base_len = min([len(p_ids)] + ks) if ks else len(p_ids)
         base_len = max(base_len, 1)  # need >=1 token of context to score the next token

@@ -1,15 +1,12 @@
-# alias-inertia FULL RUN (archival workshop paper).
-# Dose axis (swap pairs across prior-strength tiers) x conditions x distance x model suite,
-# plus the behavioral generation arm + consequence/validity arm.
+# alias-inertia full run.
+# Dose axis (swap pairs across the prior-strength range) x conditions x distance x model suite,
+# plus the behavioral generation arm and the consequence/validity arm. The distance dependence
+# is characterised, not assumed: the gap is read as a function of distance, not presumed to grow.
 #
-# Framing pivot (apply everywhere): the pilot showed the prior-reassertion effect is REAL & STRONG
-# but IMMEDIATE & DISTANCE-ROBUST within 0-2048 tokens, NOT "growing with distance". Treat the
-# long-distance question as OPEN (characterize, do not assert growth).
-#
-# HARDWARE NOTE: this box is an RTX 5070 (8GB) whose torch build has NO flash/mem-efficient SDPA
-# kernel (Blackwell sm_120) -> HF attention is O(L^2) memory and OOMs/crawls past ~2-4k tokens.
-# So GPU-HF models are capped at depth 2048 (breadth: dose/size/base-vs-instruct), and the
-# long-distance characterisation (8k/32k) runs on llama.cpp (CPU), which uses O(L) attention.
+# Hardware: the reference GPU is an RTX 5070 (8GB) whose torch build lacks a flash/memory-
+# efficient SDPA kernel (Blackwell sm_120), so HF attention is O(L^2) in memory and degrades
+# past a few thousand tokens. GPU (HF) models are therefore capped at depth 2048; the longer
+# bins (8k) run on llama.cpp (CPU), which uses O(L) attention.
 
 seed: 12345
 scoring_version: "1.1"
@@ -28,18 +25,17 @@ pairs_cpu_subset:               # one pair per tier for the (slower) CPU models
 
 conditions: ["conventional", "swapped", "no_prior"]
 non_canonical_alias: "zz"
-# 32768 dropped: on this CPU (logits over all positions for the lm-head) a single 32k stimulus
-# is ~10-16 min, which balloons the run past a feasible overnight. 8192 (4x the pilot's 2048)
-# is the longest systematic bin; a single-model 32k spot-check (qwen2.5-0.5b: prior_pull stayed
-# flat at +8.6) is reported separately. The long-distance question stays OPEN (characterised to 8k).
+# 32768 is left out of the systematic grid: a single 32k stimulus on CPU is ~10-16 min, too slow
+# for the full grid. 8192 is the longest systematic bin; 32k is covered by a separate spot-check
+# (configs/long32k.yaml).
 depths_tokens: [0, 512, 2048, 8192]
 templates: ["t1", "t2"]
 repetitions: 3                  # depth 0 auto-collapses to 1 rep (no filler to vary)
 depth_tolerance_tokens: 48
 
-# Deep bins (8k/32k) are O(L^2) to score (~6.7 min/stimulus at 32k even on a 0.5B CPU model),
-# so we THIN them: 1 rep, one template. Enough to characterise the gap-vs-distance shape
-# (flat vs growing) per the pivot; the short bins (<=2048) keep full reps for the statistics.
+# Deep bins (8k) are expensive to score, so they are thinned to 1 rep and one template, enough
+# to characterise the gap-vs-distance shape; the short bins (<=2048) keep full reps for the
+# statistics.
 deep_bins:
   threshold: 8192
   reps: 1

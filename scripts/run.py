@@ -134,8 +134,8 @@ def main() -> int:
                 try:
                     metric = compute_metric_row(scorer, s.prompt, prior_lib=meta["prior_lexicon_lib"],
                                                 bound_lib=meta["bound_lexicon_lib"], lexicons=lex)
-                except Exception as e:  # CUDA OOM (RuntimeError) / ctx-overflow or prefix-mismatch
-                    # (ValueError) / etc. -> skip this stimulus, NEVER abort the overnight run.
+                except Exception as e:  # CUDA OOM, context overflow, or prefix mismatch:
+                    # skip this stimulus rather than abort the whole run.
                     print(f"[run]   score skip on {label} {pname} d={meta['depth_tokens_target']}: "
                           f"{type(e).__name__}: {e}")
                     skipped.append({"model": label, "stimulus_id": meta["stimulus_id"],

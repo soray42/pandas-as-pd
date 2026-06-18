@@ -12,6 +12,12 @@ dist/
 venv/
 .env
 
+# API response cache (DeepSeek probe); the analysed outputs in results/ ARE tracked.
+.cache/
+
+# Internal design / scratch notes (not part of the released artifact)
+alias-inertia_scope.md
+
 # Model weights (never commit)
 *.gguf
 *.safetensors

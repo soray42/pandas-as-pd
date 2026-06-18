@@ -1,0 +1,76 @@
+{
+  "deepseek_probe_version": "1.0",
+  "timestamp_utc": "2026-06-17T19:57:40.412545+00:00",
+  "fingerprint": {
+    "probe_version": "1.0",
+    "backend": "deepseek_api",
+    "model": "deepseek-v4-pro",
+    "base_url": "https://api.deepseek.com"
+  },
+  "modes": [
+    "nothink"
+  ],
+  "tasks": [
+    "forced_choice"
+  ],
+  "conditions": [
+    "conventional",
+    "swapped"
+  ],
+  "short": {
+    "pairs": "all6",
+    "depths": [
+      0
+    ],
+    "templates": [
+      "t1"
+    ],
+    "reps": 2
+  },
+  "deep": {
+    "pairs": [
+      "numpy__pandas",
+      "pandas__numpy"
+    ],
+    "depths": [],
+    "reps": 1
+  },
+  "seed": 20260617,
+  "n_records": 24,
+  "live_calls": 192,
+  "cache_hits": 0,
+  "tokens_in": 14392,
+  "tokens_out": 192,
+  "filler_token_counter": "tiktoken/cl100k_base (proxy; true length in prompt_tokens_api)",
+  "environment": {
+    "timestamp_utc": "2026-06-17T19:57:40.412568+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

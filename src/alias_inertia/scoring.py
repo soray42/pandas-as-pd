@@ -93,8 +93,8 @@ class CachingScorer:
         self.stats = {"hits": 0, "misses": 0}
 
         # The cache key folds in (a) every score-affecting backend setting and (b) a hash of the
-        # scoring code, so a cache hit is guaranteed to have been computed under the SAME config
-        # and the SAME scoring implementation. backend.id alone (human-readable) is insufficient.
+        # scoring code, so a cache hit is guaranteed to have been computed under the same config
+        # and the same scoring implementation. backend.id alone (human-readable) is insufficient.
         cfp = getattr(backend, "cache_fingerprint", None)
         self.backend_cache_fp = cfp() if callable(cfp) else {"id": backend.id}
         self.code_hash = scoring_code_hash(backend)

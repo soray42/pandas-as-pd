@@ -1,8 +1,7 @@
 """Behavioral generation arm: greedy-decode after ``{alias}.`` and classify the completion as
 prior-style / bound-style / other.
 
-This is purely behavioral (it looks at what the model *writes*, never inside the model), so it
-is allowed in the workshop scope - mechanistic interpretability stays reserved for the main conf.
+This is purely behavioral: it looks at what the model writes, not at internal activations.
 
 Classification is driven by the same discriminative lexicons used for scoring: the first
 attribute the model accesses on the alias (the identifier immediately after ``{alias}.``) is
