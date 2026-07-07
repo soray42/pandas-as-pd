@@ -1,0 +1,264 @@
+{
+  "model": "deepseek-v4-pro",
+  "modes": [
+    "nothink",
+    "think"
+  ],
+  "fingerprint": {
+    "probe_version": "1.0",
+    "backend": "deepseek_api",
+    "model": "deepseek-v4-pro",
+    "base_url": "https://api.deepseek.com"
+  },
+  "live_calls": 339,
+  "per_mode": {
+    "nothink": {
+      "overall": {
+        "correct": {
+          "broken": 0.046153846153846156,
+          "broken_ci": [
+            0.015384615384615385,
+            0.08461538461538462
+          ],
+          "wrote_target": 0.8846153846153846,
+          "n": 130,
+          "truncated": 6
+        },
+        "no_prior": {
+          "broken": 0.03076923076923077,
+          "broken_ci": [
+            0.007692307692307693,
+            0.06153846153846154
+          ],
+          "wrote_target": 0.8692307692307693,
+          "n": 130,
+          "truncated": 4
+        },
+        "swapped": {
+          "broken": 0.09230769230769231,
+          "broken_ci": [
+            0.046153846153846156,
+            0.14615384615384616
+          ],
+          "wrote_target": 0.7461538461538462,
+          "n": 130,
+          "truncated": 8
+        }
+      },
+      "per_pair": {
+        "numpy__pandas": {
+          "tier": "very_common",
+          "swapped_broken": 0.08333333333333333,
+          "swapped_wrote_target": 0.8333333333333334,
+          "n": 12
+        },
+        "pandas__numpy": {
+          "tier": "very_common",
+          "swapped_broken": 0.2,
+          "swapped_wrote_target": 0.3,
+          "n": 10
+        },
+        "torch__sklearn": {
+          "tier": "common",
+          "swapped_broken": 0.1,
+          "swapped_wrote_target": 0.9,
+          "n": 10
+        },
+        "matplotlib.pyplot__pandas": {
+          "tier": "common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.9166666666666666,
+          "n": 12
+        },
+        "sklearn__xgboost": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 1.0,
+          "n": 10
+        },
+        "xgboost__sklearn": {
+          "tier": "rare",
+          "swapped_broken": 0.5,
+          "swapped_wrote_target": 0.5,
+          "n": 10
+        },
+        "seaborn__pandas": {
+          "tier": "common",
+          "swapped_broken": 0.25,
+          "swapped_wrote_target": 0.75,
+          "n": 12
+        },
+        "networkx__numpy": {
+          "tier": "common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.7,
+          "n": 10
+        },
+        "statsmodels.api__numpy": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.6,
+          "n": 10
+        },
+        "sqlalchemy__pandas": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.8333333333333334,
+          "n": 12
+        },
+        "sympy__numpy": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.7,
+          "n": 10
+        },
+        "plotly.express__pandas": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.8333333333333334,
+          "n": 12
+        }
+      }
+    },
+    "think": {
+      "overall": {
+        "correct": {
+          "broken": 0.0,
+          "broken_ci": [
+            0.0,
+            0.0
+          ],
+          "wrote_target": 0.9,
+          "n": 130,
+          "truncated": 0
+        },
+        "no_prior": {
+          "broken": 0.0,
+          "broken_ci": [
+            0.0,
+            0.0
+          ],
+          "wrote_target": 0.9,
+          "n": 130,
+          "truncated": 0
+        },
+        "swapped": {
+          "broken": 0.007692307692307693,
+          "broken_ci": [
+            0.0,
+            0.023076923076923078
+          ],
+          "wrote_target": 0.8615384615384616,
+          "n": 130,
+          "truncated": 0
+        }
+      },
+      "per_pair": {
+        "numpy__pandas": {
+          "tier": "very_common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.8333333333333334,
+          "n": 12
+        },
+        "pandas__numpy": {
+          "tier": "very_common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.7,
+          "n": 10
+        },
+        "torch__sklearn": {
+          "tier": "common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 1.0,
+          "n": 10
+        },
+        "matplotlib.pyplot__pandas": {
+          "tier": "common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.9166666666666666,
+          "n": 12
+        },
+        "sklearn__xgboost": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 1.0,
+          "n": 10
+        },
+        "xgboost__sklearn": {
+          "tier": "rare",
+          "swapped_broken": 0.1,
+          "swapped_wrote_target": 0.9,
+          "n": 10
+        },
+        "seaborn__pandas": {
+          "tier": "common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.8333333333333334,
+          "n": 12
+        },
+        "networkx__numpy": {
+          "tier": "common",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.9,
+          "n": 10
+        },
+        "statsmodels.api__numpy": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.6,
+          "n": 10
+        },
+        "sqlalchemy__pandas": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.9166666666666666,
+          "n": 12
+        },
+        "sympy__numpy": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.8,
+          "n": 10
+        },
+        "plotly.express__pandas": {
+          "tier": "rare",
+          "swapped_broken": 0.0,
+          "swapped_wrote_target": 0.9166666666666666,
+          "n": 12
+        }
+      }
+    }
+  },
+  "timestamp_utc": "2026-06-18T20:02:23.142786+00:00",
+  "environment": {
+    "timestamp_utc": "2026-06-18T20:02:23.454040+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

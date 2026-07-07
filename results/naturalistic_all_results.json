@@ -1,0 +1,371 @@
+{
+  "models": [
+    "qwen2.5-coder:7b",
+    "qwen2.5:0.5b"
+  ],
+  "n_pairs": 12,
+  "per_model": {
+    "qwen2.5-coder:7b": {
+      "overall_did": 5.6612717403115775,
+      "overall_did_ci": [
+        4.488659214434554,
+        6.854369318371407
+      ],
+      "per_pair": {
+        "numpy__pandas": {
+          "tier": "very_common",
+          "pp_swapped": 7.305112465379037,
+          "pp_no_prior": -5.465615299233825,
+          "pp_correct": -6.398366698531492,
+          "did": 12.770727764612861,
+          "did_ci": [
+            10.563017658703462,
+            15.004896321568337
+          ],
+          "swapped_broken_rate": 0.6774193548387096,
+          "n_scen": 31
+        },
+        "pandas__numpy": {
+          "tier": "very_common",
+          "pp_swapped": 0.8935472180988671,
+          "pp_no_prior": -11.477211727055224,
+          "pp_correct": -13.11687239071694,
+          "did": 12.37075894515409,
+          "did_ci": [
+            10.231143927486183,
+            14.463995227562982
+          ],
+          "swapped_broken_rate": 0.7,
+          "n_scen": 10
+        },
+        "torch__sklearn": {
+          "tier": "common",
+          "pp_swapped": -1.4215411331983268,
+          "pp_no_prior": -10.407621488919776,
+          "pp_correct": -11.060002593134673,
+          "did": 8.98608035572145,
+          "did_ci": [
+            6.766405836511991,
+            11.344527404694
+          ],
+          "swapped_broken_rate": 0.4,
+          "n_scen": 10
+        },
+        "matplotlib.pyplot__pandas": {
+          "tier": "common",
+          "pp_swapped": -7.305695427907606,
+          "pp_no_prior": -10.300681365927026,
+          "pp_correct": -10.610156223553187,
+          "did": 2.99498593801942,
+          "did_ci": [
+            1.8490445624484093,
+            4.18746795894325
+          ],
+          "swapped_broken_rate": 0.22580645161290322,
+          "n_scen": 31
+        },
+        "sklearn__xgboost": {
+          "tier": "rare",
+          "pp_swapped": -9.686836200688855,
+          "pp_no_prior": -10.224115443770254,
+          "pp_correct": -10.287243027871778,
+          "did": 0.5372792430813984,
+          "did_ci": [
+            -1.3809856135374432,
+            2.4388542889909104
+          ],
+          "swapped_broken_rate": 0.1,
+          "n_scen": 10
+        },
+        "xgboost__sklearn": {
+          "tier": "rare",
+          "pp_swapped": 0.5712456687002618,
+          "pp_no_prior": -11.256808816796463,
+          "pp_correct": -11.352088855068754,
+          "did": 11.828054485496725,
+          "did_ci": [
+            8.737716401923565,
+            14.68163760949424
+          ],
+          "swapped_broken_rate": 0.1,
+          "n_scen": 10
+        },
+        "seaborn__pandas": {
+          "tier": "common",
+          "pp_swapped": 5.448492588239243,
+          "pp_no_prior": -4.937563513864938,
+          "pp_correct": -6.026394697536423,
+          "did": 10.386056102104181,
+          "did_ci": [
+            9.202266897483371,
+            11.558703115551598
+          ],
+          "swapped_broken_rate": 0.8709677419354839,
+          "n_scen": 31
+        },
+        "networkx__numpy": {
+          "tier": "common",
+          "pp_swapped": -15.474265705449715,
+          "pp_no_prior": -15.980714964404468,
+          "pp_correct": -16.808134241000438,
+          "did": 0.5064492589547527,
+          "did_ci": [
+            -0.8879878330602399,
+            2.035235974787992
+          ],
+          "swapped_broken_rate": 0.3,
+          "n_scen": 10
+        },
+        "statsmodels.api__numpy": {
+          "tier": "rare",
+          "pp_swapped": -11.159542510637337,
+          "pp_no_prior": -11.757699024285403,
+          "pp_correct": -12.73040994421497,
+          "did": 0.5981565136480658,
+          "did_ci": [
+            -1.5354890893983926,
+            2.8130824983587637
+          ],
+          "swapped_broken_rate": 0.4,
+          "n_scen": 10
+        },
+        "sqlalchemy__pandas": {
+          "tier": "rare",
+          "pp_swapped": -9.842185329867535,
+          "pp_no_prior": -11.479368540455797,
+          "pp_correct": -12.550569549448324,
+          "did": 1.6371832105882618,
+          "did_ci": [
+            0.38860483547389363,
+            2.867067784126485
+          ],
+          "swapped_broken_rate": 0.1,
+          "n_scen": 31
+        },
+        "sympy__numpy": {
+          "tier": "rare",
+          "pp_swapped": -10.23149122016402,
+          "pp_no_prior": -11.678936695839049,
+          "pp_correct": -12.435436271870921,
+          "did": 1.4474454756750283,
+          "did_ci": [
+            -0.16924500149599706,
+            3.1035428124622344
+          ],
+          "swapped_broken_rate": 0.1111111111111111,
+          "n_scen": 10
+        },
+        "plotly.express__pandas": {
+          "tier": "rare",
+          "pp_swapped": -13.274559605213065,
+          "pp_no_prior": -14.874119454171883,
+          "pp_correct": -14.402793269196312,
+          "did": 1.5995598489588172,
+          "did_ci": [
+            0.326526729804365,
+            2.9065889565711642
+          ],
+          "swapped_broken_rate": 0.13333333333333333,
+          "n_scen": 31
+        }
+      }
+    },
+    "qwen2.5:0.5b": {
+      "overall_did": 7.585066740579735,
+      "overall_did_ci": [
+        6.602965545777457,
+        8.574629702501616
+      ],
+      "per_pair": {
+        "numpy__pandas": {
+          "tier": "very_common",
+          "pp_swapped": 9.956859360478541,
+          "pp_no_prior": -3.650514036819038,
+          "pp_correct": -7.758034802007072,
+          "did": 13.607373397297579,
+          "did_ci": [
+            11.94367463012961,
+            15.228210561378264
+          ],
+          "swapped_broken_rate": 0.5806451612903226,
+          "n_scen": 31
+        },
+        "pandas__numpy": {
+          "tier": "very_common",
+          "pp_swapped": 3.553981160912103,
+          "pp_no_prior": -8.788382212347566,
+          "pp_correct": -13.12929882749541,
+          "did": 12.34236337325967,
+          "did_ci": [
+            10.547106958259244,
+            14.025519485725454
+          ],
+          "swapped_broken_rate": 0.7,
+          "n_scen": 10
+        },
+        "torch__sklearn": {
+          "tier": "common",
+          "pp_swapped": -1.0328148340943546,
+          "pp_no_prior": -6.685865040853883,
+          "pp_correct": -9.114168819849041,
+          "did": 5.653050206759528,
+          "did_ci": [
+            3.040782967537685,
+            8.347931829786013
+          ],
+          "swapped_broken_rate": 0.5555555555555556,
+          "n_scen": 10
+        },
+        "matplotlib.pyplot__pandas": {
+          "tier": "common",
+          "pp_swapped": -0.11992786637218848,
+          "pp_no_prior": -8.74631680275272,
+          "pp_correct": -10.073338290646973,
+          "did": 8.62638893638053,
+          "did_ci": [
+            7.189130271808756,
+            9.953669745986241
+          ],
+          "swapped_broken_rate": 0.7419354838709677,
+          "n_scen": 31
+        },
+        "sklearn__xgboost": {
+          "tier": "rare",
+          "pp_swapped": -0.24733353777053146,
+          "pp_no_prior": -2.2245108767000716,
+          "pp_correct": -6.189771107570756,
+          "did": 1.9771773389295402,
+          "did_ci": [
+            0.1486326385246315,
+            3.720993279173792
+          ],
+          "swapped_broken_rate": 0.8,
+          "n_scen": 10
+        },
+        "xgboost__sklearn": {
+          "tier": "rare",
+          "pp_swapped": 3.478730885149705,
+          "pp_no_prior": -4.412997988773985,
+          "pp_correct": -5.946813514609767,
+          "did": 7.89172887392369,
+          "did_ci": [
+            6.3715137523282745,
+            9.299975406683414
+          ],
+          "swapped_broken_rate": 0.9,
+          "n_scen": 10
+        },
+        "seaborn__pandas": {
+          "tier": "common",
+          "pp_swapped": 3.474050427018431,
+          "pp_no_prior": -6.094214442725495,
+          "pp_correct": -7.262034484853408,
+          "did": 9.568264869743926,
+          "did_ci": [
+            8.153391734274969,
+            10.782265260085865
+          ],
+          "swapped_broken_rate": 0.8387096774193549,
+          "n_scen": 31
+        },
+        "networkx__numpy": {
+          "tier": "common",
+          "pp_swapped": -7.705755681669311,
+          "pp_no_prior": -14.95130965278641,
+          "pp_correct": -18.98429834155359,
+          "did": 7.245553971117099,
+          "did_ci": [
+            4.466943980696359,
+            10.098666065076541
+          ],
+          "swapped_broken_rate": 1.0,
+          "n_scen": 10
+        },
+        "statsmodels.api__numpy": {
+          "tier": "rare",
+          "pp_swapped": -10.989959801858223,
+          "pp_no_prior": -14.17087189526344,
+          "pp_correct": -15.885752327954256,
+          "did": 3.180912093405217,
+          "did_ci": [
+            -0.2986398102091333,
+            7.571919041463243
+          ],
+          "swapped_broken_rate": 0.7,
+          "n_scen": 10
+        },
+        "sqlalchemy__pandas": {
+          "tier": "rare",
+          "pp_swapped": -7.182302501859109,
+          "pp_no_prior": -8.741790991985884,
+          "pp_correct": -13.337323808523443,
+          "did": 1.5594884901267747,
+          "did_ci": [
+            0.09033163699037328,
+            3.0926711373333733
+          ],
+          "swapped_broken_rate": 0.21739130434782608,
+          "n_scen": 31
+        },
+        "sympy__numpy": {
+          "tier": "rare",
+          "pp_swapped": -8.346150927432472,
+          "pp_no_prior": -9.471231651547109,
+          "pp_correct": -11.34360188457966,
+          "did": 1.1250807241146372,
+          "did_ci": [
+            0.02140491703421445,
+            2.4943834566911396
+          ],
+          "swapped_broken_rate": 0.9,
+          "n_scen": 10
+        },
+        "plotly.express__pandas": {
+          "tier": "rare",
+          "pp_swapped": -3.4372178535029967,
+          "pp_no_prior": -12.413810250771816,
+          "pp_correct": -12.766681065370713,
+          "did": 8.976592397268819,
+          "did_ci": [
+            7.600797901189525,
+            10.29252735343553
+          ],
+          "swapped_broken_rate": 0.8387096774193549,
+          "n_scen": 31
+        }
+      }
+    }
+  },
+  "environment": {
+    "timestamp_utc": "2026-06-18T16:35:51.203474+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  },
+  "timestamp_utc": "2026-06-18T16:35:55.838214+00:00"
+}

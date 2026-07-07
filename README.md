@@ -48,7 +48,12 @@ both the direct and thinking modes, out to 128k tokens. The direct model picks t
 library's non-existent method on **65%** of swapped items against **36%** in no-prior (difference
 **+0.30**, 95% CI [+0.06, +0.61]) yet names the bound library correctly **100%** of the time: it
 recognizes the binding but does not act on it. The pull is flat from 0 to 128k tokens, and the
-model's thinking mode drives the forced-choice rate to **0**. Numbers in
+model's thinking mode drives the forced-choice rate to **0**. The same split shows up in realistic
+generation: on naturalistic, task-demanding snippets across all twelve alias conventions, the direct
+model's swapped broken-call rate is about three times the no-prior control (**9.2%** vs **3.1%**,
+difference **+6.2 points**, 95% CI [+0.0, +12.3]) and the thinking mode removes it (**0.8%**), though
+the frontier model breaks far less often than the small open checkpoints
+(`results/deepseek_naturalistic_all_results.json`). Numbers in
 `results/deepseek_analysis.json`; reproduce with `make deepseek` (needs `DEEPSEEK_API_KEY` in your
 environment, never committed; API responses cache under `.cache/` so re-runs are free).
 
@@ -90,7 +95,8 @@ src/alias_inertia/   package: lexicons, stimuli, scoring, metrics, generation, v
 scripts/             run.py, analyze.py, dose_regression.py, dose_measured.py, raw_prior_pull.py,
                      corpus_freq.py, candidate_table.py, gen_stimuli.py, smoke_backend.py,
                      run_deepseek.py, analyze_deepseek.py, analyze_deepseek_ext.py,
-                     run_naturalistic.py, run_deepseek_naturalistic.py
+                     run_naturalistic.py, run_naturalistic_all.py, run_deepseek_naturalistic.py,
+                     run_deepseek_naturalistic_all.py
 configs/             full.yaml (produced the results), smoke.yaml (fast pipeline check)
 results/             scored prefixes (full.parquet), generations, manifest, analysis JSON;
                      deepseek_raw*.jsonl + deepseek_analysis.json (API probe)

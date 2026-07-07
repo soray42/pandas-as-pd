@@ -1,0 +1,244 @@
+{
+  "scenarios": [
+    {
+      "lib": "numpy",
+      "intent": "Convert the list of daily temperature readings into an array for vectorized math.",
+      "setup": "daily_temps = [18.5, 19.2, 21.0, 22.8, 20.1, 17.6, 16.9]\ncity = \"Lisbon\"",
+      "use_var": "temps",
+      "target_op": "array",
+      "domain": "weather"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Build an evenly spaced sequence of time steps from 0 up to but not including the total count.",
+      "setup": "total_steps = 50\nstep_label = \"frame_index\"",
+      "use_var": "steps",
+      "target_op": "arange",
+      "domain": "animation"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Allocate an empty accumulator grid to hold zeroed pixel intensities for an image canvas.",
+      "setup": "height = 128\nwidth = 256",
+      "use_var": "canvas",
+      "target_op": "zeros",
+      "domain": "image_processing"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Create a vector of ones to use as initial weights for a moving average filter.",
+      "setup": "window_length = 9\nfilter_name = \"boxcar\"",
+      "use_var": "weights",
+      "target_op": "ones",
+      "domain": "signal_filtering"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Generate 100 equally spaced frequency points between 20 and 20000 for a frequency sweep.",
+      "setup": "low_hz = 20\nhigh_hz = 20000\npoint_count = 100",
+      "use_var": "freqs",
+      "target_op": "linspace",
+      "domain": "audio_engineering"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Compute the dot product of the feature vector with the trained coefficient vector.",
+      "setup": "features = [0.4, 1.2, -0.7, 2.3]\ncoeffs = [1.1, -0.5, 0.8, 0.2]",
+      "use_var": "score",
+      "target_op": "dot",
+      "domain": "linear_model"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Fill a board of the given size with a constant default cell value of negative one.",
+      "setup": "rows = 8\ncols = 8\ndefault_cell = -1",
+      "use_var": "board",
+      "target_op": "full",
+      "domain": "game_grid"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Join the two measurement arrays end to end into one continuous trace.",
+      "setup": "first_run = [1.0, 2.5, 3.1]\nsecond_run = [4.2, 5.6, 6.0]",
+      "use_var": "full_trace",
+      "target_op": "concatenate",
+      "domain": "lab_measurement"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Reshape the flat list of 12 sensor samples into a 3-row by 4-column grid.",
+      "setup": "flat_samples = [3, 7, 1, 9, 2, 8, 4, 6, 0, 5, 11, 10]\nlayout = (3, 4)",
+      "use_var": "grid",
+      "target_op": "reshape",
+      "domain": "sensor_array"
+    },
+    {
+      "lib": "numpy",
+      "intent": "Preallocate a typed buffer object to hold the raw decoded waveform amplitudes.",
+      "setup": "sample_count = 44100\ndtype_label = \"float32\"",
+      "use_var": "buffer",
+      "target_op": "ndarray",
+      "domain": "audio_decoding"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Fit an ordinary least squares regression to predict house price from square footage.",
+      "setup": "areas = [[650], [800], [1200], [1500], [2100]]\nprices = [180000, 220000, 310000, 365000, 480000]",
+      "use_var": "reg",
+      "target_op": "linear_model",
+      "domain": "real-estate"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Split feature rows and labels into training and test sets before modeling.",
+      "setup": "features = [[5.1, 3.5], [4.9, 3.0], [6.2, 3.4], [5.9, 3.0], [6.7, 3.1]]\nlabels = [0, 0, 1, 1, 1]\nholdout_fraction = 0.4",
+      "use_var": "X_train",
+      "target_op": "model_selection",
+      "domain": "ml-workflow"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Standardize sensor readings to zero mean and unit variance.",
+      "setup": "readings = [[12.0, 1500], [9.5, 1420], [15.2, 1680], [11.1, 1390]]",
+      "use_var": "scaler",
+      "target_op": "preprocessing",
+      "domain": "iot-sensors"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Cluster customers into three groups based on annual spend and visit frequency.",
+      "setup": "customers = [[2400, 12], [800, 4], [5200, 30], [1500, 8], [4800, 26]]\nnum_groups = 3",
+      "use_var": "km",
+      "target_op": "cluster",
+      "domain": "customer-segmentation"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Train a random forest to classify loan applications as approved or denied.",
+      "setup": "applicant_data = [[45000, 680], [22000, 590], [78000, 720], [31000, 610]]\ndecisions = [1, 0, 1, 0]\ntrees = 200",
+      "use_var": "clf",
+      "target_op": "ensemble",
+      "domain": "credit-risk"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Compute the accuracy of predicted labels against the ground-truth labels.",
+      "setup": "y_true = [1, 0, 1, 1, 0, 1, 0]\ny_pred = [1, 0, 0, 1, 0, 1, 1]",
+      "use_var": "acc",
+      "target_op": "metrics",
+      "domain": "evaluation"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Load the classic handwritten digits dataset for an image classification demo.",
+      "setup": "return_arrays = True",
+      "use_var": "digits",
+      "target_op": "datasets",
+      "domain": "demo-data"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Fit a decision tree to predict whether a patient is diabetic from clinical features.",
+      "setup": "patients = [[6, 148, 72], [1, 85, 66], [8, 183, 64], [1, 89, 66]]\ndiabetic = [1, 0, 1, 0]\nmax_levels = 4",
+      "use_var": "tree_clf",
+      "target_op": "tree",
+      "domain": "healthcare"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Train a support vector classifier with an RBF kernel to separate two flower species.",
+      "setup": "petal_features = [[1.4, 0.2], [4.7, 1.4], [1.3, 0.2], [4.5, 1.5]]\nspecies = [0, 1, 0, 1]",
+      "use_var": "svc",
+      "target_op": "svm",
+      "domain": "botany"
+    },
+    {
+      "lib": "sklearn",
+      "intent": "Build a pipeline that scales features and then fits a logistic regression.",
+      "setup": "feature_matrix = [[2.1, 0.5], [3.4, 1.2], [1.8, 0.3], [4.0, 1.6]]\noutcomes = [0, 1, 0, 1]",
+      "use_var": "pipe",
+      "target_op": "pipeline",
+      "domain": "ml-workflow"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Train a gradient-boosted classifier to predict customer churn from the engineered feature matrix and binary churn labels.",
+      "setup": "feature_matrix = [[0.12, 24, 3], [0.88, 2, 0], [0.45, 12, 1], [0.91, 1, 0], [0.20, 36, 5]]\nchurn_labels = [0, 1, 0, 1, 0]\nestimators = 300",
+      "use_var": "churn_model",
+      "target_op": "XGBClassifier",
+      "domain": "customer-churn"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Fit a gradient-boosted regressor to predict house sale prices from square footage, bedroom count, and lot size.",
+      "setup": "house_features = [[1450, 3, 6000], [2100, 4, 8500], [980, 2, 3200], [3200, 5, 12000]]\nsale_prices = [285000, 410000, 199000, 625000]\nlearning_rate = 0.05",
+      "use_var": "price_regressor",
+      "target_op": "XGBRegressor",
+      "domain": "real-estate"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Wrap the training features and labels into the library's optimized matrix structure before low-level boosting.",
+      "setup": "train_rows = [[5.1, 3.5, 1.4], [4.9, 3.0, 1.4], [6.2, 3.4, 5.4], [5.9, 3.0, 5.1]]\ntrain_targets = [0, 0, 1, 1]\nfeature_names = [\"sepal_len\", \"sepal_wid\", \"petal_len\"]",
+      "use_var": "dtrain",
+      "target_op": "DMatrix",
+      "domain": "botany"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Run the native low-level training routine on the prepared matrix with the configured boosting parameters for a fixed number of rounds.",
+      "setup": "params = {\"objective\": \"binary:logistic\", \"max_depth\": 4, \"eta\": 0.1}\nnum_rounds = 150\nwatchlist = [(dtrain, \"train\")]",
+      "use_var": "booster",
+      "target_op": "train",
+      "domain": "fraud-detection"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Run built-in k-fold cross-validation over the boosting rounds to find the best number of trees and track the AUC metric.",
+      "setup": "params = {\"objective\": \"binary:logistic\", \"eval_metric\": \"auc\", \"max_depth\": 5}\nfolds = 5\nmax_rounds = 500",
+      "use_var": "cv_results",
+      "target_op": "cv",
+      "domain": "credit-risk"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Reload a previously saved boosting model from disk so it can score new incoming transactions.",
+      "setup": "model_path = \"models/fraud_booster_v3.json\"\nthreshold = 0.5",
+      "use_var": "loaded_booster",
+      "target_op": "Booster",
+      "domain": "payments"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Train a multiclass gradient-boosted classifier to assign support tickets to one of several routing queues.",
+      "setup": "ticket_features = [[12, 0, 1], [3, 1, 0], [45, 0, 2], [7, 1, 1], [22, 0, 0]]\nqueue_labels = [2, 0, 1, 0, 2]\nclass_count = 3",
+      "use_var": "router_clf",
+      "target_op": "XGBClassifier",
+      "domain": "customer-support"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Fit a gradient-boosted regressor to forecast next-day electricity demand from temperature, hour, and weekday indicators.",
+      "setup": "demand_features = [[18.5, 8, 1], [22.0, 14, 1], [5.0, 20, 0], [30.2, 12, 0]]\ndemand_mwh = [340.0, 510.0, 480.0, 620.0]\ntree_depth = 6",
+      "use_var": "demand_model",
+      "target_op": "XGBRegressor",
+      "domain": "energy-forecasting"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Build the library's optimized data matrix for the held-out validation split, attaching the validation labels.",
+      "setup": "valid_rows = [[0.3, 1.2, 9], [0.7, 0.4, 3], [0.1, 2.1, 14]]\nvalid_labels = [1, 0, 1]\nmissing_marker = -999.0",
+      "use_var": "dvalid",
+      "target_op": "DMatrix",
+      "domain": "medical-screening"
+    },
+    {
+      "lib": "xgboost",
+      "intent": "Run native cross-validation with early stopping to pick the optimal boosting rounds for an RMSE-minimizing demand model.",
+      "setup": "params = {\"objective\": \"reg:squarederror\", \"eval_metric\": \"rmse\", \"eta\": 0.08}\nnfold = 4\nearly_stop = 25",
+      "use_var": "cv_history",
+      "target_op": "cv",
+      "domain": "retail-demand"
+    }
+  ]
+}

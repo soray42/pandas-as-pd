@@ -20,8 +20,11 @@ multi-hour scoring run.
 | `deepseek_ext_analysis.json` | DeepSeek frontier dose-response and salience intervention |
 | `deepseek_manifest.json` | DeepSeek probe provenance (model and base URL; no API key) |
 | `naturalistic_scenarios.json` | model-generated pandas-demanding code contexts (validated, with ids); the naturalistic arm's stimuli |
-| `naturalistic_{records.jsonl,results.json}` | local naturalistic arm (coder-7b, 0.5b): prior-pull by condition, broken-call and wrote-correct-op rates, hashed prompts |
-| `deepseek_naturalistic_{records.jsonl,results.json}` | DeepSeek-V4-Pro on the naturalistic arm (direct vs thinking): broken-call and wrote-correct-op rates |
+| `naturalistic_{records.jsonl,results.json}` | local naturalistic arm, numpy/pandas case (coder-7b, 0.5b): prior-pull by condition, broken-call and wrote-correct-op rates, hashed prompts |
+| `naturalistic_scenarios_more.json` | model-generated numpy / sklearn / xgboost task contexts (the other bound libraries) |
+| `naturalistic_all_{records.jsonl,results.json}` | naturalistic arm across all 12 alias conventions: per-pair prior-pull DiD, swapped/no-prior/correct, broken-call rates |
+| `deepseek_naturalistic_{records.jsonl,results.json}` | DeepSeek-V4-Pro on the naturalistic arm, numpy/pandas case (direct vs thinking): broken-call and wrote-correct-op rates |
+| `deepseek_naturalistic_all_{records.jsonl,results.json}` | DeepSeek-V4-Pro on the naturalistic arm across all twelve alias conventions (direct vs thinking): per-pair swapped broken-call and wrote-target rates |
 
 `dose_regression.json` is the legacy ordinal-tier version of the dose analysis, superseded by the
 measured-frequency `dose_measured.json`.
