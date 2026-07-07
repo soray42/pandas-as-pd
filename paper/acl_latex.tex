@@ -22,14 +22,16 @@
 \maketitle
 
 \begin{abstract}
-Canonical import aliases such as \texttt{np} for numpy and \texttt{pd} for pandas carry strong distributional priors from pretraining. We ask whether these priors bias a code language model when such an alias is locally rebound to a different library, for example \texttt{import pandas as np}: does its continuation distribution follow the local binding or the convention? Using programmatically generated minimal pairs and continuation scoring, we measure a prior-pull score and contrast a swapped binding against a no-prior control (a non-canonical alias bound to the same library), which controls for generic long-context degradation and cross-library base rates. Across nine open models from 0.5B to 8B, base and instruct, the model places more probability on the alias's conventional methods than on the bound library's, with a difference-in-differences gap of $+6.81$ nats (95\% CI $[+4.56, +9.11]$) whose per-model intervals all exclude zero. The gap grows with the measured corpus frequency of the alias convention ($+0.94$ nats per natural-log unit, pair-clustered bootstrap 95\% CI $[+0.69, +1.35]$), stays flat from 0 to 8192 tokens of distance rather than growing, and surfaces in greedy generation, where swapped prompts elicit conventional-library idioms 18\% of the time and 74\% of the accessed attributes would raise \texttt{AttributeError} under the actual binding. A hosted frontier model, DeepSeek-V4-Pro, reproduces the pull at up to 128k tokens of context and names the rebound library correctly when asked while still selecting its conventional methods; its explicit reasoning mode removes the forced-choice effect. In a complementary probe with naturalistic, task-demanding contexts spanning twelve alias conventions, the prior still steers direct generation toward the conventional library's idioms that do not run (for example a pandas \texttt{Series} where numpy is the binding, an xgboost \texttt{Booster} where sklearn is), and explicit reasoning, not a passive cue, is what overrides it. We characterize a behavioral prior-pull in code continuation, and make no mechanistic claim about how the binding is represented.
+Canonical import aliases such as \texttt{np} for numpy and \texttt{pd} for pandas carry strong distributional priors from pretraining. We ask whether these priors bias a code language model when such an alias is locally rebound to a different library, for example \texttt{import pandas as np}: does its continuation distribution follow the local binding or the convention? Using programmatically generated minimal pairs and continuation scoring, we measure a prior-pull score and contrast a swapped binding against a no-prior control (a non-canonical alias bound to the same library), which controls for generic long-context degradation and cross-library base rates. Across nine open models from 0.5B to 8B, base and instruct, the model places more probability on the alias's conventional methods than on the bound library's, with a difference-in-differences gap of $+6.81$ nats (95\% CI $[+4.56, +9.11]$) whose per-model intervals all exclude zero. The gap grows with the measured corpus frequency of the alias convention ($+0.94$ nats per natural-log unit, pair-clustered bootstrap 95\% CI $[+0.69, +1.35]$), stays flat from 0 to 8192 tokens of distance rather than growing, and surfaces in greedy generation, where swapped prompts elicit conventional-library idioms 18\% of the time and 74\% of the accessed attributes would raise \texttt{AttributeError} under the actual binding. A hosted frontier model, DeepSeek-V4-Pro, reproduces the pull at up to 128k tokens of context and names the rebound library correctly when asked while still selecting its conventional methods; its thinking mode removes the forced-choice effect. In a complementary probe with naturalistic, task-demanding contexts spanning twelve alias conventions, the prior still steers direct generation toward conventional-library idioms that do not run under the binding (for example a pandas \texttt{Series} where numpy is the binding, an xgboost \texttt{Booster} where sklearn is); explicit reasoning, not a passive cue, overrides it. A mechanistic analysis of two Qwen2.5 base models then locates the effect. In logit-lens trajectories the swapped condition tracks the conventional condition layer by layer; the bound library's evidence surfaces mid-stack but is attenuated; the final four to five blocks write the conventional library into the output. Activation patching shows the difference is carried by the alias token at the use site from the embedding upward, the import line contributes almost nothing causally, and the heads that fetch the binding from the import under a nonce alias lose that attention under the canonical one. In both models the pull is carried by the alias token's identity rather than by a failure to read the import.
 \end{abstract}
 
 \section{Introduction}
 
 In Python code a handful of import aliases are near-universal: \texttt{np} denotes numpy, \texttt{pd} denotes pandas, \texttt{plt} denotes \texttt{matplotlib.pyplot}. A model trained on public code sees \texttt{np.array} and \texttt{pd.DataFrame} so consistently that the mapping from alias to library behaves like a strong prior. We study what happens when a program breaks that convention. The statement \texttt{import pandas as np} binds \texttt{np} to pandas, so \texttt{np.DataFrame} is correct and \texttt{np.arange} does not exist. A model that reads the local binding should prefer pandas methods at \texttt{np.}; a model that follows its prior should prefer numpy methods. We measure which one happens, and how it depends on the number of tokens between the import and the use.
 
-Three lines of work frame this question without answering it. Semantic override studies models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit reasoning rather than code \citep{thota2026semantic}. Robustness to variable renaming treats identifier names as arbitrary, where invariance is the goal precisely because the prior over names is close to flat \citep{henkel2022semantic}; a canonical alias is the opposite case, a name with a near-delta prior. Long-context evaluation probes retrieval of placed facts and its decay with position \citep{liu2024lost,modarressi2025nolima}, not conflict between context and a parametric prior. The broader tension between context and memory is surveyed under knowledge conflict \citep{xu2024knowledge}; we give a controlled, code-specific, behavioral instance of it with a clean baseline.
+Three lines of work frame this question without answering it. Semantic override studies models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit reasoning rather than code \citep{thota2026semantic}. Robustness to variable renaming treats identifier names as arbitrary, where invariance is the goal precisely because the prior over names is close to flat \citep{henkel2022semantic}; a canonical alias is the opposite case, a name with a near-delta prior. Long-context evaluation probes retrieval of placed facts and its decay with position \citep{liu2024lost,modarressi2025nolima}, not conflict between context and a parametric prior. The broader tension between context and memory is surveyed under knowledge conflict \citep{xu2024knowledge}; we give a controlled, code-specific instance of it with a clean baseline.
+
+The behavioral contrast also fixes what a mechanistic account must explain. The correct continuation never appears in context, so tracking the binding requires composing two hops, from the alias to the library it denotes here and from that library to its methods, while the failure mode is a one-hop association from the alias token to its conventional library. The no-prior control proves the two-hop path works when nothing competes with it. On two small open models we ask where the one-hop prior enters and where it wins: does the bound library's answer never form across layers, or does it form and get overwritten? We answer with logit-lens readouts \citep{nostalgebraist2020interpreting}, activation patching \citep{vig2020investigating,meng2022locating}, and head-level attribution in the style of memory-versus-context analyses of knowledge conflict \citep{yu2023characterizing,jin2024cutting}.
 
 Our contributions:\footnote{Code, programmatically generated stimuli, scored outputs, and figures: \url{https://anonymous.4open.science/r/pandas-as-pd} (MIT license). Model weights come from their original sources under their own licenses.}
 \begin{itemize}
@@ -40,17 +42,23 @@ Our contributions:\footnote{Code, programmatically generated stimuli, scored out
 \item A distance result: the effect is present at the use site immediately and is stable to 8192 tokens, rather than growing with distance.
 \item A behavioral consequence: the prior surfaces in generated code and produces calls that do not resolve under the binding.
 \item A frontier-model and long-context check: DeepSeek-V4-Pro reproduces the pull to 128k tokens and recognizes the rebound library when asked while acting against it, and its thinking mode removes the forced-choice effect.
+\item A mechanistic localization on Qwen2.5-0.5B and 1.5B: the bound library's answer forms mid-stack but is attenuated (by 93\% and 52\% against the no-prior control) and is overwritten in the last four to five blocks; causally, the difference rides the use-site alias token from the embedding upward, the import line is close to inert, and the heads that fetch the binding under a nonce alias are diverted under the canonical one.
+\item Two mitigation probes anchored in that account: ablating the heads that promote the prior does not reduce it (the late write is distributed), and a comment restating the binding trims only 15 to 25\% of the gap; replacing the use-site alias representation is the one intervention that does.
 \end{itemize}
 
 \section{Method}
+\label{sec:method}
 
 \paragraph{Stimuli.} Each item is a short Python prefix ending at the use site \texttt{alias.}, with neutral filler between the import and the use. For a pair of libraries $(A, B)$ whose canonical alias is $a$ we build three conditions. \emph{Conventional} binds $a$ to $A$ (\texttt{import A as a}), the correct and expected case. \emph{Swapped} binds $a$ to $B$ (\texttt{import B as a}), so the alias's conventional library $A$ is the prior and $B$ is the binding. \emph{No-prior} binds $B$ to a non-canonical alias \texttt{zz} (\texttt{import B as zz}), which carries no convention. No-prior shares the binding $B$ and the filler distance with swapped but removes the competing prior, so the contrast between them controls for any generic loss of binding tracking over distance. Stimuli are templated, not sampled from a corpus, which keeps the conditions matched and avoids contamination.
 
 \paragraph{Metric.} At the prefix ending \texttt{alias.} we score short discriminative continuation strings for each library, for example \texttt{array(} and \texttt{arange(} for numpy and \texttt{DataFrame(} and \texttt{read\_csv(} for pandas, excluding names shared across libraries. We use continuation scoring, the teacher-forced sum of token log-probabilities of the whole method string, because method names are multi-token and a single-token probability would misrepresent them. The prior-pull is the log-sum-exp over the conventional library's continuations minus the log-sum-exp over the bound library's continuations. Positive prior-pull means the model favors the conventional library. The headline statistic is the difference-in-differences (DiD) gap, prior-pull in swapped minus prior-pull in no-prior.
 
-\paragraph{Design.} Six swap pairs are grouped into three prior-strength tiers: very common (\texttt{np}, \texttt{pd}), common (\texttt{torch}, \texttt{plt}), and rare (\texttt{sk}, \texttt{xgb}). The distance axis inserts filler measured in tokens at depths 0, 512, and 2048, extended to 8192 on the models run on CPU. A generation arm greedy-decodes 48 tokens after \texttt{alias.}, classifies the first accessed attribute as conventional-style, bound-style, or other, and checks by static attribute lookup whether that attribute exists on the real bound library; a missing attribute is a broken call that would raise \texttt{AttributeError}. We score nine configurations over eight open checkpoints from 0.5B to 8B (Table~\ref{tab:models}): Qwen2.5 0.5B and 1.5B (base and instruct), Qwen2.5-Coder 7B, Llama-3.2 1B and 3B, and Llama-3.1 8B \citep{qwen2025qwen25,grattafiori2024llama3}. Models above 1.5B and all 8192-token bins run as 4-bit GGUF on CPU; the rest run in fp16 on GPU, and Qwen2.5-0.5B-instruct is measured in both settings. The run yields 1{,}683 scored prefixes and 468 generations. We report effect sizes with 95\% bootstrap confidence intervals clustered on pair, and a crossed random-effects regression for the dose slope. All claims are behavioral.
+\paragraph{Design.} Six swap pairs are grouped into three prior-strength tiers: very common (\texttt{np}, \texttt{pd}), common (\texttt{torch}, \texttt{plt}), and rare (\texttt{sk}, \texttt{xgb}). The distance axis inserts filler measured in tokens at depths 0, 512, and 2048, extended to 8192 on the models run on CPU. A generation arm greedy-decodes 48 tokens after \texttt{alias.}, classifies the first accessed attribute as conventional-style, bound-style, or other, and checks by static attribute lookup whether that attribute exists on the real bound library; a missing attribute is a broken call that would raise \texttt{AttributeError}. We score nine configurations over eight open checkpoints from 0.5B to 8B (Table~\ref{tab:models}): Qwen2.5 0.5B and 1.5B (base and instruct), Qwen2.5-Coder 7B, Llama-3.2 1B and 3B, and Llama-3.1 8B \citep{qwen2025qwen25,grattafiori2024llama3}. Models above 1.5B and all 8192-token bins run as 4-bit GGUF on CPU; the rest run in fp16 on GPU, and Qwen2.5-0.5B-instruct is measured in both settings. The run yields 1{,}683 scored prefixes and 468 generations. We report effect sizes with 95\% bootstrap confidence intervals clustered on pair, and a crossed random-effects regression for the dose slope. The claims in Section~\ref{sec:results} are behavioral; Section~\ref{sec:mech} adds a scoped mechanistic analysis.
+
+\paragraph{Mechanistic probes.} For the analysis in Section~\ref{sec:mech} we load Qwen2.5-0.5B and 1.5B (base, fp16) in TransformerLens \citep{nanda2022transformerlens} and build a token-aligned stimulus set on the primary pair, numpy$\leftrightarrow$pandas: 30 base contexts per depth $\{0, 512\}$, each instantiated in the three conditions so that the conditions of a base differ only at the library token and the two alias occurrences (all single tokens under the shared tokenizer; alignment is asserted per triple). The distance-flat behavioral result licenses studying the mechanism at short context. Because the full metric is multi-token, layerwise work uses a proxy: proxy-pull is the log-sum-exp of the final-position logits over the first tokens of each library's continuations (no first token appears in both libraries' sets). Against the full continuation-scored prior-pull on the same 180 prompts per model, the proxy attains Spearman $0.87$ on both models with sign agreement $0.98$ and $0.93$, so the proxy ranks items and separates conditions as the behavioral metric does (Appendix~\ref{sec:mechsetup}).
 
 \section{Results}
+\label{sec:results}
 
 \paragraph{The prior reasserts.} Across all nine models the swapped binding places more probability on the conventional library's methods than on the bound library's, net of the no-prior control. The overall DiD gap is $+6.81$ nats (95\% CI $[+4.56, +9.11]$). Every model's gap is positive with an interval that excludes zero (Table~\ref{tab:models}), from $+5.17$ for Llama-3.2-3B to $+7.56$ for Qwen2.5-1.5B-instruct. Read against a same-library, same-distance control, a gap of this size means the swap multiplies the model's odds on the conventional library over the bound one by about $e^{6.8}$; in the swapped condition itself the conventional library's methods carry roughly $e^{3.9}\approx 48$ times the probability mass of the bound library's (Appendix Table~\ref{tab:raw}). The control does not merely sit at zero: in no-prior the model prefers the bound library by $-2.94$ nats (Appendix Table~\ref{tab:raw}), so the swap flips a net preference for the bound library into a net preference for the conventional one, and the gap subtracts a measured base-rate baseline rather than assuming a neutral one.
 
@@ -81,6 +89,7 @@ Overall                 &      & $+6.81\ [+4.56, +9.11]$ \\
 \paragraph{The gap scales with the convention's corpus frequency.} We replace ordinal prior-strength tiers with a measured dose: the log frequency of each canonical \texttt{import LIB as alias} convention in a 150{,}000-file Python sample of the codeparrot corpus.\footnote{\url{https://huggingface.co/datasets/codeparrot/codeparrot-clean}; counted by \texttt{scripts/corpus\_freq.py}. For an alias equal to its module name (\texttt{torch}) the plain \texttt{import} also establishes the binding and is counted.} Regressing prior-pull on the swapped indicator interacted with this log frequency, over all 1{,}122 swapped and no-prior items with crossed random intercepts for pair and model, the gap rises by $+0.94$ nats per natural-log unit of corpus frequency (Figure~\ref{fig:dose}). The pair-clustered bootstrap 95\% interval is $[+0.69, +1.35]$, with 99\% of bootstrap slopes positive: it is the measured frequency, not an assigned tier, that carries the dose.
 
 \begin{figure}[t]
+\centering
 \includegraphics[width=\columnwidth]{figures/full_dose_curve.png}
 \caption{Dose response. The per-pair DiD gap (swapped minus no-prior prior-pull) increases with the measured log corpus frequency of the canonical \texttt{import LIB as alias} convention. The line is the crossed random-effects fit ($+0.94$ nats per log-unit; pair-clustered bootstrap 95\% CI $[+0.69, +1.35]$).}
 \label{fig:dose}
@@ -101,7 +110,7 @@ Overall                 &      & $+6.81\ [+4.56, +9.11]$ \\
 \small
 \begin{tabular}{lcc}
 \toprule
-\textbf{DeepSeek-V4-Pro, swapped probe} & \textbf{direct} & \textbf{think} \\
+\textbf{Probe} & \textbf{direct} & \textbf{think} \\
 \midrule
 Forced choice, prior-method rate & & \\
 \quad conventional (ceiling) & 0.92 & 1.00 \\
@@ -111,8 +120,71 @@ Forced choice, prior-method rate & & \\
 Verbal recognition, swapped & 1.00 & 1.00 \\
 \bottomrule
 \end{tabular}
-\caption{DeepSeek-V4-Pro behavioral probe. In the controlled forced choice the direct (non-thinking) model picks the conventional library's non-existent method far more under the swap than under the no-prior control (difference $+0.30$, 95\% CI $[+0.06, +0.61]$), while naming the bound library correctly every time; the thinking mode removes the forced-choice pull. The swapped forced-choice rate is flat from 0 to 128k tokens ($0.50/0.75/0.58/0.75/0.50$ at $0/2$k$/8$k$/32$k$/128$k). Direct $n$ is 24 to 46 per condition.}
+\caption{DeepSeek-V4-Pro behavioral probe. In the controlled forced choice the direct (non-thinking) model picks the conventional library's non-existent method far more under the swap than under the no-prior control (difference $+0.30$, 95\% CI $[+0.06, +0.61]$), while naming the bound library correctly every time; the thinking mode removes the forced-choice pull. The swapped forced-choice rate is flat from 0 to 128k tokens ($0.50/0.75/0.58/0.75/0.50$ at 0/2k/8k/32k/128k). Direct $n$ is 24 to 46 per condition.}
 \label{tab:deepseek}
+\end{table}
+
+\section{Where the prior acts}
+\label{sec:mech}
+
+The behavioral sections establish that the pull exists, scales with corpus frequency, and does not decay with distance. This section asks where it acts, on Qwen2.5-0.5B (24 blocks) and 1.5B (28 blocks), on the primary pair, with the proxy metric of Section~\ref{sec:method}. The competing hypotheses come from mechanistic studies of knowledge conflict, where memory heads and context heads integrate inconsistent information late in the network \citep{yu2023characterizing,jin2024cutting,ortu2024competition}: either the bound library's answer never forms across layers (the binding is lost early), or it forms and is overwritten at the integration point.
+
+\paragraph{The bound library's answer forms weakly and is overwritten late.} We decode the residual stream at the final position after every block through the final norm and unembedding \citep{nostalgebraist2020interpreting,geva2022transformer} and track proxy-pull per layer (Figure~\ref{fig:lens}). Three observations. First, the swapped trajectory tracks the conventional trajectory, not the no-prior one, at every layer in both models and both depths: the mean gap between swapped and conventional over blocks 2 onward is 0.25 to 0.55 nats, against 3.8 to 4.6 nats between swapped and no-prior. The trajectory is shaped by the alias's identity, not by what the alias is bound to. Second, the bound library does lead somewhere after block 4 in 90 to 100\% of swapped items, but its peak evidence is attenuated: the mean per-item minimum is $-0.58$ nats in swapped against $-8.31$ in no-prior for 0.5B (93\% attenuation) and $-6.70$ against $-13.86$ for 1.5B (52\%). Third, the resolution is late and holds for every item. In 1.5B the conditions separate at blocks 22 to 24, where no-prior plunges to $-14.9$ (the binding retrieval the two-hop path supports when nothing competes) while conventional and swapped jump to $+4$ to $+6$; the last block at which the bound library leads averages 23 of 28 (19.3 to 19.6 of 24 for 0.5B), and 100\% of swapped items end with positive proxy-pull. The picture is formed-then-overwritten for 1.5B and barely-formed for 0.5B: the competing prior both suppresses the mid-stack binding evidence and wins the final integration.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/mech_logitlens_15b.png}
+\caption{Logit-lens proxy-pull per block, Qwen2.5-1.5B, mean over items with bootstrap bands (embedding-only checkpoint omitted). Swapped (red) tracks conventional (green) rather than no-prior (blue) at every block; the conditions separate at blocks 22 to 24, where no-prior retrieves the binding ($-14.9$ at the trough) and swapped resolves to the conventional library. Qwen2.5-0.5B shows the same shape with a shallower swapped trough (Appendix Figure~\ref{fig:lens05}).}
+\label{fig:lens}
+\end{figure*}
+
+\paragraph{Causally, the pull rides the alias token at the use site.} Within a base, the swapped and no-prior stimuli are token-identical except for the alias, so patching residual activations between them isolates the alias-identity difference \citep{vig2020investigating,meng2022locating,zhang2024towards}. We patch the residual stream at one layer and one position group (import line, use-site alias token, final position, or filler as a negative control) from a no-prior run into a swapped run and report the fraction of the condition gap restored, over 24{,}960 patches (Figure~\ref{fig:patch}). Patching the use-site alias token in the earliest layers restores 0.79 (0.5B) and 0.61 (1.5B) of the gap at layer 0, decaying to zero by layers 20 and 22: at layer 0 this amounts to lexical substitution of the alias, and the decay profile shows how long that position stays causally live. The final position mirrors it, ramping to 1.0 by layer 19 in 0.5B and jumping from 0.24 to 0.97 across layers 19 to 22 in 1.5B, the same window where the trajectories separate; the correlational and causal timings agree layer for layer. The import line restores at most 0.1 of the gap at the use site at depth 512, and the filler restores none ($|f| \le 0.022$ everywhere). The prior does not act by degrading what the model reads from the import; it is carried by the alias token itself from the embedding upward, handed to the final position, and written there in the last blocks.
+
+\begin{figure}[t]
+\centering
+\includegraphics[height=0.52\textheight,keepaspectratio,width=\columnwidth]{figures/mech_patch_15b_d0.png}
+\caption{Activation patching, no-prior source into swapped destination, Qwen2.5-1.5B at depth 0: fraction of the condition gap restored per layer and position group. The use-site alias column is causally live from layer 0 and hands off to the final position at layers 19 to 23; the import line and filler columns restore almost none of the gap (at most 0.1 and 0.022). The 0.5B heatmap and the reverse direction are in Appendix Figure~\ref{fig:patch05}.}
+\label{fig:patch}
+\end{figure}
+
+\paragraph{Binding-fetch heads are diverted, not absent.} At the final position we measure each head's attention mass on the import line and its direct contribution to the proxy direction, the mean-unembed difference between the two libraries' first tokens \citep{elhage2021mathematical}. Two caveats: the import line occupies the first sequence positions, which also serve as an attention sink \citep{xiao2024efficient}, so raw import attention is inflated (hundreds of heads put mass there and write nothing); and pooled over import-attending heads, attention does not drop in swapped. The informative statistic is the per-head contrast between conditions, which shares token positions and is therefore not attributable to the sink. The heads with the largest contrast that also carry attribution show one signature (Table~\ref{tab:heads}): their import attention collapses sharply under the canonical alias, and their binding-promoting output weakens or flips. The strongest case, L22H8 of 1.5B, attends to the import at 0.52 to 0.70 across depths under the nonce alias and promotes the binding; under \texttt{np} its import attention falls to 0.11 to 0.23 and it becomes the model's strongest positive-attribution head (the largest projection onto the proxy direction), inside the same late window. In the vocabulary of \citet{yu2023characterizing} and \citet{jin2024cutting}, the context heads exist and work; the alias token's identity changes their query, diverts them from the import line, and the late integration then goes to the alias's associated library.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{\textbf{import attn}} & \multicolumn{2}{c}{\textbf{DLA}} \\
+\textbf{Head} & \textbf{no-pr} & \textbf{swap} & \textbf{no-pr} & \textbf{swap} \\
+\midrule
+0.5B L17H1 & 0.61 & 0.09 & $-0.24$ & $-0.17$ \\
+1.5B L21H5 & 0.86 & 0.29 & $-0.15$ & $+0.02$ \\
+1.5B L22H8 & 0.52 & 0.11 & $-0.07$ & $+0.21$ \\
+\bottomrule
+\end{tabular}
+\caption{Signature heads at depth 512: attention mass on the import line from the final position, and direct logit attribution onto the proxy direction (negative = binding-promoting), per condition. Under the canonical alias the same heads stop attending to the import and stop (or reverse) promoting the binding; depth-0 values agree (Appendix Table~\ref{tab:headsfull}). L21H5 is selected by the attention contrast, not by swapped-side attribution, which the diversion itself drives to zero.}
+\label{tab:heads}
+\end{table}
+
+\paragraph{Ablating positive-attribution heads does not help.} If the late write were concentrated in the heads with positive attribution, removing them should reduce the pull. It does not. Zero-ablating the top $k \in \{1,3,5\}$ positive-attribution heads leaves 0.5B unchanged (swapped $+2.60 \to +2.52$ at best) and increases the pull on 1.5B ($+4.27 \to +4.74$ at $k{=}1$), with conventional shifting alongside and, at $k{=}1$, by more (difference $+0.07$, 95\% CI $[+0.02, +0.13]$); partial scaling interpolates (Appendix Table~\ref{tab:ablate}). Direct attribution measures a head's contribution, not its net effect under intervention, and the discrepancy is consistent with the self-repair reported for ablations \citep{mcgrath2023hydra,rushing2024explorations}. We report this as a negative result: the late-layer write is distributed, and the causal handle that does move the behavior is the use-site alias representation, which restores 0.6 to 1.2 of the gap when patched (values above 1 are overshoot in the reverse direction; Appendix~\ref{sec:mechmore}).
+
+\paragraph{Text-level mitigations are consistent with the localization.} If the pull rides the alias token, then adding text that neither changes the alias nor forces re-derivation should help only partially. We score two arms with the full behavioral metric on four Qwen2.5 checkpoints (Table~\ref{tab:arms}). A comment restating the binding immediately before the use site (\texttt{\# note: np is pandas in this file}) reliably trims the pull, by $-1.5$ to $-2.6$ nats with every interval excluding zero, yet leaves $+6.0$ to $+7.3$ of a roughly 10-nat gap in place. An instruction to follow the imports, prepended above the import, moves the instruct models by at most $-0.85$ nats. Both echo the frontier-model result that a passive cue reduces but does not remove the pull while explicit reasoning does, and both are what the localization leads one to expect: the interventions leave the alias token, and therefore the carrier of the prior, untouched. On the rare-tier pair (\texttt{sk} bound to xgboost) the swapped condition already tracks the binding ($-1.2$ to $-3.3$ nats), the mechanistic counterpart of the dose response.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Model} & \textbf{plain} & \textbf{restate} & \textbf{instruct} \\
+\midrule
+0.5B        & $+7.75$ & $+6.00$ & --      \\
+0.5B-inst   & $+8.61$ & $+7.08$ & $+8.79$ \\
+1.5B        & $+9.12$ & $+6.49$ & --      \\
+1.5B-inst   & $+9.71$ & $+7.33$ & $+8.86$ \\
+\bottomrule
+\end{tabular}
+\caption{Prior-pull (nats) on swapped numpy$\leftrightarrow$pandas items at depth 512 ($n{=}24$ per cell) under text-level mitigations: a binding-restating comment adjacent to the use site, and an obey-the-imports instruction (instruct models only). The no-prior reference sits at $-1.0$ to $-2.0$. Deltas and intervals in Appendix Table~\ref{tab:armsfull}.}
+\label{tab:arms}
 \end{table}
 
 \section{Related Work}
@@ -123,9 +195,17 @@ Verbal recognition, swapped & 1.00 & 1.00 \\
 
 \paragraph{Long context.} Long-context benchmarks measure retrieval of placed information and its degradation with position \citep{liu2024lost,modarressi2025nolima}. Our distance axis instead holds a prior conflict fixed and varies the gap to the import; the conflict does not decay over the range we test.
 
+\paragraph{Mechanistic analyses of context-memory conflict.} \citet{yu2023characterizing} identify memory and in-context heads whose competition decides between a memorized and an in-context answer, and control the outcome by scaling single heads; \citet{jin2024cutting} locate knowledge conflicts at the late integration of inconsistent flows from memory and context heads and mitigate by pruning; \citet{ortu2024competition} trace the competition of factual and counterfactual mechanisms to a few specialized heads and the attribute position. Our setting moves the conflict from natural-language facts to code name bindings, where the context does not state the answer but implies it through composition. We add two observations to this line: the diversion is visible on the query side, in that the same context heads stop attending to the import when the alias carries a prior, and the single-head ablations that control factual recall did not transfer to our setting (ablating our positive-attribution heads fails, consistent with self-repair; \citealp{mcgrath2023hydra,rushing2024explorations}). Methodologically we follow templated-stimulus circuit analysis \citep{wang2023interpretability}, logit-lens readouts \citep{nostalgebraist2020interpreting,belrose2023eliciting,geva2022transformer}, and activation-patching practice \citep{zhang2024towards,heimersheim2024how}.
+
+\section{Conclusion}
+
+A canonical import alias is a token whose meaning the corpus has all but fixed. We showed behaviorally that when code rebinds such an alias, models of 0.5B to 8B parameters, and a frontier hosted model to 128k tokens, keep placing probability on the convention, in proportion to its corpus frequency, immediately and without decay, and visibly enough to emit calls that cannot run. Mechanistically, on two small models, the failure is not one of retrieval: the binding is read, the two-hop path works without competition, and the reassertion is carried by the alias token itself and written in the last blocks, where the heads that would fetch the binding have been diverted. The practical corollaries are that reminders and instructions mitigate only partially, that explicit reasoning re-derives the binding and wins, and that the corpus prior over names is not overwritten by scale in this range. Code is a setting where context should always win, because the interpreter always wins; measuring where models fall short of that standard, and where in the network they do, seems a useful benchmark for work on context-memory conflict.
+
 \section*{Limitations}
 
-The local continuation-scoring dose-response rests on six pair clusters, so its interval is wide; the API forced choice extends the dose-response to twelve alias conventions, though both are samples of a larger convention space. The corpus-frequency dose uses a 150k-file codeparrot sample and a regex import count, which is a sample of public Python rather than any model's exact pretraining mix. The continuation-scoring distance axis reaches 8192 tokens for all open models and 32k for a single-model difference-in-differences spot-check, a bound set by native context limits and available hardware; a behavioral version of the contrast reaches 128k on the hosted model. The open checkpoints are 8B or smaller; we add one frontier hosted model, DeepSeek-V4-Pro, probed by forced choice, generation, and verbal recognition rather than continuation scoring because its API does not expose teacher forcing, on two very-common pairs at the deep bins. The swapped import is pathological code used as a controlled instrument. A complementary naturalistic probe gives a first look at realistic contexts: model-generated, task-demanding snippets across all twelve alias conventions (disclosed as generated; the binding conditions are still applied programmatically and every prompt is hashed) on which the prior persists in direct greedy generation even when the task plainly needs the bound library. The model emits the conventional library's idioms that do not run (a numpy structured array in place of a DataFrame; a pandas \texttt{Series} where numpy is bound; an xgboost \texttt{Booster} where sklearn is). The prior-pull difference-in-differences over the twelve conventions is $+5.7$ to $+7.6$ nats (two models, both pair-clustered bootstrap intervals excluding zero) and is largest for the most frequent conventions, echoing the corpus-frequency dose; explicit reasoning, not a passive in-context cue, overrides it. The same naturalistic generation arm on the frontier model shows the split directly: in direct mode the swapped broken-call rate is about three times the no-prior control ($9.2\%$ against $3.1\%$, a difference of $+6.2$ points, 95\% CI $[+0.0, +12.3]$) and the thinking mode removes it ($0.8\%$), though the frontier model's absolute breakage is far below the small models'. This arm uses generated stimuli, so it is suggestive rather than a full controlled sweep. The metric is a single-call preference at one use site, and realized conventional-style generation is modest, so the size of the risk in multi-step coding is not established here. We make no mechanistic claim about where in the model the binding is represented.
+The local continuation-scoring dose-response rests on six pair clusters, so its interval is wide; the API forced choice extends the dose-response to twelve alias conventions, though both are samples of a larger convention space. The corpus-frequency dose uses a 150k-file codeparrot sample and a regex import count, which is a sample of public Python rather than any model's exact pretraining mix. The continuation-scoring distance axis reaches 8192 tokens for all open models and 32k for a single-model difference-in-differences spot-check, a bound set by native context limits and available hardware; a behavioral version of the contrast reaches 128k on the hosted model. The open checkpoints are 8B or smaller; we add one frontier hosted model, DeepSeek-V4-Pro, probed by forced choice, generation, and verbal recognition rather than continuation scoring because its API does not expose teacher forcing, on two very-common pairs at the deep bins. The swapped import is pathological code used as a controlled instrument. A complementary naturalistic probe gives a first look at realistic contexts: model-generated, task-demanding snippets across all twelve alias conventions (disclosed as generated; the binding conditions are still applied programmatically and every prompt is hashed) on which the prior persists in direct greedy generation even when the task plainly needs the bound library. The model emits the conventional library's idioms that do not run (a numpy structured array in place of a DataFrame; a pandas \texttt{Series} where numpy is bound; an xgboost \texttt{Booster} where sklearn is). The prior-pull difference-in-differences over the twelve conventions is $+5.7$ to $+7.6$ nats (two models, both pair-clustered bootstrap intervals excluding zero) and is largest for the most frequent conventions, echoing the corpus-frequency dose; explicit reasoning, not a passive in-context cue, overrides it. The same naturalistic generation arm on the frontier model shows the split directly: in direct mode the swapped broken-call rate is about three times the no-prior control ($9.2\%$ against $3.1\%$, a difference of $+6.2$ points, 95\% CI $[+0.0, +12.3]$, item-level bootstrap) and the thinking mode removes it ($0.8\%$), though the frontier model's absolute breakage is far below the small models'. This arm uses generated stimuli, so it is suggestive rather than a full controlled sweep. The metric is a single-call preference at one use site, and realized conventional-style generation is modest, so the size of the risk in multi-step coding is not established here.
+
+The mechanistic analysis is deliberately scoped and its claims should not be read past that scope. It covers two sizes of one family (Qwen2.5 base) on one pair, at depths 0 and 512, with a proxy metric validated against the behavioral one at Spearman $0.87$; the layerwise conclusions are claims about that proxy. The logit lens is correlational and the patching is causal only at residual-position granularity; we do not identify a circuit, and head-level path patching, cross-family replication, and the mechanism at frontier scale are open. The 1.5B model's absolute logits in the hooked implementation diverge from the reference implementation at 512-token contexts (near-tied top candidates reorder under fp16 accumulation), so only within-condition contrasts and the validated proxy ranking carry weight there. Direct logit attribution is a linearized, correlational label, and our own ablation result shows it does not predict intervention outcomes; we use it descriptively. Templated stimuli enable the position-aligned patching but are, as above, pathological code used as an instrument; whether the same localization holds in naturalistic contexts is untested.
 
 \bibliography{custom}
 
@@ -155,18 +235,21 @@ DiD gap (swapped $-$ no-prior) & $+6.81\ [+4.56, +9.11]$ \\
 \end{table}
 
 \begin{figure}[t]
+\centering
 \includegraphics[width=\columnwidth]{figures/full_gap_vs_depth.png}
 \caption{DiD gap versus distance from the import (tokens, symmetric-log axis), one line per model. The gap stays positive and flat from 0 to 8192 tokens; no model shows a confidence-interval-separated increase from the shortest to the longest bin.}
 \label{fig:depth}
 \end{figure}
 
 \begin{figure}[t]
+\centering
 \includegraphics[width=\columnwidth]{figures/full_generation_arm.png}
 \caption{Generation arm (left): class of the first accessed attribute per condition. Only swapped produces conventional-style idioms. Broken-call rate (right): fraction of generations whose accessed attribute does not resolve on the bound library.}
 \label{fig:gen}
 \end{figure}
 
 \begin{figure}[t]
+\centering
 \includegraphics[width=\columnwidth]{figures/full_size_trend.png}
 \caption{DiD gap versus model size (log axis), pooled over pairs and depths. The gap is roughly flat from 0.5B to 8B. Bars are 95\% pair-clustered bootstrap intervals.}
 \label{fig:size}
@@ -202,5 +285,109 @@ plotly.express   & \texttt{px}    & 6 & 2.8 & 6.3.1 \\
 \caption{Candidate continuations per library: count, mean use-site token length (\texttt{tiktoken cl100k}), and pinned package version at which each was verified. The six above the rule are the headline continuation-scoring libraries; the six below extend the API forced-choice dose-response.}
 \label{tab:cand}
 \end{table}
+
+\section{Mechanistic setup and validation}
+\label{sec:mechsetup}
+
+\paragraph{Alignment.} For the primary pair the three conditions of a base tokenize to identical lengths with identical spans: \texttt{numpy} and \texttt{pandas} are single tokens, and the aliases \texttt{np} and \texttt{zz} are single tokens both after \texttt{as} and at the use site. Each base fixes a use-line variable from a 30-name pool (\texttt{x}, \texttt{res}, \texttt{tmp}, ...) and, at depth 512, a filler seed; conditions differ only at the library token and the two alias positions, which is asserted element-wise per triple. This gives 30 bases per depth, 180 stimuli per model, identical across the two models (shared tokenizer).
+
+\paragraph{Proxy lexicon.} The proxy uses the first token of each of the six discriminative continuations per library, tokenized without a leading space (they follow the dot); no first token appears in both libraries' sets, so nothing is dropped. Proxy-pull is the log-sum-exp of the final-position logits over the numpy set minus that over the pandas set, in that fixed orientation for all three conditions; it is invariant to the log-softmax shift.
+
+\paragraph{Validation.} Models load unprocessed (no norm folding or weight centering); the logit-lens final checkpoint then reproduces the true final logits exactly (argmax-identical, correlation $1.0$), which anchors the lens basis. Against the full continuation-scored prior-pull on the same 180 prompts (frozen behavioral backend), the proxy attains Pearson $0.98$/$0.94$ and Spearman $0.87$/$0.87$ for 0.5B/1.5B, with sign agreement $0.98$ and $0.93$ on items where the full metric exceeds 1 nat in magnitude ($n{=}160$ and $180$; Figure~\ref{fig:m0}). The gate for running the layerwise experiments was Spearman $\ge 0.7$ and sign agreement $\ge 0.9$ on both models; the run was executed twice end to end and every statistic reproduces exactly. Hooked-versus-reference numerics: for 0.5B the two implementations agree (argmax 6/6 probes, mean maximum log-probability difference $0.05$ nats); for 1.5B they disagree on 2 of 6 probes, only at depth 512 and only among top candidates within 1 nat of each other, an fp16 accumulation difference between eager attention and fused kernels. All layerwise quantities are within-implementation condition contrasts, which this drift cancels.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/mech_m0_15b.png}
+\caption{Proxy validation, Qwen2.5-1.5B: proxy-pull at the final layer against the full continuation-scored prior-pull on the same prompts, by condition. Spearman $0.87$. The 0.5B scatter is tighter (Pearson $0.98$).}
+\label{fig:m0}
+\end{figure}
+
+\section{Additional mechanistic results}
+\label{sec:mechmore}
+
+\paragraph{Trajectories.} Figure~\ref{fig:lens05} shows the 0.5B logit-lens trajectories; the swapped trough is shallower than in 1.5B (mean per-item minimum $-0.58$ against $-6.70$), which is why we describe the 0.5B picture as barely-formed: 3 of 30 depth-512 swapped items never go bound-positive at any block after block 4.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/mech_logitlens_05b.png}
+\caption{Logit-lens proxy-pull per block, Qwen2.5-0.5B (embedding-only checkpoint omitted). Same three-condition structure as Figure~\ref{fig:lens}: swapped tracks conventional, no-prior separates toward the binding from blocks 14 to 16 and troughs at blocks 18 to 21.}
+\label{fig:lens05}
+\end{figure*}
+
+\paragraph{Patching.} Figure~\ref{fig:patch05} shows the 0.5B heatmap. In the reverse direction (swapped source into no-prior destination) the use-site alias column restores $1.0$ (0.5B) and $1.2$ (1.5B, an overshoot present already at layer 0) of the gap, i.e. transplanting the \texttt{np} representation into a nonce-alias run reinstates the prior. Import-line cells reach $0.25$ to $0.41$ at layers 0 to 1 at depth 0 in this direction (the import-line alias embedding carries a small direct contribution) and at most $0.21$ at mid layers at depth 512; filler cells are $0$ at depth 0 (empty group) and within $\pm 0.022$ at depth 512.
+
+\begin{figure}[t]
+\centering
+\includegraphics[height=0.52\textheight,keepaspectratio,width=\columnwidth]{figures/mech_patch_05b_d0.png}
+\caption{Activation patching, no-prior into swapped, Qwen2.5-0.5B at depth 0. The handoff from the use-site alias column to the final-position column is more gradual than in 1.5B (Figure~\ref{fig:patch}), completing around layer 19.}
+\label{fig:patch05}
+\end{figure}
+
+\paragraph{Signature heads at both depths.} Table~\ref{tab:headsfull} extends Table~\ref{tab:heads}. The pooled statistic behind the second caveat: over heads with no-prior import attention above $0.2$ at depth 512, mean import attention is $0.56$ to $0.59$ in no-prior and slightly higher in swapped, so there is no blanket attention collapse; the collapse is specific to the heads shown. A separate set of early heads attends to the import more in swapped (1.5B L8H7: $0.04 \to 0.90$ at depth 512) with attribution near zero, consistent with same-token matching between the two \texttt{np} occurrences \citep{olsson2022incontext}.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llcccc}
+\toprule
+& & \multicolumn{2}{c}{\textbf{import attn}} & \multicolumn{2}{c}{\textbf{DLA}} \\
+\textbf{Head} & \textbf{d} & \textbf{no-pr} & \textbf{swap} & \textbf{no-pr} & \textbf{swap} \\
+\midrule
+0.5B L17H1 & 0   & 0.79 & 0.26 & $-0.27$ & $-0.17$ \\
+0.5B L17H1 & 512 & 0.61 & 0.09 & $-0.24$ & $-0.17$ \\
+1.5B L21H5 & 0   & 0.88 & 0.42 & $-0.16$ & $+0.03$ \\
+1.5B L21H5 & 512 & 0.86 & 0.29 & $-0.15$ & $+0.02$ \\
+1.5B L22H8 & 0   & 0.70 & 0.23 & $-0.06$ & $+0.21$ \\
+1.5B L22H8 & 512 & 0.52 & 0.11 & $-0.07$ & $+0.21$ \\
+\bottomrule
+\end{tabular}
+\caption{Signature heads at both depths: import-line attention from the final position and direct logit attribution (negative = binding-promoting). The contrasts are stable across depths, so they are not positional artifacts of the attention sink at the sequence start.}
+\label{tab:headsfull}
+\end{table}
+
+\paragraph{Ablation.} Table~\ref{tab:ablate} gives the full ablation sweep. The 0.5B ranking contains only four positive-attribution heads, so $k{=}5$ ablates four. Factors 0.25 and 0.5 sit between the factor-0 and baseline values up to noise (deviations of at most 0.04 nats in 2 of 12 cells).
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Model} & \textbf{cond} & \textbf{base} & \textbf{$k{=}1$} & \textbf{$k{=}3$} \\
+\midrule
+0.5B & swapped      & $+2.60$ & $+2.52$ & $+2.60$ \\
+0.5B & conventional & $+3.48$ & $+3.45$ & $+3.58$ \\
+1.5B & swapped      & $+4.27$ & $+4.74$ & $+4.66$ \\
+1.5B & conventional & $+4.89$ & $+5.43$ & $+5.31$ \\
+\bottomrule
+\end{tabular}
+\caption{Zero-ablation (factor 0) of the top-$k$ positive-attribution heads: mean proxy-pull against the unablated baseline, 60 items per cell. $k{=}5$ matches $k{=}3$ within noise ($+4.68$/$+5.36$ for 1.5B, $+2.52$/$+3.46$ for 0.5B). Ablation does not reduce the swapped pull on either model, and on 1.5B it raises both conditions, at $k{=}1$ the conventional one by more (difference $+0.07$, 95\% CI $[+0.02, +0.13]$).}
+\label{tab:ablate}
+\end{table}
+
+\paragraph{Mitigation arms.} Table~\ref{tab:armsfull} gives the deltas with intervals for the arms of Table~\ref{tab:arms}, and the rare-tier pair. Depth-0 cells ($n{=}2$ by the behavioral rep-collapse) are excluded throughout.
+
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Pair} & \textbf{Model} & \textbf{restatement $\Delta$ [95\% CI]} & \textbf{instruction $\Delta$ [95\% CI]} & \textbf{no-prior $\Delta$} \\
+\midrule
+np$\leftrightarrow$pd & 0.5B      & $-1.75\ [-1.92, -1.57]$ & --                      & $-9.74$  \\
+np$\leftrightarrow$pd & 0.5B-inst & $-1.53\ [-1.74, -1.30]$ & $+0.18\ [-0.03, +0.40]$ & $-10.14$ \\
+np$\leftrightarrow$pd & 1.5B      & $-2.63\ [-2.80, -2.46]$ & --                      & $-10.53$ \\
+np$\leftrightarrow$pd & 1.5B-inst & $-2.38\ [-2.55, -2.20]$ & $-0.85\ [-1.08, -0.62]$ & $-10.73$ \\
+\midrule
+sk$\leftrightarrow$xgb & 0.5B      & $+0.70\ [+0.45, +0.95]$ & --                      & $-1.50$ \\
+sk$\leftrightarrow$xgb & 0.5B-inst & $+0.50\ [+0.21, +0.80]$ & $+2.17\ [+1.91, +2.45]$ & $-1.38$ \\
+sk$\leftrightarrow$xgb & 1.5B      & $-1.15\ [-1.57, -0.74]$ & --                      & $-3.25$ \\
+sk$\leftrightarrow$xgb & 1.5B-inst & $-1.31\ [-1.88, -0.74]$ & $+1.00\ [+0.38, +1.58]$ & $-3.60$ \\
+\bottomrule
+\end{tabular}
+\caption{Mitigation arms at depth 512, deltas against the plain swapped baseline (nats; item bootstrap, $n{=}24$ per cell). On the strong convention the restatement reliably trims 1.5 to 2.6 nats of a roughly 10-nat gap and the instruction is near-ineffective. On the rare pair the plain baseline is already negative ($-1.2$ to $-3.3$; the models track the binding) and the intervention deltas are small and mixed in sign, consistent with weak instruction-following at these scales; we draw no conclusion from them.}
+\label{tab:armsfull}
+\end{table*}
+
+\paragraph{Artifacts.} All records, summaries, manifests, and per-experiment figures are under \texttt{mech/} in the released repository, with prompts hashed and three examples per condition retained; \texttt{MECH\_RESULTS.md} documents the per-experiment verdicts, engineering notes, and the verification process, in which every number was independently re-derived from the raw records.
 
 \end{document}
