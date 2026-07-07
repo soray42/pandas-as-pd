@@ -1,11 +1,12 @@
 # alias-inertia
 
-A controlled behavioral probe of code language models. When a canonical import alias (`np`, `pd`,
+A controlled probe of code language models. When a canonical import alias (`np`, `pd`,
 `plt`, ...) is rebound to a different library, for example `import pandas as np`, does the model
 track the local binding or revert to the library the alias conventionally denotes? We measure a
 **prior-pull** score by continuation scoring and contrast a swapped binding against a no-prior
-control, isolating prior reassertion from generic long-context degradation. The accompanying short
-paper is in `paper/`.
+control, isolating prior reassertion from generic long-context degradation, and then locate the
+effect mechanistically on two open models. The accompanying paper (8 pages plus appendix) is in
+`paper/`.
 
 ## Headline result
 
@@ -57,6 +58,35 @@ the frontier model breaks far less often than the small open checkpoints
 `results/deepseek_analysis.json`; reproduce with `make deepseek` (needs `DEEPSEEK_API_KEY` in your
 environment, never committed; API responses cache under `.cache/` so re-runs are free).
 
+## Where the prior acts (mechanistic arm)
+
+On Qwen2.5-0.5B and 1.5B (base, fp16, TransformerLens) with a token-aligned stimulus set on
+numpy/pandas, a validated proxy metric (Spearman **0.87** against the full prior-pull on the same
+prompts, gate in `mech/results/m0_validation.json`), and four experiments:
+
+- **Logit lens**: the swapped trajectory tracks the conventional one layer by layer; the bound
+  library's evidence surfaces mid-stack but attenuated (peak **-0.58** vs **-8.31** nats against
+  no-prior on 0.5B, **-6.70** vs **-13.86** on 1.5B) and the last 4-5 blocks write the conventional
+  library into the output in 100% of swapped items.
+- **Activation patching** (24,960 patches): the swapped-vs-no-prior difference rides the use-site
+  alias token from the embedding upward (fraction restored **0.6-1.2** at layer 0) and hands off to
+  the final position exactly in the late window the lens identifies; the import line is close to
+  inert and the filler is a clean null.
+- **Head attribution**: the heads that fetch the binding from the import under a nonce alias lose
+  that attention sharply under the canonical one; the strongest (1.5B L22H8) flips from
+  binding-promoting to the model's strongest positive-attribution head.
+- **Ablation (negative result)**: zero-ablating the top positive-attribution heads does not reduce
+  the pull (it slightly raises it on 1.5B, in both conditions), so the late write is distributed;
+  the working causal handle is the use-site alias representation. Text-level mitigations agree: a
+  binding-restating comment trims only 15-25% of the gap and an obey-the-imports instruction is
+  near-ineffective (`mech/results/d5_summary.json`).
+
+Everything lives under `mech/` (results, figures, manifest) with per-experiment verdicts,
+engineering notes, and the verification process in `MECH_RESULTS.md`. Reproduce with the
+`scripts/mech_*.py` runners after `pip install -r mech/requirements-mech.txt` (gates first:
+`mech_m0_validate.py`, then `mech_m1_logitlens.py --pilot`; one model per process; 8 GB GPU
+suffices).
+
 ## Reproduce
 
 ```bash
@@ -91,19 +121,23 @@ forced by the local GPU lacking a flash/memory-efficient attention kernel; see `
 
 ```
 src/alias_inertia/   package: lexicons, stimuli, scoring, metrics, generation, validity,
-                     determinism, deepseek_probe (API behavioral arm), backends/ (base, hf, llamacpp)
+                     determinism, deepseek_probe (API behavioral arm), backends/ (base, hf, llamacpp),
+                     mech/ (stimuli alignment, proxy metric, logit lens, patching, heads, ablation)
 scripts/             run.py, analyze.py, dose_regression.py, dose_measured.py, raw_prior_pull.py,
                      corpus_freq.py, candidate_table.py, gen_stimuli.py, smoke_backend.py,
                      run_deepseek.py, analyze_deepseek.py, analyze_deepseek_ext.py,
                      run_naturalistic.py, run_naturalistic_all.py, run_deepseek_naturalistic.py,
-                     run_deepseek_naturalistic_all.py
+                     run_deepseek_naturalistic_all.py, mech_m0_validate.py ... mech_m4_figure.py,
+                     mech_d5_behavioral.py (mechanistic runners)
 configs/             full.yaml (produced the results), smoke.yaml (fast pipeline check)
 results/             scored prefixes (full.parquet), generations, manifest, analysis JSON;
                      deepseek_raw*.jsonl + deepseek_analysis.json (API probe)
-figures/             the four paper figures
-tests/               9 test modules: scoring math, stimuli, metrics, cache, lexicons,
-                     generation, validity, deepseek probe
-paper/               the short paper (acl_latex.tex, custom.bib)
+mech/                mechanistic arm: results/ (records, summaries, manifest), figures/,
+                     requirements-mech.txt; verdicts and verification in MECH_RESULTS.md
+figures/             the paper figures (behavioral + mechanistic)
+tests/               13 test modules: scoring math, stimuli, metrics, cache, lexicons,
+                     generation, validity, deepseek probe, mech alignment/proxy/lens/patching
+paper/               the paper (acl_latex.tex, custom.bib)
 ```
 
 Run `make test` (or `python -m pytest -q`) for the test suite. The scoring math is checked against
@@ -117,8 +151,9 @@ a non-canonical alias bound to the same library). At the prefix ending `alias.` 
 discriminative continuation strings per library and take prior-pull = logsumexp over the conventional
 library's continuations minus logsumexp over the bound library's. Continuation scoring (summed
 teacher-forced log-prob of the whole multi-token method string) is used because method names are
-multi-token. The headline gap is prior-pull(swapped) minus prior-pull(no-prior). All claims are
-behavioral; no mechanistic analysis is included.
+multi-token. The headline gap is prior-pull(swapped) minus prior-pull(no-prior). The behavioral
+claims stand on their own; the mechanistic arm (above) localizes the effect on two models and is
+scoped accordingly (one pair, a validated proxy metric, no circuit-level claims).
 
 ## Anonymized release
 

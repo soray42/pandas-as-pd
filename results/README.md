@@ -29,6 +29,10 @@ multi-hour scoring run.
 `dose_regression.json` is the legacy ordinal-tier version of the dose analysis, superseded by the
 measured-frequency `dose_measured.json`.
 
+The mechanistic arm's outputs (m0 gate, logit-lens records, patching records and CIs, head
+attribution, ablation sweeps, mitigation arms, manifest) live under `mech/results/`, documented in
+`MECH_RESULTS.md` at the repository root.
+
 Not committed (regenerable, gitignored): the score cache (`cache/`), the API response cache
 (`.cache/`), smoke outputs, and run logs. Re-create with `make run`, `make corpus`, `make deepseek`,
 then `make analyze`.
