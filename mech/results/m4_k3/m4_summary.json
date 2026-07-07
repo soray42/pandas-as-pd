@@ -1,0 +1,227 @@
+{
+  "timestamp_utc": "2026-07-07T15:40:32.887776+00:00",
+  "config": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "depths": [
+      0,
+      512
+    ],
+    "top_k": 3,
+    "factors": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "items_cap": null,
+    "seed": 20260618
+  },
+  "n_records": 960,
+  "models": {
+    "Qwen/Qwen2.5-1.5B": {
+      "top_k": 3,
+      "ablated_heads": [
+        [
+          22,
+          8
+        ],
+        [
+          27,
+          0
+        ],
+        [
+          27,
+          1
+        ]
+      ],
+      "table": {
+        "swapped_baseline": {
+          "mean": 4.27267697652181,
+          "ci_low": 4.09429561217626,
+          "ci_high": 4.449814459482829,
+          "n": 60
+        },
+        "conventional_baseline": {
+          "mean": 4.888638019561768,
+          "ci_low": 4.715040042797725,
+          "ci_high": 5.066918326218922,
+          "n": 60
+        },
+        "k3_f0.0_swapped": {
+          "mean": 4.66494148572286,
+          "ci_low": 4.484433798591295,
+          "ci_high": 4.838204159140587,
+          "n": 60,
+          "factor": 0.0,
+          "k": 3,
+          "condition": "swapped"
+        },
+        "k3_f0.0_conventional": {
+          "mean": 5.313408136367798,
+          "ci_low": 5.114817229906718,
+          "ci_high": 5.509766195813815,
+          "n": 60,
+          "factor": 0.0,
+          "k": 3,
+          "condition": "conventional"
+        },
+        "k3_f0.25_swapped": {
+          "mean": 4.570848695437113,
+          "ci_low": 4.390675199230512,
+          "ci_high": 4.745531348983447,
+          "n": 60,
+          "factor": 0.25,
+          "k": 3,
+          "condition": "swapped"
+        },
+        "k3_f0.25_conventional": {
+          "mean": 5.199862519900004,
+          "ci_low": 5.004031196435292,
+          "ci_high": 5.4032396966218945,
+          "n": 60,
+          "factor": 0.25,
+          "k": 3,
+          "condition": "conventional"
+        },
+        "k3_f0.5_swapped": {
+          "mean": 4.4620498816172285,
+          "ci_low": 4.276240754127502,
+          "ci_high": 4.632396194140116,
+          "n": 60,
+          "factor": 0.5,
+          "k": 3,
+          "condition": "swapped"
+        },
+        "k3_f0.5_conventional": {
+          "mean": 5.0819249471028645,
+          "ci_low": 4.895825384259224,
+          "ci_high": 5.264868362744649,
+          "n": 60,
+          "factor": 0.5,
+          "k": 3,
+          "condition": "conventional"
+        }
+      },
+      "n_records": 480
+    },
+    "Qwen/Qwen2.5-0.5B": {
+      "top_k": 3,
+      "ablated_heads": [
+        [
+          15,
+          2
+        ],
+        [
+          16,
+          10
+        ],
+        [
+          19,
+          8
+        ]
+      ],
+      "table": {
+        "swapped_baseline": {
+          "mean": 2.6031387090682983,
+          "ci_low": 2.4592582684755326,
+          "ci_high": 2.7446107661724093,
+          "n": 60
+        },
+        "conventional_baseline": {
+          "mean": 3.480361064275106,
+          "ci_low": 3.306942970554034,
+          "ci_high": 3.661729602217674,
+          "n": 60
+        },
+        "k3_f0.0_swapped": {
+          "mean": 2.59811216990153,
+          "ci_low": 2.427523572643598,
+          "ci_high": 2.763241455554962,
+          "n": 60,
+          "factor": 0.0,
+          "k": 3,
+          "condition": "swapped"
+        },
+        "k3_f0.0_conventional": {
+          "mean": 3.5770222028096517,
+          "ci_low": 3.390026532014211,
+          "ci_high": 3.7708242042859395,
+          "n": 60,
+          "factor": 0.0,
+          "k": 3,
+          "condition": "conventional"
+        },
+        "k3_f0.25_swapped": {
+          "mean": 2.5829683462778728,
+          "ci_low": 2.4238957073291143,
+          "ci_high": 2.7379858577251435,
+          "n": 60,
+          "factor": 0.25,
+          "k": 3,
+          "condition": "swapped"
+        },
+        "k3_f0.25_conventional": {
+          "mean": 3.536436096827189,
+          "ci_low": 3.3489349722862243,
+          "ci_high": 3.7229434408744178,
+          "n": 60,
+          "factor": 0.25,
+          "k": 3,
+          "condition": "conventional"
+        },
+        "k3_f0.5_swapped": {
+          "mean": 2.5666149457295737,
+          "ci_low": 2.4123935729265216,
+          "ci_high": 2.7177594542503356,
+          "n": 60,
+          "factor": 0.5,
+          "k": 3,
+          "condition": "swapped"
+        },
+        "k3_f0.5_conventional": {
+          "mean": 3.4920667012532554,
+          "ci_low": 3.319063685735067,
+          "ci_high": 3.673414771755536,
+          "n": 60,
+          "factor": 0.5,
+          "k": 3,
+          "condition": "conventional"
+        }
+      },
+      "n_records": 480
+    }
+  },
+  "environment": {
+    "timestamp_utc": "2026-07-07T15:40:32.889581+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

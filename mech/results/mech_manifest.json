@@ -1,0 +1,220 @@
+{
+  "m0_validate": {
+    "gate_overall": true,
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "n_stimuli": 180,
+    "environment": {
+      "timestamp_utc": "2026-07-07T16:07:27.526992+00:00",
+      "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+      "cpu_count": 32,
+      "packages": {
+        "numpy": "2.2.6",
+        "pandas": "3.0.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.16.3",
+        "statsmodels": "0.14.6",
+        "matplotlib": "3.10.8",
+        "PyYAML": "6.0.3",
+        "torch": "2.12.0.dev20260405+cu128",
+        "transformers": "5.5.0",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.7.0",
+        "huggingface-hub": "1.9.0",
+        "llama-cpp-python": "0.3.25"
+      },
+      "torch": {
+        "version": "2.12.0.dev20260405+cu128",
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "cuda_devices": [
+          "NVIDIA GeForce RTX 5070 Laptop GPU"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-07-07T16:07:27.546693+00:00",
+    "transformer_lens_version": "3.5.1"
+  },
+  "m1_logitlens": {
+    "pilot": false,
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "n_records": 360,
+    "pilot_gate_pass": null,
+    "environment": {
+      "timestamp_utc": "2026-07-07T14:24:47.517227+00:00",
+      "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+      "cpu_count": 32,
+      "packages": {
+        "numpy": "2.2.6",
+        "pandas": "3.0.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.16.3",
+        "statsmodels": "0.14.6",
+        "matplotlib": "3.10.8",
+        "PyYAML": "6.0.3",
+        "torch": "2.12.0.dev20260405+cu128",
+        "transformers": "5.5.0",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.7.0",
+        "huggingface-hub": "1.9.0",
+        "llama-cpp-python": "0.3.25"
+      },
+      "torch": {
+        "version": "2.12.0.dev20260405+cu128",
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "cuda_devices": [
+          "NVIDIA GeForce RTX 5070 Laptop GPU"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-07-07T14:24:47.530492+00:00",
+    "transformer_lens_version": "3.5.1"
+  },
+  "m2_patching": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "depths": [
+      0,
+      512
+    ],
+    "directions": [
+      "noprior_to_swapped",
+      "swapped_to_noprior"
+    ],
+    "environment": {
+      "timestamp_utc": "2026-07-07T15:15:12.816022+00:00",
+      "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+      "cpu_count": 32,
+      "packages": {
+        "numpy": "2.2.6",
+        "pandas": "3.0.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.16.3",
+        "statsmodels": "0.14.6",
+        "matplotlib": "3.10.8",
+        "PyYAML": "6.0.3",
+        "torch": "2.12.0.dev20260405+cu128",
+        "transformers": "5.5.0",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.7.0",
+        "huggingface-hub": "1.9.0",
+        "llama-cpp-python": "0.3.25"
+      },
+      "torch": {
+        "version": "2.12.0.dev20260405+cu128",
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "cuda_devices": [
+          "NVIDIA GeForce RTX 5070 Laptop GPU"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-07-07T15:15:12.835619+00:00",
+    "transformer_lens_version": "3.5.1"
+  },
+  "m3_heads": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "n_records": 120960,
+    "top_k": 15,
+    "environment": {
+      "timestamp_utc": "2026-07-07T15:27:55.943054+00:00",
+      "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+      "cpu_count": 32,
+      "packages": {
+        "numpy": "2.2.6",
+        "pandas": "3.0.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.16.3",
+        "statsmodels": "0.14.6",
+        "matplotlib": "3.10.8",
+        "PyYAML": "6.0.3",
+        "torch": "2.12.0.dev20260405+cu128",
+        "transformers": "5.5.0",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.7.0",
+        "huggingface-hub": "1.9.0",
+        "llama-cpp-python": "0.3.25"
+      },
+      "torch": {
+        "version": "2.12.0.dev20260405+cu128",
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "cuda_devices": [
+          "NVIDIA GeForce RTX 5070 Laptop GPU"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-07-07T15:27:55.959204+00:00",
+    "transformer_lens_version": "3.5.1"
+  },
+  "m4_ablate": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "top_k": 5,
+    "factors": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "n_records": 960,
+    "environment": {
+      "timestamp_utc": "2026-07-07T15:43:36.412045+00:00",
+      "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+      "cpu_count": 32,
+      "packages": {
+        "numpy": "2.2.6",
+        "pandas": "3.0.1",
+        "pyarrow": "22.0.0",
+        "scipy": "1.16.3",
+        "statsmodels": "0.14.6",
+        "matplotlib": "3.10.8",
+        "PyYAML": "6.0.3",
+        "torch": "2.12.0.dev20260405+cu128",
+        "transformers": "5.5.0",
+        "tokenizers": "0.22.2",
+        "safetensors": "0.7.0",
+        "huggingface-hub": "1.9.0",
+        "llama-cpp-python": "0.3.25"
+      },
+      "torch": {
+        "version": "2.12.0.dev20260405+cu128",
+        "cuda_available": true,
+        "cuda_device_count": 1,
+        "cuda_devices": [
+          "NVIDIA GeForce RTX 5070 Laptop GPU"
+        ]
+      }
+    },
+    "timestamp_utc": "2026-07-07T15:43:36.432259+00:00",
+    "transformer_lens_version": "3.5.1"
+  },
+  "provenance_note": "Section 'models' lists were union-patched post hoc to describe all data on disk; runner scripts now union-merge on write (see MECH_RESULTS.md engineering note 7)."
+}

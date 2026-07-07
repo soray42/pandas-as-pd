@@ -1,0 +1,239 @@
+{
+  "timestamp_utc": "2026-07-07T15:43:35.892051+00:00",
+  "config": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "depths": [
+      0,
+      512
+    ],
+    "top_k": 5,
+    "factors": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "items_cap": null,
+    "seed": 20260618
+  },
+  "n_records": 960,
+  "models": {
+    "Qwen/Qwen2.5-1.5B": {
+      "top_k": 5,
+      "ablated_heads": [
+        [
+          22,
+          8
+        ],
+        [
+          27,
+          0
+        ],
+        [
+          27,
+          1
+        ],
+        [
+          26,
+          2
+        ],
+        [
+          27,
+          4
+        ]
+      ],
+      "table": {
+        "swapped_baseline": {
+          "mean": 4.27267697652181,
+          "ci_low": 4.09429561217626,
+          "ci_high": 4.449814459482829,
+          "n": 60
+        },
+        "conventional_baseline": {
+          "mean": 4.888638019561768,
+          "ci_low": 4.715040042797725,
+          "ci_high": 5.066918326218922,
+          "n": 60
+        },
+        "k5_f0.0_swapped": {
+          "mean": 4.683849207560221,
+          "ci_low": 4.502384127775828,
+          "ci_high": 4.856387663086256,
+          "n": 60,
+          "factor": 0.0,
+          "k": 5,
+          "condition": "swapped"
+        },
+        "k5_f0.0_conventional": {
+          "mean": 5.359217484792073,
+          "ci_low": 5.163556960821152,
+          "ci_high": 5.553470018704732,
+          "n": 60,
+          "factor": 0.0,
+          "k": 5,
+          "condition": "conventional"
+        },
+        "k5_f0.25_swapped": {
+          "mean": 4.584964990615845,
+          "ci_low": 4.398285744786262,
+          "ci_high": 4.7589612344900765,
+          "n": 60,
+          "factor": 0.25,
+          "k": 5,
+          "condition": "swapped"
+        },
+        "k5_f0.25_conventional": {
+          "mean": 5.2330199718475345,
+          "ci_low": 5.040389577150345,
+          "ci_high": 5.432500568429629,
+          "n": 60,
+          "factor": 0.25,
+          "k": 5,
+          "condition": "conventional"
+        },
+        "k5_f0.5_swapped": {
+          "mean": 4.470709300041198,
+          "ci_low": 4.284633731444677,
+          "ci_high": 4.641252181728681,
+          "n": 60,
+          "factor": 0.5,
+          "k": 5,
+          "condition": "swapped"
+        },
+        "k5_f0.5_conventional": {
+          "mean": 5.103195230166118,
+          "ci_low": 4.91928850531578,
+          "ci_high": 5.284766901334127,
+          "n": 60,
+          "factor": 0.5,
+          "k": 5,
+          "condition": "conventional"
+        }
+      },
+      "n_records": 480
+    },
+    "Qwen/Qwen2.5-0.5B": {
+      "top_k": 5,
+      "ablated_heads": [
+        [
+          15,
+          2
+        ],
+        [
+          16,
+          10
+        ],
+        [
+          19,
+          8
+        ],
+        [
+          23,
+          3
+        ]
+      ],
+      "table": {
+        "swapped_baseline": {
+          "mean": 2.6031387090682983,
+          "ci_low": 2.4592582684755326,
+          "ci_high": 2.7446107661724093,
+          "n": 60
+        },
+        "conventional_baseline": {
+          "mean": 3.480361064275106,
+          "ci_low": 3.306942970554034,
+          "ci_high": 3.661729602217674,
+          "n": 60
+        },
+        "k5_f0.0_swapped": {
+          "mean": 2.5194773435592652,
+          "ci_low": 2.351028858224551,
+          "ci_high": 2.6841095813115436,
+          "n": 60,
+          "factor": 0.0,
+          "k": 5,
+          "condition": "swapped"
+        },
+        "k5_f0.0_conventional": {
+          "mean": 3.459992210070292,
+          "ci_low": 3.2744562397400534,
+          "ci_high": 3.6515913033485417,
+          "n": 60,
+          "factor": 0.0,
+          "k": 5,
+          "condition": "conventional"
+        },
+        "k5_f0.25_swapped": {
+          "mean": 2.52946081161499,
+          "ci_low": 2.373001342018445,
+          "ci_high": 2.6816117866834004,
+          "n": 60,
+          "factor": 0.25,
+          "k": 5,
+          "condition": "swapped"
+        },
+        "k5_f0.25_conventional": {
+          "mean": 3.4569036245346068,
+          "ci_low": 3.27055303076903,
+          "ci_high": 3.6414877285559974,
+          "n": 60,
+          "factor": 0.25,
+          "k": 5,
+          "condition": "conventional"
+        },
+        "k5_f0.5_swapped": {
+          "mean": 2.534046737353007,
+          "ci_low": 2.381513733665148,
+          "ci_high": 2.6842878357569377,
+          "n": 60,
+          "factor": 0.5,
+          "k": 5,
+          "condition": "swapped"
+        },
+        "k5_f0.5_conventional": {
+          "mean": 3.444749387105306,
+          "ci_low": 3.272938308318456,
+          "ci_high": 3.6254718760649363,
+          "n": 60,
+          "factor": 0.5,
+          "k": 5,
+          "condition": "conventional"
+        }
+      },
+      "n_records": 480
+    }
+  },
+  "environment": {
+    "timestamp_utc": "2026-07-07T15:43:35.894327+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

@@ -1,0 +1,394 @@
+{
+  "timestamp_utc": "2026-07-07T15:27:55.621575+00:00",
+  "config": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "depths": [
+      0,
+      512
+    ],
+    "items_cap": null,
+    "top_k": 15,
+    "seed": 20260618
+  },
+  "n_records": 120960,
+  "models": {
+    "Qwen/Qwen2.5-1.5B": {
+      "n_layers": 28,
+      "n_heads": 12,
+      "top_heads": [
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 22,
+          "head": 8,
+          "dla_swapped": 0.21328620339433352,
+          "dla_no_prior": -0.06401836406439543,
+          "import_attn_swapped": 0.16850179036458332,
+          "import_attn_no_prior": 0.6109944661458333,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.21328620339433352
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 27,
+          "head": 2,
+          "dla_swapped": -0.14082880560308694,
+          "dla_no_prior": -0.02658415948972106,
+          "import_attn_swapped": 0.20458272298177083,
+          "import_attn_no_prior": 0.39477335611979164,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.14082880560308694
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 27,
+          "head": 0,
+          "dla_swapped": 0.11833918193976084,
+          "dla_no_prior": 0.13700990428527196,
+          "import_attn_swapped": 0.17734883626302084,
+          "import_attn_no_prior": 0.2860076904296875,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.11833918193976084
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 24,
+          "head": 4,
+          "dla_swapped": -0.11637179625686259,
+          "dla_no_prior": -0.14751395682493845,
+          "import_attn_swapped": 0.0602874755859375,
+          "import_attn_no_prior": 0.1296351114908854,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.11637179625686259
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 27,
+          "head": 1,
+          "dla_swapped": 0.11081766709685326,
+          "dla_no_prior": 0.15971808222432932,
+          "import_attn_swapped": 0.18325907389322918,
+          "import_attn_no_prior": 0.31596272786458335,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.11081766709685326
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 26,
+          "head": 2,
+          "dla_swapped": 0.10492476920286814,
+          "dla_no_prior": 0.1103464969744285,
+          "import_attn_swapped": 0.773583984375,
+          "import_attn_no_prior": 0.6981201171875,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.10492476920286814
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 27,
+          "head": 4,
+          "dla_swapped": 0.09707169737666846,
+          "dla_no_prior": 0.12980630633731682,
+          "import_attn_swapped": 0.17622528076171876,
+          "import_attn_no_prior": 0.2838470458984375,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.09707169737666846
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 26,
+          "head": 4,
+          "dla_swapped": 0.07720577120780944,
+          "dla_no_prior": 0.06622150825957457,
+          "import_attn_swapped": 0.74404296875,
+          "import_attn_no_prior": 0.7544189453125,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.07720577120780944
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 27,
+          "head": 5,
+          "dla_swapped": 0.07304372124684354,
+          "dla_no_prior": 0.06354928918493291,
+          "import_attn_swapped": 0.1875335693359375,
+          "import_attn_no_prior": 0.29443766276041666,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.07304372124684354
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 4,
+          "head": 0,
+          "dla_swapped": 0.07274871474752824,
+          "dla_no_prior": -0.006816614896524698,
+          "import_attn_swapped": 0.16901753743489584,
+          "import_attn_no_prior": 0.1826904296875,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.07274871474752824
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 27,
+          "head": 6,
+          "dla_swapped": 0.06843115802233418,
+          "dla_no_prior": 0.05051944558508694,
+          "import_attn_swapped": 0.22681070963541666,
+          "import_attn_no_prior": 0.333892822265625,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.06843115802233418
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 25,
+          "head": 7,
+          "dla_swapped": 0.06654537369807562,
+          "dla_no_prior": 0.06971036785592635,
+          "import_attn_swapped": 0.4933553059895833,
+          "import_attn_no_prior": 0.5470703125,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.06654537369807562
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 22,
+          "head": 4,
+          "dla_swapped": 0.06604251811901728,
+          "dla_no_prior": 0.01516735910748442,
+          "import_attn_swapped": 0.22378641764322918,
+          "import_attn_no_prior": 0.3662353515625,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.06604251811901728
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 22,
+          "head": 5,
+          "dla_swapped": -0.06415679461012284,
+          "dla_no_prior": 0.07751343504836163,
+          "import_attn_swapped": 0.19106547037760416,
+          "import_attn_no_prior": 0.24624430338541667,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.06415679461012284
+        },
+        {
+          "model": "Qwen/Qwen2.5-1.5B",
+          "layer": 20,
+          "head": 7,
+          "dla_swapped": -0.06317737847566604,
+          "dla_no_prior": 0.08757490267356237,
+          "import_attn_swapped": 0.19587605794270832,
+          "import_attn_no_prior": 0.18032023111979167,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.06317737847566604
+        }
+      ],
+      "n_records": 60480
+    },
+    "Qwen/Qwen2.5-0.5B": {
+      "n_layers": 24,
+      "n_heads": 14,
+      "top_heads": [
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 23,
+          "head": 1,
+          "dla_swapped": -0.6085286547740301,
+          "dla_no_prior": -0.6419569144646327,
+          "import_attn_swapped": 0.000324857234954834,
+          "import_attn_no_prior": 0.001067809263865153,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.6085286547740301
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 17,
+          "head": 1,
+          "dla_swapped": -0.17120185817281405,
+          "dla_no_prior": -0.2538514691094557,
+          "import_attn_swapped": 0.17622222900390624,
+          "import_attn_no_prior": 0.6958170572916667,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.17120185817281405
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 15,
+          "head": 2,
+          "dla_swapped": 0.11033822267005841,
+          "dla_no_prior": 0.15763747170567513,
+          "import_attn_swapped": 0.1423492431640625,
+          "import_attn_no_prior": 0.13963419596354168,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.11033822267005841
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 16,
+          "head": 10,
+          "dla_swapped": 0.10681717762102684,
+          "dla_no_prior": 0.054117702289174,
+          "import_attn_swapped": 0.1299102783203125,
+          "import_attn_no_prior": 0.5177083333333333,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.10681717762102684
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 19,
+          "head": 8,
+          "dla_swapped": 0.10452775862067938,
+          "dla_no_prior": 0.018275367127110562,
+          "import_attn_swapped": 0.05499114990234375,
+          "import_attn_no_prior": 0.119549560546875,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.10452775862067938
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 8,
+          "head": 7,
+          "dla_swapped": -0.10315661951899528,
+          "dla_no_prior": -0.008128291508182884,
+          "import_attn_swapped": 0.0028941949208577474,
+          "import_attn_no_prior": 0.007956631978352864,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.10315661951899528
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 21,
+          "head": 9,
+          "dla_swapped": -0.0956582738707463,
+          "dla_no_prior": 0.010640749490509431,
+          "import_attn_swapped": 0.23598836263020834,
+          "import_attn_no_prior": 0.21400553385416668,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.0956582738707463
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 14,
+          "head": 10,
+          "dla_swapped": -0.09032523048420747,
+          "dla_no_prior": -0.041607342877735695,
+          "import_attn_swapped": 0.24816691080729167,
+          "import_attn_no_prior": 0.184600830078125,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.09032523048420747
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 23,
+          "head": 8,
+          "dla_swapped": -0.08497538318236669,
+          "dla_no_prior": -0.1407852294544379,
+          "import_attn_swapped": 0.29825236002604166,
+          "import_attn_no_prior": 0.3911966959635417,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.08497538318236669
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 23,
+          "head": 3,
+          "dla_swapped": 0.06991524236897627,
+          "dla_no_prior": 0.08968179325262705,
+          "import_attn_swapped": 0.4123148600260417,
+          "import_attn_no_prior": 0.4521484375,
+          "class": "prior_promoting",
+          "abs_dla_swapped": 0.06991524236897627
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 20,
+          "head": 9,
+          "dla_swapped": -0.0676596383874615,
+          "dla_no_prior": -0.005981850329165658,
+          "import_attn_swapped": 0.8883870442708334,
+          "import_attn_no_prior": 0.7795166015625,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.0676596383874615
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 19,
+          "head": 3,
+          "dla_swapped": -0.0666022862928609,
+          "dla_no_prior": -0.04035717748726408,
+          "import_attn_swapped": 0.2519734700520833,
+          "import_attn_no_prior": 0.355126953125,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.0666022862928609
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 0,
+          "head": 1,
+          "dla_swapped": -0.06387046171973149,
+          "dla_no_prior": -0.06941533436377843,
+          "import_attn_swapped": 1.7881393432617188e-07,
+          "import_attn_no_prior": 1.4901161193847656e-07,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.06387046171973149
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 17,
+          "head": 0,
+          "dla_swapped": -0.05957579687237739,
+          "dla_no_prior": -0.06423553147663673,
+          "import_attn_swapped": 0.7968180338541667,
+          "import_attn_no_prior": 0.8109293619791667,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.05957579687237739
+        },
+        {
+          "model": "Qwen/Qwen2.5-0.5B",
+          "layer": 20,
+          "head": 8,
+          "dla_swapped": -0.05901106738795837,
+          "dla_no_prior": -0.12861177983383337,
+          "import_attn_swapped": 0.9458414713541666,
+          "import_attn_no_prior": 0.7669677734375,
+          "class": "binding_promoting",
+          "abs_dla_swapped": 0.05901106738795837
+        }
+      ],
+      "n_records": 60480
+    }
+  },
+  "environment": {
+    "timestamp_utc": "2026-07-07T15:27:55.621599+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

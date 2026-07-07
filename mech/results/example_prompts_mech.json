@@ -1,0 +1,53 @@
+{
+  "conventional": [
+    {
+      "depth": 0,
+      "prompt": "import numpy as np\nx = np.",
+      "stimulus_id": "848488535a1d73a2"
+    },
+    {
+      "depth": 0,
+      "prompt": "import numpy as np\ny = np.",
+      "stimulus_id": "1c40ce094630f62b"
+    },
+    {
+      "depth": 512,
+      "prompt": "import numpy as np\nfor helper in range(9):\n    total = total + helper\nbucket = bucket - 2\nfor val in range(6):\n    tmp = ...[filler]... unt > 4:\n    helper = count - 63\nx = np.",
+      "stimulus_id": "5f1114afbd37f2de"
+    }
+  ],
+  "swapped": [
+    {
+      "depth": 0,
+      "prompt": "import pandas as np\nx = np.",
+      "stimulus_id": "0413ce975f54a6ae"
+    },
+    {
+      "depth": 0,
+      "prompt": "import pandas as np\ny = np.",
+      "stimulus_id": "2ede3063d6697b7c"
+    },
+    {
+      "depth": 512,
+      "prompt": "import pandas as np\nfor helper in range(9):\n    total = total + helper\nbucket = bucket - 2\nfor val in range(6):\n    tmp  ...[filler]... unt > 4:\n    helper = count - 63\nx = np.",
+      "stimulus_id": "60ec326d1431f83e"
+    }
+  ],
+  "no_prior": [
+    {
+      "depth": 0,
+      "prompt": "import pandas as zz\nx = zz.",
+      "stimulus_id": "7e5ee57df1db7f3c"
+    },
+    {
+      "depth": 0,
+      "prompt": "import pandas as zz\ny = zz.",
+      "stimulus_id": "c7a1f9854e4ee0f8"
+    },
+    {
+      "depth": 512,
+      "prompt": "import pandas as zz\nfor helper in range(9):\n    total = total + helper\nbucket = bucket - 2\nfor val in range(6):\n    tmp  ...[filler]... unt > 4:\n    helper = count - 63\nx = zz.",
+      "stimulus_id": "335088fe29567371"
+    }
+  ]
+}

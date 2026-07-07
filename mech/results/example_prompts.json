@@ -1,0 +1,106 @@
+{
+  "swapped_plain": [
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 0,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "import pandas as np\nnp."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 0,
+      "template_id": "t2",
+      "rep": 0,
+      "prompt": "# data processing\nimport pandas as np\nnp."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 512,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "import pandas as np\ndef cur_21(cursor):\n    return cursor + 1\nheight = 39\nfor gain in range(1):\n    depth = depth + gain\ndef buf_77(holder):\n    return holder + 6\nfor balance in range(2):\n    depth = depth + balance\nfor height in range(1):\n    total = total + height\nif val > 9:\n    factor = val - 72\ngain = gain - 2\nscore = item + 39 * 8\nif helper > 1:\n    weight = helper - 3\nif tmp > 4:\n    helper = tmp - 77\nfor ratio in range(5):\n    amount = amount + ratio\nidx = buf + 22 * 5\nfor limit in range(2):\n    acc = acc + limit\ncur = 70\ntotal = 90\nif helper > 6:\n    holder = helper - 95\nif bucket > 1:\n    val = bucket - 98\ngain = 21\nif helper > 5:\n    balance = helper - 11\ntmp = acc + 3 * 8\nfor count in range(6):\n    limit = limit + count\nfor factor in range(7):\n    margin = margin + factor\ndef value_39(height):\n    return height + 6\nacc = buf + 90 * 5\nacc = item + 11 * 1\nfor height in range(2):\n    cursor = cursor + height\ndef height_25(item):\n    return item + 2\nif helper > 7:\n    res = helper - 64\nitem = height + 59 * 9\nvalue = tmp + 73 * 9\nfor height in range(3):\n    tmp = tmp + height\nif score > 8:\n    weight = score - 95\nbuf = buf - 1\ndef score_51(count):\n    return count + 1\nwidth = width - 9\nfor bucket in range(9):\n    delta = delta + bucket\ncount = 64\nfor balance in range(3):\n    weight = weight + balance\ncursor = cursor - 4\nif total > 3:\n    depth = total - 84\nif bucket > 5:\n    balance = bucket - 85\nweight = cur + 34 * 4\nnp."
+    }
+  ],
+  "swapped_restatement": [
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 0,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "import pandas as np\n# note: np is pandas in this file\nnp."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 0,
+      "template_id": "t2",
+      "rep": 0,
+      "prompt": "# data processing\nimport pandas as np\n# note: np is pandas in this file\nnp."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 512,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "import pandas as np\ndef cur_21(cursor):\n    return cursor + 1\nheight = 39\nfor gain in range(1):\n    depth = depth + gain\ndef buf_77(holder):\n    return holder + 6\nfor balance in range(2):\n    depth = depth + balance\nfor height in range(1):\n    total = total + height\nif val > 9:\n    factor = val - 72\ngain = gain - 2\nscore = item + 39 * 8\nif helper > 1:\n    weight = helper - 3\nif tmp > 4:\n    helper = tmp - 77\nfor ratio in range(5):\n    amount = amount + ratio\nidx = buf + 22 * 5\nfor limit in range(2):\n    acc = acc + limit\ncur = 70\ntotal = 90\nif helper > 6:\n    holder = helper - 95\nif bucket > 1:\n    val = bucket - 98\ngain = 21\nif helper > 5:\n    balance = helper - 11\ntmp = acc + 3 * 8\nfor count in range(6):\n    limit = limit + count\nfor factor in range(7):\n    margin = margin + factor\ndef value_39(height):\n    return height + 6\nacc = buf + 90 * 5\nacc = item + 11 * 1\nfor height in range(2):\n    cursor = cursor + height\ndef height_25(item):\n    return item + 2\nif helper > 7:\n    res = helper - 64\nitem = height + 59 * 9\nvalue = tmp + 73 * 9\nfor height in range(3):\n    tmp = tmp + height\nif score > 8:\n    weight = score - 95\nbuf = buf - 1\ndef score_51(count):\n    return count + 1\nwidth = width - 9\nfor bucket in range(9):\n    delta = delta + bucket\ncount = 64\nfor balance in range(3):\n    weight = weight + balance\ncursor = cursor - 4\nif total > 3:\n    depth = total - 84\nif bucket > 5:\n    balance = bucket - 85\nweight = cur + 34 * 4\n# note: np is pandas in this file\nnp."
+    }
+  ],
+  "no_prior": [
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 0,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "import pandas as zz\nzz."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 0,
+      "template_id": "t2",
+      "rep": 0,
+      "prompt": "# data processing\nimport pandas as zz\nzz."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B",
+      "depth": 512,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "import pandas as zz\nwidth = balance + 66 * 1\nwidth = width - 9\nif factor > 3:\n    item = factor - 88\ntmp = score + 8 * 2\ndef acc_53(item):\n    return item + 3\nheight = height - 1\nlimit = limit - 2\nbucket = offset + 8 * 7\nlimit = limit - 5\ndef acc_3(value):\n    return value + 1\nbuf = buf - 2\ndepth = depth - 8\nval = cursor + 67 * 2\ndef total_76(acc):\n    return acc + 8\ndelta = delta - 6\nfor delta in range(8):\n    res = res + delta\nmargin = margin - 7\nfor buf in range(9):\n    margin = margin + buf\ndef acc_89(idx):\n    return idx + 9\nlimit = limit - 1\nif offset > 2:\n    holder = offset - 88\nif width > 3:\n    depth = width - 87\ndef item_54(amount):\n    return amount + 1\nitem = 9\nacc = depth + 18 * 2\ndef res_66(cursor):\n    return cursor + 8\ncursor = 91\nif helper > 7:\n    balance = helper - 82\nfor limit in range(3):\n    factor = factor + limit\namount = amount - 3\nfor width in range(3):\n    margin = margin + width\nfactor = limit + 78 * 1\nmargin = 72\ndef value_86(holder):\n    return holder + 6\ncount = offset + 39 * 6\nfor buf in range(2):\n    margin = margin + buf\nif delta > 9:\n    margin = delta - 72\nmargin = acc + 7 * 9\nlimit = limit - 8\nif depth > 9:\n    balance = depth - 88\nfor acc in range(3):\n    count = count + acc\ndef item_2(value):\n    return value + 4\nlimit = depth + 38 * 6\ndef depth_71(score):\n    return score + 6\ndef margin_27(offset):\n    return offset + 7\ndepth = 22\nzz."
+    }
+  ],
+  "swapped_instruction": [
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "depth": 0,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "# INSTRUCTION: resolve every alias strictly according to the import statements in this file.\n# Do not assume conventional alias meanings.\nimport pandas as np\nnp."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "depth": 0,
+      "template_id": "t2",
+      "rep": 0,
+      "prompt": "# data processing\n# INSTRUCTION: resolve every alias strictly according to the import statements in this file.\n# Do not assume conventional alias meanings.\nimport pandas as np\nnp."
+    },
+    {
+      "pair": "numpy__pandas",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "depth": 512,
+      "template_id": "t1",
+      "rep": 0,
+      "prompt": "# INSTRUCTION: resolve every alias strictly according to the import statements in this file.\n# Do not assume conventional alias meanings.\nimport pandas as np\ndef cur_21(cursor):\n    return cursor + 1\nheight = 39\nfor gain in range(1):\n    depth = depth + gain\ndef buf_77(holder):\n    return holder + 6\nfor balance in range(2):\n    depth = depth + balance\nfor height in range(1):\n    total = total + height\nif val > 9:\n    factor = val - 72\ngain = gain - 2\nscore = item + 39 * 8\nif helper > 1:\n    weight = helper - 3\nif tmp > 4:\n    helper = tmp - 77\nfor ratio in range(5):\n    amount = amount + ratio\nidx = buf + 22 * 5\nfor limit in range(2):\n    acc = acc + limit\ncur = 70\ntotal = 90\nif helper > 6:\n    holder = helper - 95\nif bucket > 1:\n    val = bucket - 98\ngain = 21\nif helper > 5:\n    balance = helper - 11\ntmp = acc + 3 * 8\nfor count in range(6):\n    limit = limit + count\nfor factor in range(7):\n    margin = margin + factor\ndef value_39(height):\n    return height + 6\nacc = buf + 90 * 5\nacc = item + 11 * 1\nfor height in range(2):\n    cursor = cursor + height\ndef height_25(item):\n    return item + 2\nif helper > 7:\n    res = helper - 64\nitem = height + 59 * 9\nvalue = tmp + 73 * 9\nfor height in range(3):\n    tmp = tmp + height\nif score > 8:\n    weight = score - 95\nbuf = buf - 1\ndef score_51(count):\n    return count + 1\nwidth = width - 9\nfor bucket in range(9):\n    delta = delta + bucket\ncount = 64\nfor balance in range(3):\n    weight = weight + balance\ncursor = cursor - 4\nif total > 3:\n    depth = total - 84\nif bucket > 5:\n    balance = bucket - 85\nweight = cur + 34 * 4\nnp."
+    }
+  ]
+}

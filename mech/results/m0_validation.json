@@ -1,0 +1,102 @@
+{
+  "timestamp_utc": "2026-07-07T16:07:27.360838+00:00",
+  "config": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "depths": [
+      0,
+      512
+    ],
+    "items_cap": null,
+    "seed": 20260618
+  },
+  "stimuli_count": 180,
+  "proxy_lexicon": {
+    "prior_lib": "numpy",
+    "bound_lib": "pandas",
+    "prior_strings": [
+      "array(",
+      "arange(",
+      "zeros(",
+      "linspace(",
+      "dot(",
+      "ndarray"
+    ],
+    "bound_strings": [
+      "DataFrame(",
+      "read_csv(",
+      "concat(",
+      "Series(",
+      "merge(",
+      "groupby("
+    ],
+    "dropped": [],
+    "sha256": "74771d97709d2770"
+  },
+  "models": {
+    "Qwen/Qwen2.5-0.5B": {
+      "tl_vs_hf": {
+        "n_probed": 6,
+        "argmax_agreement": 1.0,
+        "mean_max_logprob_diff": 0.05324872334798177
+      },
+      "proxy_vs_full": {
+        "n_items": 180,
+        "pearson": 0.9832151832514425,
+        "spearman": 0.8666695131493861,
+        "sign_agreement_strong": 0.98125,
+        "n_strong": 160,
+        "gate_pass": true
+      }
+    },
+    "Qwen/Qwen2.5-1.5B": {
+      "tl_vs_hf": {
+        "n_probed": 6,
+        "argmax_agreement": 0.6666666666666666,
+        "mean_max_logprob_diff": 2.6520280838012695
+      },
+      "proxy_vs_full": {
+        "n_items": 180,
+        "pearson": 0.9393671591836801,
+        "spearman": 0.8679294007615109,
+        "sign_agreement_strong": 0.9277777777777778,
+        "n_strong": 180,
+        "gate_pass": true
+      }
+    }
+  },
+  "gate_overall": true,
+  "environment": {
+    "timestamp_utc": "2026-07-07T16:07:27.360866+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "timestamp_utc": "2026-07-07T15:15:12.670922+00:00",
+  "config": {
+    "models": [
+      "Qwen/Qwen2.5-0.5B",
+      "Qwen/Qwen2.5-1.5B"
+    ],
+    "depths": [
+      0,
+      512
+    ],
+    "directions": [
+      "noprior_to_swapped",
+      "swapped_to_noprior"
+    ],
+    "items_cap": null,
+    "stride": 1,
+    "seed": 20260618
+  },
+  "models": {
+    "Qwen/Qwen2.5-1.5B": {
+      "n_layers": 28,
+      "shards": {
+        "d0": {
+          "n_records": 6720,
+          "stride_display": 1
+        },
+        "d512": {
+          "n_records": 6720,
+          "stride_display": 1
+        }
+      }
+    },
+    "Qwen/Qwen2.5-0.5B": {
+      "n_layers": 24,
+      "shards": {
+        "d0": {
+          "n_records": 5760,
+          "stride_display": 1
+        },
+        "d512": {
+          "n_records": 5760,
+          "stride_display": 1
+        }
+      }
+    }
+  },
+  "environment": {
+    "timestamp_utc": "2026-07-07T15:15:12.670946+00:00",
+    "python_version": "3.13.3 (tags/v3.13.3:6280bb5, Apr  8 2025, 14:47:33) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_count": 32,
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "3.0.1",
+      "pyarrow": "22.0.0",
+      "scipy": "1.16.3",
+      "statsmodels": "0.14.6",
+      "matplotlib": "3.10.8",
+      "PyYAML": "6.0.3",
+      "torch": "2.12.0.dev20260405+cu128",
+      "transformers": "5.5.0",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.7.0",
+      "huggingface-hub": "1.9.0",
+      "llama-cpp-python": "0.3.25"
+    },
+    "torch": {
+      "version": "2.12.0.dev20260405+cu128",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        "NVIDIA GeForce RTX 5070 Laptop GPU"
+      ]
+    }
+  }
+}

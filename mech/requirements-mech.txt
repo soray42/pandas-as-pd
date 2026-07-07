@@ -1,0 +1,10 @@
+# Additional pinned dependencies for the mechanistic arm (PHASE M), on top of
+# requirements.txt. The behavioral environment is unchanged: transformer_lens 3.5.1
+# requires transformers>=5.4 and torch>=2.6, both already satisfied by the frozen pins.
+transformer_lens==3.5.1
+einops==0.8.2
+jaxtyping==0.3.11
+beartype==0.22.9
+fancy-einsum==0.0.3
+better-abc==0.0.3
+typeguard==4.5.2
