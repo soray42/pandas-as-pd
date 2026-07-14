@@ -29,11 +29,11 @@ Canonical import aliases such as \texttt{np} for numpy carry strong distribution
 
 In Python code a handful of import aliases are near-universal: \texttt{np} denotes numpy, \texttt{pd} denotes pandas, \texttt{plt} denotes \texttt{matplotlib.pyplot}. A model trained on public code sees \texttt{np.array} and \texttt{pd.DataFrame} so consistently that the mapping from alias to library behaves like a strong prior. We study what happens when a program breaks that convention. The statement \texttt{import pandas as np} binds \texttt{np} to pandas, so \texttt{np.DataFrame} is correct and \texttt{np.arange} does not exist. A model that reads the local binding should prefer pandas methods at \texttt{np.}; a model that follows its prior should prefer numpy methods. We measure which one happens, and how it depends on the number of tokens between the import and the use.
 
-Three lines of work frame this question without answering it. Semantic override studies models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit reasoning rather than code \citep{thota2026semantic}. Robustness to variable renaming treats identifier names as arbitrary, where invariance is the goal precisely because the prior over names is close to flat \citep{henkel2022semantic}; a canonical alias is the opposite case, a name with a near-delta prior. Long-context evaluation probes retrieval of placed facts and its decay with position \citep{liu2024lost,modarressi2025nolima}, not conflict between context and a parametric prior. The broader tension between context and memory is surveyed under knowledge conflict \citep{xu2024knowledge}; we give a controlled, code-specific instance of it with a clean baseline.
+Three lines of work frame this question without answering it. Semantic override studies models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit reasoning rather than code \citep{thota2026semantic}. Robustness to variable renaming treats identifier names as arbitrary, where invariance is the goal precisely because the prior over names is close to flat \citep{ramakrishnan2022semantic}; a canonical alias is the opposite case, a name with a near-delta prior. Long-context evaluation probes retrieval of placed facts and its decay with position \citep{liu2024lost,modarressi2025nolima}, not conflict between context and a parametric prior. The broader tension between context and memory is surveyed under knowledge conflict \citep{xu2024knowledge}; we give a controlled, code-specific instance of it with a clean baseline.
 
 The behavioral contrast also fixes what a mechanistic account must explain. The correct continuation never appears in context, so tracking the binding requires composing two hops, from the alias to the library it denotes here and from that library to its methods, while the failure mode is a one-hop association from the alias token to its conventional library. The no-prior control proves the two-hop path works when nothing competes with it. On two small open models we ask where the one-hop prior enters and where it wins: does the bound library's answer never form across layers, or does it form and get overwritten? We answer with logit-lens readouts \citep{nostalgebraist2020interpreting}, activation patching \citep{vig2020investigating,meng2022locating}, and head-level attribution in the style of memory-versus-context analyses of knowledge conflict \citep{yu2023characterizing,jin2024cutting}.
 
-Our contributions:\footnote{Code, programmatically generated stimuli, scored outputs, and figures: \url{https://anonymous.4open.science/r/pandas-as-pd} (MIT license). Model weights come from their original sources under their own licenses.}
+Our contributions:\footnote{Code, stimuli, scored outputs, and figures: \url{https://anonymous.4open.science/r/pandas-as-pd} (MIT license). Templated stimuli are released in full; the model-generated naturalistic contexts are released as validated records with hashed prompts plus the generation and validation scripts. Model weights come from their original sources under their own licenses.}
 \begin{itemize}
 \itemsep0.1em
 \item A controlled minimal-pair probe with a no-prior control, a non-canonical alias bound to the same library, that separates prior reassertion from generic degradation of binding tracking with distance.
@@ -103,7 +103,7 @@ Overall                 &      & $+6.81\ [+4.56, +9.11]$ \\
 
 \paragraph{A frontier model recognizes the binding but acts on the prior.} DeepSeek-V4-Pro \citep{deepseekai2026deepseekv4}, a hosted model with a one-million-token context window, cannot be teacher-forced over arbitrary continuations, so we probe it behaviorally and contrast swapped against no-prior as before. Three tasks run at the use site: a two-alternative forced choice between the conventional library's method and the bound library's, a free completion of \texttt{alias.}, and a verbal question naming the library the alias denotes (Table~\ref{tab:deepseek}). In the forced choice the model selects the conventional library's method, which does not exist under the binding, on 65\% of swapped items against 36\% in no-prior, a difference of $+0.30$ (95\% CI $[+0.06, +0.61]$, pair-clustered bootstrap), with the conventional condition at 92\%. Asked in words, it names the bound library correctly on 100\% of items in every condition, swapped included. The model represents the binding well enough to report it on demand, yet does not apply it when choosing a method. Free generation agrees in direction, with a broken-call rate of 0.69 for swapped, 0.46 for no-prior, and 0.05 for conventional, though chat-formatted output makes that arm noisier. Sampling the forced choice at temperature 0.7 (eight draws per item) over twelve alias conventions, the per-item prior-choice rate tracks the measured corpus frequency of the alias (Pearson $r=0.59$; the slope is positive in 98\% of pair bootstraps) and is largest for the most frequent conventions, \texttt{np} and \texttt{pd} (prior-choice gap $+0.79$ and $+0.83$).
 
-\paragraph{The pull holds to 128k tokens and is removed by explicit reasoning.} On the two very-common pairs the swapped forced-choice rate stays between 0.50 and 0.75 from 0 to 131{,}072 in-context tokens, so the reassertion survives into the long-context regime the open checkpoints cannot reach, rather than appearing only at short range. Enabling the model's thinking mode \citep{guo2025deepseekr1} drives the swapped forced-choice rate to 0.00, against 1.00 in conventional: routing the same decision through an explicit chain of thought \citep{wei2022chain} removes the reassertion that the direct response shows, while verbal recognition stays at 100\% in both modes. A passive comment stating the true binding only partly reduces the pull on the strongest conventions (\texttt{np} $1.00\!\to\!0.75$, \texttt{pd} $0.88\!\to\!0.50$ in prior-choice rate) and does not remove it, so the thinking-mode effect reflects the reasoning process rather than mere salience of the binding.
+\paragraph{The pull holds to 128k tokens and is removed by explicit reasoning.} On the two very-common pairs the swapped forced-choice rate stays between 0.50 and 0.75 from 0 to 131{,}072 in-context tokens, so the reassertion survives into the long-context regime the open checkpoints cannot reach, rather than appearing only at short range. Enabling the model's thinking mode \citep{deepseekai2026deepseekv4,guo2025deepseekr1} drives the swapped forced-choice rate to 0.00, against 1.00 in conventional: routing the same decision through an explicit chain of thought \citep{wei2022chain} removes the reassertion that the direct response shows, while verbal recognition stays at 100\% in both modes. A passive comment stating the true binding only partly reduces the pull on the strongest conventions (\texttt{np} $1.00\!\to\!0.75$, \texttt{pd} $0.88\!\to\!0.50$ in prior-choice rate) and does not remove it, so the thinking-mode effect reflects the reasoning process rather than mere salience of the binding.
 
 \begin{table}[t]
 \centering
@@ -174,7 +174,7 @@ The behavioral sections establish that the pull exists, scales with corpus frequ
 
 \paragraph{Semantic override and knowledge conflict.} \citet{thota2026semantic} show models reverting to pretrained operator meanings after an in-prompt redefinition, on Boolean algebra and circuit tasks. We find the same failure shape, moved from logic semantics to library bindings in code, and measure it as a graded log-probability preference with a matched control rather than as task accuracy. \citet{xu2024knowledge} survey context versus memory conflict; our setup is a narrow and reproducible code instance of that conflict.
 
-\paragraph{Renaming robustness.} Work on adversarial and semantics-preserving renaming asks models to stay invariant to identifier changes \citep{henkel2022semantic}. That goal is sensible when names are arbitrary. Canonical import aliases invert the premise: the name carries a strong prior, and invariance to it is exactly the failure we measure.
+\paragraph{Renaming robustness.} Work on adversarial and semantics-preserving renaming asks models to stay invariant to identifier changes \citep{ramakrishnan2022semantic}. That goal is sensible when names are arbitrary. Canonical import aliases invert the premise: the name carries a strong prior, and invariance to it is exactly the failure we measure.
 
 \paragraph{Long context.} Long-context benchmarks measure retrieval of placed information and its degradation with position \citep{liu2024lost,modarressi2025nolima}. Our distance axis instead holds a prior conflict fixed and varies the gap to the import; the conflict does not decay over the range we test.
 
@@ -256,7 +256,7 @@ Table~\ref{tab:cand} lists the per-library continuation sets, their mean token l
 \midrule
 numpy            & \texttt{np}    & 6 & 1.0 & 2.2.6 \\
 pandas           & \texttt{pd}    & 6 & 1.2 & 3.0.1 \\
-torch            & \texttt{torch} & 6 & 1.3 & 2.12.0.dev \\
+torch            & \texttt{torch} & 6 & 1.3 & 2.12.0.dev20260405 \\
 sklearn          & \texttt{sk}    & 6 & 1.5 & 1.8.0 \\
 xgboost          & \texttt{xgb}   & 6 & 2.2 & 3.2.0 \\
 matplotlib.pyplot & \texttt{plt}  & 6 & 1.0 & 3.10.8 \\
@@ -280,13 +280,13 @@ plotly.express   & \texttt{px}    & 6 & 2.8 & 6.3.1 \\
 
 \paragraph{Proxy lexicon.} The proxy uses the first token of each of the six discriminative continuations per library, tokenized without a leading space (they follow the dot); no first token appears in both libraries' sets, so nothing is dropped. Proxy-pull is the log-sum-exp of the final-position logits over the numpy set minus that over the pandas set, in that fixed orientation for all three conditions; it is invariant to the log-softmax shift.
 
-\paragraph{Validation.} Models load unprocessed (no norm folding or weight centering); the logit-lens final checkpoint then reproduces the true final logits exactly (argmax-identical, correlation $1.0$), which anchors the lens basis. Against the full continuation-scored prior-pull on the same 180 prompts (frozen behavioral backend), the proxy attains Pearson $0.98$/$0.94$ and Spearman $0.87$/$0.87$ for 0.5B/1.5B, with sign agreement $0.98$ and $0.93$ on items where the full metric exceeds 1 nat in magnitude ($n{=}160$ and $180$; Figure~\ref{fig:m0}). The gate for running the layerwise experiments was Spearman $\ge 0.7$ and sign agreement $\ge 0.9$ on both models; the run was executed twice end to end and every statistic reproduces exactly. Hooked-versus-reference numerics: for 0.5B the two implementations agree (argmax 6/6 probes, mean maximum log-probability difference $0.05$ nats); for 1.5B they disagree on 2 of 6 probes, only at depth 512 and only among top candidates within 1 nat of each other, an fp16 accumulation difference between eager attention and fused kernels. All layerwise quantities are within-implementation condition contrasts, which this drift cancels.
+\paragraph{Validation.} Models load unprocessed (no norm folding or weight centering); the logit-lens final checkpoint then reproduces the true final logits exactly (argmax-identical, correlation $1.0$), which anchors the lens basis. Against the full continuation-scored prior-pull on the same 180 prompts (computed with the same scoring code as the behavioral experiments), the proxy attains Pearson $0.98$/$0.94$ and Spearman $0.87$/$0.87$ for 0.5B/1.5B, with sign agreement $0.98$ and $0.93$ on items where the full metric exceeds 1 nat in magnitude ($n{=}160$ and $180$; Figure~\ref{fig:proxyval}). We pre-specified Spearman $\ge 0.7$ and sign agreement $\ge 0.9$ on both models as the criterion for proceeding to the layerwise experiments; the validation was run twice end to end and every statistic reproduces exactly. Hooked-versus-reference numerics: for 0.5B the two implementations agree (argmax 6/6 probes, mean maximum log-probability difference $0.05$ nats); for 1.5B they disagree on 2 of 6 probes, only at depth 512 and only among top candidates within 1 nat of each other, an fp16 accumulation difference between eager attention and fused kernels. All layerwise quantities are within-implementation condition contrasts, which this drift cancels.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/mech_m0_15b.png}
+\includegraphics[width=\columnwidth]{figures/mech_proxyval_15b.png}
 \caption{Proxy validation, Qwen2.5-1.5B: proxy-pull at the final layer against the full continuation-scored prior-pull on the same prompts, by condition. Spearman $0.87$. The 0.5B scatter is tighter (Pearson $0.98$).}
-\label{fig:m0}
+\label{fig:proxyval}
 \end{figure}
 
 \section{Additional mechanistic results}
@@ -310,7 +310,7 @@ plotly.express   & \texttt{px}    & 6 & 2.8 & 6.3.1 \\
 \label{fig:patch05}
 \end{figure}
 
-\paragraph{Signature heads at both depths.} Table~\ref{tab:headsfull} extends Table~\ref{tab:heads}. The pooled statistic behind the second caveat: over heads with no-prior import attention above $0.2$ at depth 512, mean import attention is $0.56$ to $0.59$ in no-prior and slightly higher in swapped, so there is no blanket attention collapse; the collapse is specific to the heads shown. A separate set of early heads attends to the import more in swapped (1.5B L8H7: $0.04 \to 0.90$ at depth 512) with attribution near zero, consistent with same-token matching between the two \texttt{np} occurrences \citep{olsson2022incontext}.
+\paragraph{Signature heads at both depths.} Table~\ref{tab:headsfull} extends Table~\ref{tab:heads}. The pooled statistic behind the second caveat: over heads with no-prior import attention above $0.2$ at depth 512, mean import attention is $0.56$ to $0.59$ in no-prior and slightly higher in swapped, so there is no blanket attention collapse; the collapse is specific to the heads shown. A separate set of early heads attends to the import more in swapped (1.5B L8H7: $0.04 \to 0.90$ at depth 512) with attribution near zero, consistent with token-matching attention circuits \citep{olsson2022incontext,wang2023interpretability}.
 
 \begin{table}[t]
 \centering
@@ -351,7 +351,7 @@ plotly.express   & \texttt{px}    & 6 & 2.8 & 6.3.1 \\
 \label{tab:ablate}
 \end{table}
 
-\paragraph{Mitigation arms.} Table~\ref{tab:armsfull} gives the mitigation arms with deltas and intervals, including the rare-tier pair. Depth-0 cells ($n{=}2$ by the behavioral rep-collapse) are excluded throughout.
+\paragraph{Mitigation arms.} Table~\ref{tab:armsfull} gives the mitigation arms with deltas and intervals, including the rare-tier pair. Depth-0 cells are excluded throughout: the behavioral pipeline collapses depth-0 repetitions (identical prompts would not add information), leaving $n{=}2$ items per cell, too few for a stable interval.
 
 \begin{table*}[t]
 \centering
@@ -375,6 +375,6 @@ sk$\leftrightarrow$xgb & 1.5B-inst & $-1.31\ [-1.88, -0.74]$ & $+1.00\ [+0.38, +
 \label{tab:armsfull}
 \end{table*}
 
-\paragraph{Artifacts.} All records, summaries, manifests, and per-experiment figures are under \texttt{mech/} in the released repository, with prompts hashed and three examples per condition retained; \texttt{MECH\_RESULTS.md} documents the per-experiment verdicts, engineering notes, and the verification process, in which every number was independently re-derived from the raw records.
+\paragraph{Artifacts.} All records, summaries, manifests, and per-experiment figures are under \texttt{mech/} in the released repository, with prompts hashed and three examples per condition retained. All numbers reported here can be re-derived from the raw record files with the included scripts.
 
 \end{document}

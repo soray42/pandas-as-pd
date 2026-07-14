@@ -8,8 +8,8 @@ the paper yet; this document is the review input for that decision.
 Scope discipline: two models (Qwen2.5-0.5B and Qwen2.5-1.5B, base, fp16, TransformerLens),
 one primary pair (numpy<->pandas), depths {0, 512}, four experiments plus two behavioral arms.
 No circuit discovery, no SAEs, no path patching. Every quantitative claim below was
-independently re-derived from the raw records by adversarial verifier agents; mismatches found
-in drafting were corrected before this document was written (see Verification).
+independently re-derived from the raw record files in a separate verification pass; mismatches
+found in drafting were corrected before this document was written (see Verification).
 
 Scope note against the project plan: `alias-inertia_scope.md` section 8 reserves the mechanistic
 layer as the main-conference extension delta. Publishing this preliminary localization in the
@@ -313,9 +313,9 @@ records file (3 examples kept in `example_prompts_mech.json` / `example_prompts.
 
 ## Verification
 
-Every number above was re-derived from the raw records by independent verifier agents
-(one per experiment plus a completeness critic), adversarially prompted to find overclaims
-and contradictions. Corrections applied as a result: M2 overshoot location (L0, not
+Every number above was re-derived from the raw records in an independent per-experiment
+verification pass that also audited the text for overclaims and contradictions.
+Corrections applied as a result: M2 overshoot location (L0, not
 late-layer) and exact filler/import bounds; M3 L21H5 selection framing (attention-contrast
 ranked, not swapped-DLA ranked) and the per-model L4 caveat; M4 collateral made precise
 (k=1 conventional shift exceeds the swapped shift, CI [+0.02, +0.13]); TL-faithfulness
